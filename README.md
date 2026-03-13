@@ -18,7 +18,7 @@ Al termine delle 30 ore di laboratorio, lo studente sarà in grado di:
 - Configurare e utilizzare un ambiente professionale di progettazione ASIC basato su container Docker
 - Disegnare e simulare circuiti analogici con **xschem** e **ngspice** usando il PDK **SkyWater SKY130A**
 - Realizzare layout di circuiti integrati con **Magic VLSI** e verificarli con DRC e LVS
-- Eseguire un flusso di sintesi digitale RTL→GDS completo con **OpenLane**
+- Eseguire un flusso di sintesi digitale RTL→GDS completo con **LibreLane**
 - Sottomettere un progetto reale alla piattaforma **TinyTapeout** per la produzione su silicio
 
 ---
@@ -32,7 +32,7 @@ Al termine delle 30 ore di laboratorio, lo studente sarà in grado di:
 | 2 | [Librerie SKY130A](./02_sky130_pdk/) | Struttura del PDK, celle standard, SPICE models | 3h |
 | 3 | [Layout con Magic VLSI](./03_magic_layout/) | DRC interattivo, routing, strati di processo | 5h |
 | 4 | [Verifica DRC & LVS](./04_drc_lvs/) | Magic DRC, Netgen LVS, correzione errori | 3h |
-| 5 | [Flusso digitale OpenLane](./05_openlane_digital/) | RTL→GDS, vincoli di timing, place & route | 5h |
+| 5 | [Flusso digitale LibreLane](./05_openlane_digital/) | RTL→GDS, vincoli di timing, place & route | 5h |
 | 6 | [Mixed-Signal Design](./06_mixed_signal/) | Integrazione blocchi analogici e digitali | 4h |
 | 7 | [Progetto TinyTapeout](./07_tinytapeout/) | Specifiche, consegna, criteri di valutazione | 3h |
 
@@ -49,7 +49,7 @@ Tutti gli strumenti utilizzati nel corso sono **open-source e gratuiti**:
 | [ngspice](https://ngspice.sourceforge.io/) | Simulatore SPICE |
 | [Magic VLSI](http://opencircuitdesign.com/magic/) | Editor di layout |
 | [Netgen](http://opencircuitdesign.com/netgen/) | LVS (Layout vs Schematic) |
-| [OpenLane](https://openlane.readthedocs.io/) | Flusso RTL→GDS per design digitali |
+| [LibreLane](https://librelane.readthedocs.io/en/stable/) | Flusso RTL→GDS per design digitali |
 | [KLayout](https://www.klayout.de/) | Visualizzatore e editor GDS |
 | [SkyWater SKY130A PDK](https://github.com/google/skywater-pdk) | Process Design Kit a 130nm |
 | [TinyTapeout](https://tinytapeout.com/) | Piattaforma di tapeout condiviso |

@@ -8,7 +8,7 @@ In questo modulo configureremo l'ambiente completo di progettazione ASIC che uti
 
 ## Perché Docker?
 
-L'ambiente di lavoro è distribuito come **container Docker** tramite il progetto open-source [IIC-OSIC-TOOLS](https://github.com/iic-jku/IIC-OSIC-TOOLS), sviluppato dall'Università di Tecnologia di Graz (TU Graz).
+L'ambiente di lavoro è distribuito come **container Docker** tramite il progetto open-source [IIC-OSIC-TOOLS](https://github.com/iic-jku/IIC-OSIC-TOOLS), sviluppato dal Department for Integrated Circuits (ICD), Johannes Kepler University (JKU).
 
 Questo approccio risolve il problema storico del "funziona solo sulla mia macchina": tutti gli studenti lavorano con **esattamente la stessa versione di ogni tool**, indipendentemente dal sistema operativo host. Nessuna dipendenza da installare manualmente, nessun conflitto di librerie.
 
@@ -41,7 +41,7 @@ Il tuo laptop (Windows / macOS / Linux)
 
 ## Cosa installeremo
 
-1. **Docker Desktop** — motore di containerizzazione
+1. **Docker Desktop** — il motore dove gira il container IIC-OSIC-TOOLS
 2. **IIC-OSIC-TOOLS** — il container con tutti i tool EDA
 3. **Configurazione PDK** — variabili d'ambiente per puntare al SkyWater SKY130A
 
