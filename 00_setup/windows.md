@@ -10,6 +10,7 @@
 1. Abilitare WSL2  →  2. Installare Docker Desktop  →  3. Scaricare IIC-OSIC-TOOLS
 →  4. Configurare le variabili d'ambiente  →  5. Avviare il container
 →  6. Clonare LibreLane Summary  →  7. Configurazione del PDK  →  8. Test finale
+→  9. Installare VS Code (editor VHDL)
 ```
 
 ---
@@ -37,7 +38,7 @@ Al termine, **riavvia il computer** prima di procedere.
 
 ## Passo 2 — Docker Desktop
 
-Scarica e installa Docker Desktop seguendo le istruzioni ufficiali di IIC-OSIC-TOOLS:
+Scarica e installa Docker Desktop per Windows seguendo le istruzioni ufficiali di IIC-OSIC-TOOLS:
 
 👉 https://github.com/iic-jku/IIC-OSIC-TOOLS?tab=readme-ov-file#4-quick-launch-for-designers
 
@@ -115,7 +116,10 @@ Il flag `/M` rende le variabili **persistenti a livello di sistema**, quindi sop
 
 La **prima volta** il comando scaricherà l'immagine Docker dal registro remoto (~15 GB). Ci vorranno alcuni minuti a seconda della tua connessione. Le volte successive il container si avvierà in pochi secondi.
 
-Al termine vedrai aprirsi un browser con l'interfaccia grafica del container.
+Al termine vedrai aprirsi il terminale del container.
+
+<img src="../assets/images/terminal.png" width="500">
+
 
 ---
 
@@ -151,14 +155,43 @@ STD_CELL_LIBRARY=sky130_fd_sc_hd
 SPICE_USERINIT_DIR=/foss/pdks/sky130A/libs.tech/ngspice
 KLAYOUT_PATH=/headless/.klayout:/foss/pdks/sky130A/libs.tech/klayout:/foss/pdks/sky130A/libs.tech/klayout/tech
 PATH=$PATH:/foss/designs/librelane_summary
+
+# Aggiunge opzioni mancanti a .spiceinit (KLU solver, noinit, skywaterpdk)
+grep -q "option klu" ~/.spiceinit 2>/dev/null || cat >> ~/.spiceinit << 'SPICEINIT'
+* added by .designinit
+set skywaterpdk
+option noinit
+option klu
+SPICEINIT
 EOF
 ```
 
-In alternativa, puoi creare il file `.designinit` direttamente da Windows con un editor di testo (Notepad, VS Code) nella cartella `asic\`, incollandoci il contenuto sopra. Il risultato è identico.
+**In alternativa**, puoi creare il file `.designinit` direttamente da Windows con un editor di testo (Notepad, VS Code) nella cartella `asic\`, incollandoci il seguente contenuto. Il risultato è identico.
+
+```bash
+PDK_ROOT=/foss/pdks
+PDK=sky130A
+PDKPATH=/foss/pdks/sky130A
+STD_CELL_LIBRARY=sky130_fd_sc_hd
+SPICE_USERINIT_DIR=/foss/pdks/sky130A/libs.tech/ngspice
+KLAYOUT_PATH=/headless/.klayout:/foss/pdks/sky130A/libs.tech/klayout:/foss/pdks/sky130A/libs.tech/klayout/tech
+PATH=$PATH:/foss/designs/librelane_summary
+
+# Aggiunge opzioni mancanti a .spiceinit (KLU solver, noinit, skywaterpdk)
+grep -q "option klu" ~/.spiceinit 2>/dev/null || cat >> ~/.spiceinit << 'SPICEINIT'
+* added by .designinit
+set skywaterpdk
+option noinit
+option klu
+SPICEINIT
+```
+
+> ⚠️ Il container deve essere **riavviato** affinché il contenuto del file `.designinit` abbia effetto. 
 
 > 💡 `.designinit` è l'equivalente di un `.bashrc` specifico per il PDK: le variabili qui definite saranno disponibili automaticamente in ogni sessione del container, senza doverle riesportare ogni volta.
 
-> ⚠️ **Nota sul PATH:** la riga `PATH=$PATH:/foss/designs/librelane_summary` aggiunge lo script di LibreLane Summary al path di sistema — per questo era necessario clonare il repository nel passo precedente prima di creare questo file.
+> 💡 **Nota sul .spiceinit:** il container IIC-OSIC-TOOLS include già un `.spiceinit` di base. Il blocco nel `.designinit` aggiunge le opzioni mancanti: `option klu` (solver più veloce), `option noinit` (sopprime stampa OP all'avvio), `set skywaterpdk` (caricamento modelli più veloce). Il `grep` evita duplicati nei riavvii. La configurazione di xschem viene gestita nel file `xschemrc` locale di ogni progetto — vedi Modulo 1.
+
 
 ---
 
@@ -172,8 +205,81 @@ echo $PDK                       # atteso: sky130A
 klayout &                       # deve aprire KLayout 0.30.2
 xschem &                        # deve aprire xschem
 ```
+![Klayout](../assets/images/klayout.png)
+
+![xschem](../assets/images/xschem.png)
 
 Se tutti i comandi producono l'output atteso, l'ambiente è configurato correttamente. 🎉
+
+---
+
+## Passo 9 — Installare VS Code come editor VHDL
+
+Il container IIC-OSIC-TOOLS include tutti i tool necessari per simulare e sintetizzare codice VHDL (`ghdl`, `gtkwave`, `librelane --flow VHDLClassic`), ma non dispone di un editor con supporto moderno al linguaggio. Il flusso di lavoro raccomandato per il corso è scrivere e fare il debug del codice VHDL in **Visual Studio Code** sul tuo sistema operativo, e poi simulare e sintetizzare dal terminale del container.
+
+Questo funziona senza alcuna configurazione aggiuntiva: la cartella `asic\` sul tuo PC è la stessa cartella che il container vede come `/foss/designs/`. Qualsiasi file che scrivi in VS Code è immediatamente disponibile nel container.
+
+```
+VS Code (Windows)           Container Docker
+~/asic/mio_progetto/  ───►  /foss/designs/mio_progetto/
+  top.vhd                     ghdl -a top.vhd          ← compilazione/simulazione
+  testbench.vhd               ghdl -e tb && ghdl -r tb ← esecuzione testbench
+                              gtkwave dump.vcd          ← forme d'onda
+                              librelane --flow VHDLClassic ← sintesi RTL→GDS
+```
+
+### 9a — Installare VS Code
+
+Scarica e installa VS Code dal sito ufficiale:
+
+👉 https://code.visualstudio.com/
+
+Durante l'installazione, seleziona le opzioni:
+- ✅ **"Aggiungi l'azione 'Apri con Code' al menu contestuale di Esplora risorse"**
+- ✅ **"Registra Code come editor per i tipi di file supportati"**
+
+### 9b — Installare le estensioni VHDL
+
+Apri VS Code, poi accedi al pannello estensioni (`Ctrl+Shift+X`) e installa:
+
+#### Estensione 1 — VHDL LS (obbligatoria)
+
+Cerca: **`VHDL LS`** — autore: _Henrik Bohlin_
+
+ID marketplace: `hbohlin.vhdl-ls`
+
+Questa estensione implementa un Language Server completo per VHDL. Fornisce:
+- rilevamento errori di sintassi e semantici in tempo reale (senza GHDL installato localmente)
+- completamento automatico di segnali, porte, componenti
+- navigazione: _Go to Definition_, _Find All References_
+- hover con informazioni sul tipo
+
+> 💡 VHDL LS funziona autonomamente senza dipendenze esterne. Basta installarla e aprire un file `.vhd` o `.vhdl` per avere il linting attivo.
+
+#### Estensione 2 — TerosHDL (consigliata)
+
+Cerca: **`TerosHDL`** — autore: _Teros Technology_
+
+ID marketplace: `teros-technology.teroshdl`
+
+Estensione avanzata per VHDL e Verilog/SystemVerilog, con:
+- visualizzatore di gerarchia del progetto
+- visualizzatore di macchine a stati FSM (disegna automaticamente il diagramma dal codice)
+- generatore di template per entity, architecture, testbench
+- integrazione con simulatori tra cui GHDL (configurabile in seguito)
+- documentazione automatica del codice
+
+> 💡 TerosHDL è utile soprattutto per i progetti più complessi del corso (Modulo 4 e Modulo 5). Per i primi esercizi è sufficiente VHDL LS.
+
+### 9c — Aprire la cartella dei progetti in VS Code
+
+Per lavorare comodamente, apri la cartella `asic\` come workspace di VS Code:
+
+```
+File → Apri cartella... → C:\Users\<tuonome>\asic
+```
+
+In questo modo VS Code vedrà tutti i tuoi progetti e potrai navigare tra i file con l'explorer laterale.
 
 ---
 
@@ -196,6 +302,8 @@ docker start iic-osic-tools_xserver
 ```
 
 Oppure usa il pulsante ▶ (Play) nella GUI di Docker Desktop.
+
+![start_container](../assets/images/start_container.png)
 
 ---
 

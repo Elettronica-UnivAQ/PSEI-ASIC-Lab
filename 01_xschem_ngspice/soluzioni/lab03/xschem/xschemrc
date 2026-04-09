@@ -1,0 +1,3 @@
+source /foss/pdks/sky130A/libs.tech/xschem/xschemrc
+set netlist_dir [file normalize [file dirname [info script]]/simulation]
+append XSCHEM_LIBRARY_PATH :[file dirname [info script]]

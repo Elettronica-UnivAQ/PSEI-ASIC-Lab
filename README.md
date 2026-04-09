@@ -15,7 +15,7 @@
 
 Al termine delle 30 ore di laboratorio, lo studente sarà in grado di:
 
-- Configurare e utilizzare un ambiente professionale di progettazione ASIC basato su container Docker
+- Configurare e utilizzare un ambiente open-source di progettazione ASIC basato su container Docker
 - Disegnare e simulare circuiti analogici con **xschem** e **ngspice** usando il PDK **SkyWater SKY130A**
 - Realizzare layout di circuiti integrati con **Magic VLSI** e verificarli con DRC e LVS
 - Eseguire un flusso di sintesi digitale RTL→GDS completo con **LibreLane**
@@ -28,13 +28,12 @@ Al termine delle 30 ore di laboratorio, lo studente sarà in grado di:
 | # | Modulo | Argomenti | Ore |
 |---|--------|-----------|-----|
 | 0 | [Setup dell'ambiente](./00_setup/) | Docker, IIC-OSIC-TOOLS, PDK SKY130A | 2h |
-| 1 | [Schematic & Simulazione](./01_xschem_ngspice/) | xschem, ngspice, DC / AC / Transiente | 5h |
-| 2 | [Librerie SKY130A](./02_sky130_pdk/) | Struttura del PDK, celle standard, SPICE models | 3h |
-| 3 | [Layout con Magic VLSI](./03_magic_layout/) | DRC interattivo, routing, strati di processo | 5h |
-| 4 | [Verifica DRC & LVS](./04_drc_lvs/) | Magic DRC, Netgen LVS, correzione errori | 3h |
-| 5 | [Flusso digitale LibreLane](./05_openlane_digital/) | RTL→GDS, vincoli di timing, place & route | 5h |
-| 6 | [Mixed-Signal Design](./06_mixed_signal/) | Integrazione blocchi analogici e digitali | 4h |
-| 7 | [Progetto TinyTapeout](./07_tinytapeout/) | Specifiche, consegna, criteri di valutazione | 3h |
+| 1 | [Schematic & Simulazione](./01_xschem_ngspice/) | xschem, ngspice, metodo gm/Id, PVT, Montecarlo | 5h |
+| 2 | [Librerie SKY130A](./02_sky130_pdk/) | Struttura del PDK, celle standard, SPICE models | 2h |
+| 3 | [Layout con Magic VLSI](./03_magic_layout/) | DRC interattivo, routing, LVS con Netgen | 7h |
+| 4 | [Flusso digitale LibreLane](./04_librelane_digital/) | RTL→GDS con VHDL, verifica formale | 4h |
+| 5 | [Mixed-Signal Design](./05_mixed_signal/) | Integrazione blocchi analogici e digitali | 6h |
+| 6 | [Progetto TinyTapeout](./06_tinytapeout/) | Specifiche, consegna, criteri di valutazione | 4h |
 
 ---
 
@@ -49,7 +48,7 @@ Tutti gli strumenti utilizzati nel corso sono **open-source e gratuiti**:
 | [ngspice](https://ngspice.sourceforge.io/) | Simulatore SPICE |
 | [Magic VLSI](http://opencircuitdesign.com/magic/) | Editor di layout |
 | [Netgen](http://opencircuitdesign.com/netgen/) | LVS (Layout vs Schematic) |
-| [LibreLane](https://librelane.readthedocs.io/en/stable/) | Flusso RTL→GDS per design digitali |
+| [LibreLane](https://librelane.readthedocs.io/en/latest/) | Flusso RTL→GDS per design digitali in VHDL/Verilog |
 | [KLayout](https://www.klayout.de/) | Visualizzatore e editor GDS |
 | [SkyWater SKY130A PDK](https://github.com/google/skywater-pdk) | Process Design Kit a 130nm |
 | [TinyTapeout](https://tinytapeout.com/) | Piattaforma di tapeout condiviso |
@@ -82,6 +81,8 @@ I progetti realizzati dagli studenti del corso vengono sottomessi su TinyTapeout
 - [IIC-OSIC-TOOLS Wiki](https://github.com/iic-jku/IIC-OSIC-TOOLS/wiki)
 - [Xschem Tutorial](https://xschem.sourceforge.io/stefan/xschem_man/xschem_man.html)
 - [Magic VLSI Tutorial](http://opencircuitdesign.com/magic/tutorials/)
+
+Trovi la lista completa di link e risorse nella sezione [`resources/`](./resources/) 
 
 ---
 

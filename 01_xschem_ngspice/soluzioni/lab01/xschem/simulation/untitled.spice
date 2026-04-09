@@ -1,0 +1,6 @@
+** sch_path: /foss/designs/modulo1/lab01/xschem/untitled.sch
+**.subckt untitled
+XM1 net1 net2 net3 net4 sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1 m=1
+**.ends
+.end

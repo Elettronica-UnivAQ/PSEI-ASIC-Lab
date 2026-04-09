@@ -1,0 +1,45 @@
+** sch_path: /foss/designs/modulo1/lab02/xschem/nmos_char.sch
+**.subckt nmos_char
+XM1 net3 net1 GND GND sky130_fd_pr__nfet_01v8 L=L_val W=W_val nf=1 ad='int((1 + 1)/2) * W_val / 1 * 0.29' as='int((1 + 2)/2) * W_val / 1 * 0.29'
++ pd='2*int((1 + 1)/2) * (W_val / 1 + 0.29)' ps='2*int((1 + 2)/2) * (W_val / 1 + 0.29)' nrd='0.29 / W_val ' nrs='0.29 / W_val ' sa=0
++ sb=0 sd=0 mult=1 m=1
+VGS1 net1 GND 0
+VDS1 net2 GND 1.8
+XM2 net6 net4 GND GND sky130_fd_pr__nfet_01v8 L=L_val W=W_val nf=1 ad='int((1 + 1)/2) * W_val / 1 * 0.29' as='int((1 + 2)/2) * W_val / 1 * 0.29'
++ pd='2*int((1 + 1)/2) * (W_val / 1 + 0.29)' ps='2*int((1 + 2)/2) * (W_val / 1 + 0.29)' nrd='0.29 / W_val ' nrs='0.29 / W_val ' sa=0
++ sb=0 sd=0 mult=1 m=1
+VGS2 net4 GND 0
+VDS2 net5 GND 1.8
+Vmeas2 net5 net6 0
+.save i(vmeas2)
+Vmeas1 net2 net3 0
+.save i(vmeas1)
+**** begin user architecture code
+
+** opencircuitdesign pdks install
+.lib /foss/pdks/sky130A/libs.tech/combined/sky130.lib.spice tt
+
+
+.options savecurrents
+.param W_val=10 L_val=0.15
+.save all
+
+.control
+  * curva Id-VGS su MN1
+  dc VGS1 0 1.8 0.005
+  remzerovec
+  plot i(vmeas1)
+  write nmos_vgs.raw
+
+  * famiglia Id-VDS su MN2
+  dc VDS2 0 1.8 0.005 VGS2 0 1.8 0.2
+  remzerovec
+  plot all.vmeas2#branch
+  write nmos_vds.raw
+
+.endc
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+.end

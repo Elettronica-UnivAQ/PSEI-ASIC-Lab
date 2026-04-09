@@ -1,0 +1,39 @@
+** sch_path: /foss/designs/modulo1/lab01/xschem/tb_dc.sch
+**.subckt tb_dc
+x1 Vdd IN OUT GND inverter
+Vin IN GND 1.8
+V2 Vdd GND 1.8
+**** begin user architecture code
+
+** opencircuitdesign pdks install
+.lib /foss/pdks/sky130A/libs.tech/combined/sky130.lib.spice tt
+
+
+
+.save all
+
+.control
+  dc Vin 0 1.8 0.005
+  write tb_dc.raw
+.endc
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  inverter.sym # of pins=4
+** sym_path: /foss/designs/modulo1/lab01/xschem/inverter.sym
+** sch_path: /foss/designs/modulo1/lab01/xschem/inverter.sch
+.subckt inverter VDD IN OUT GND
+*.ipin IN
+*.opin OUT
+*.iopin VDD
+*.iopin GND
+XM1 OUT IN GND GND sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
++ m=1
+XM2 OUT IN VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=2 nf=1 ad=0.58 as=0.58 pd=4.58 ps=4.58 nrd=0.145 nrs=0.145 sa=0 sb=0 sd=0
++ mult=1 m=1
+.ends
+
+.GLOBAL GND
+.end

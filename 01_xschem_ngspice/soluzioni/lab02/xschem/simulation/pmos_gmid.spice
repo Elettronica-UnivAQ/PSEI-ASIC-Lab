@@ -1,0 +1,56 @@
+** sch_path: /foss/designs/modulo1/lab02/xschem/pmos_gmid.sch
+**.subckt pmos_gmid
+XM1 net3 net2 net1 net1 sky130_fd_pr__pfet_01v8 L=L_val W=W_val nf=1 ad='int((1 + 1)/2) * W_val / 1 * 0.29' as='int((1 + 2)/2) * W_val / 1 * 0.29'
++ pd='2*int((1 + 1)/2) * (W_val / 1 + 0.29)' ps='2*int((1 + 2)/2) * (W_val / 1 + 0.29)' nrd='0.29 / W_val ' nrs='0.29 / W_val ' sa=0
++ sb=0 sd=0 mult=1 m=1
+VDD net1 GND 0.9
+VGS net2 net1 0
+Vmeas net3 GND 0
+.save i(vmeas)
+**** begin user architecture code
+
+** opencircuitdesign pdks install
+.lib /foss/pdks/sky130A/libs.tech/combined/sky130.lib.spice tt
+
+
+.options savecurrents
+.param W_val=10 L_val=0.15
+.save all
+
+.control
+  foreach L_iter 0.15 0.18 0.25 0.5 1.0
+    alterparam L_val=$L_iter
+    reset
+
+    echo =========================================
+    echo Simulating PMOS L = $L_iter um
+    echo =========================================
+
+    save @m.xm1.msky130_fd_pr__pfet_01v8[gm]
+    save @m.xm1.msky130_fd_pr__pfet_01v8[gds]
+    save @m.xm1.msky130_fd_pr__pfet_01v8[cgg]
+    save @m.xm1.msky130_fd_pr__pfet_01v8[vdsat]
+
+    dc VGS 0 -1.8 -0.005
+    remzerovec
+
+    let Id = -i(vmeas)
+    let gm = @m.xm1.msky130_fd_pr__pfet_01v8[gm]
+    let IdW = Id / 10e-6
+    let gmid = gm / Id
+    let gds = @m.xm1.msky130_fd_pr__pfet_01v8[gds]
+    let gds_norm = gds / Id
+    let fT_GHz = @m.xm1.msky130_fd_pr__pfet_01v8[gm] / (2 * 3.14159265 * @m.xm1.msky130_fd_pr__pfet_01v8[cgg]) / 1e9
+    let Vdsat = @m.xm1.msky130_fd_pr__pfet_01v8[vdsat]
+
+    let L_nm = $L_iter * 1000
+    set fname = pmos_gmid_L{$&L_nm}nm.txt
+    wrdata $fname IdW gmid gds_norm fT_GHz Vdsat
+
+  end
+.endc
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+.end

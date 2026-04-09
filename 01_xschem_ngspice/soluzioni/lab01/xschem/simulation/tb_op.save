@@ -1,0 +1,16 @@
+* Place this .save file with a .include line in your testbench
+
+.save @m.x1.xm1.msky130_fd_pr__nfet_01v8[gm]
+.save @m.x1.xm1.msky130_fd_pr__nfet_01v8[gds]
+.save @m.x1.xm1.msky130_fd_pr__nfet_01v8[vth]
+.save @m.x1.xm1.msky130_fd_pr__nfet_01v8[vdsat]
+.save @m.x1.xm1.msky130_fd_pr__nfet_01v8[cgg]
+.save @m.x1.xm1.msky130_fd_pr__nfet_01v8[cgso]
+.save @m.x1.xm1.msky130_fd_pr__nfet_01v8[cgdo]
+.save @m.x1.xm2.msky130_fd_pr__pfet_01v8[gm]
+.save @m.x1.xm2.msky130_fd_pr__pfet_01v8[gds]
+.save @m.x1.xm2.msky130_fd_pr__pfet_01v8[vth]
+.save @m.x1.xm2.msky130_fd_pr__pfet_01v8[vdsat]
+.save @m.x1.xm2.msky130_fd_pr__pfet_01v8[cgg]
+.save @m.x1.xm2.msky130_fd_pr__pfet_01v8[cgso]
+.save @m.x1.xm2.msky130_fd_pr__pfet_01v8[cgdo]

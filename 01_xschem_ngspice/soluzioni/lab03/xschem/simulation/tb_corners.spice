@@ -1,0 +1,84 @@
+** sch_path: /foss/designs/modulo1/lab03/xschem/tb_corners.sch
+**.subckt tb_corners
+x1 vdd out_p out_n vin_p vin_n clk GND strongarm
+VVDD vdd GND {vdd_param}
+VCLK clk GND PULSE(0 {vdd_param} 25n 100p 100p 25n 50n)
+VVIN_P vin_p GND 0.905
+VVIN_N vin_n GND 0.895
+C1 out_n GND 20f m=1
+C2 out_p GND 20f m=1
+**** begin user architecture code
+
+.lib /foss/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+
+
+.param vdd_param=1.8
+.options savecurrents
+
+.control
+  save all
+  set temp = 27
+  tran 10p 160n
+
+  * --- Misura t_decision ---
+  let thresh = 0.9
+  meas tran t_clk_rise   WHEN v(clk)=thresh      RISE=2
+  meas tran t_out_fall   WHEN v(out_p)=thresh    FALL=2
+  let t_decision = t_out_fall - t_clk_rise
+  let t_dec_ns = t_decision * 1e9
+
+  * --- Misura t_precharge ---
+  * Dal fronte di discesa del clock alla risalita di out_p a VDD/2
+  meas tran t_clk_fall   WHEN v(clk)=thresh      FALL=1
+  meas tran t_prech_rise WHEN v(out_p)=thresh    RISE=1
+  let t_precharge = t_prech_rise - t_clk_fall
+  let t_prech_ns = t_precharge * 1e9
+
+  echo t_decision  = $&t_dec_ns ns
+  echo t_precharge = $&t_prech_ns ns
+
+  write tb_corners.raw
+
+  plot v(clk)+2 v(out_p) v(out_n)
+.endc
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  strongarm.sym # of pins=7
+** sym_path: /foss/designs/modulo1/lab03/xschem/strongarm.sym
+** sch_path: /foss/designs/modulo1/lab03/xschem/strongarm.sch
+.subckt strongarm VDD out_p out_n vin_p vin_n clk GND
+*.ipin vin_p
+*.ipin vin_n
+*.ipin clk
+*.opin out_n
+*.opin out_p
+*.iopin VDD
+*.iopin GND
+XM1 sp vin_p tail GND sky130_fd_pr__nfet_01v8 L=0.25 W=4 nf=1 ad=1.16 as=1.16 pd=8.58 ps=8.58 nrd=0.0725 nrs=0.0725 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM2 sn vin_n tail GND sky130_fd_pr__nfet_01v8 L=0.25 W=4 nf=1 ad=1.16 as=1.16 pd=8.58 ps=8.58 nrd=0.0725 nrs=0.0725 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM3 out_p out_n sp GND sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM4 out_n out_p sn GND sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM5 tail clk GND GND sky130_fd_pr__nfet_01v8 L=0.5 W=8 nf=1 ad=2.32 as=2.32 pd=16.58 ps=16.58 nrd=0.03625 nrs=0.03625 sa=0 sb=0
++ sd=0 mult=1 m=1
+XM6 out_p clk VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=3 nf=1 ad=0.87 as=0.87 pd=6.58 ps=6.58 nrd=0.0966666666666667
++ nrs=0.0966666666666667 sa=0 sb=0 sd=0 mult=1 m=1
+XM7 out_n clk VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=3 nf=1 ad=0.87 as=0.87 pd=6.58 ps=6.58 nrd=0.0966666666666667
++ nrs=0.0966666666666667 sa=0 sb=0 sd=0 mult=1 m=1
+XM8 out_n out_p VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=2 nf=1 ad=0.58 as=0.58 pd=4.58 ps=4.58 nrd=0.145 nrs=0.145 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM9 out_p out_n VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=2 nf=1 ad=0.58 as=0.58 pd=4.58 ps=4.58 nrd=0.145 nrs=0.145 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM10 sn clk VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=3 nf=1 ad=0.87 as=0.87 pd=6.58 ps=6.58 nrd=0.0966666666666667
++ nrs=0.0966666666666667 sa=0 sb=0 sd=0 mult=1 m=1
+XM11 sp clk VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=3 nf=1 ad=0.87 as=0.87 pd=6.58 ps=6.58 nrd=0.0966666666666667
++ nrs=0.0966666666666667 sa=0 sb=0 sd=0 mult=1 m=1
+.ends
+
+.GLOBAL GND
+.end

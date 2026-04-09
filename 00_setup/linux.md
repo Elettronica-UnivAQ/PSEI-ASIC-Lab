@@ -10,6 +10,7 @@
 1. Installare git  →  2. Installare Docker  →  3. Clonare IIC-OSIC-TOOLS
 →  4. Configurare le variabili d'ambiente  →  5. Avviare il container
 →  6. Clonare LibreLane Summary  →  7. Configurazione del PDK  →  8. Test finale
+→  9. Installare VS Code (editor VHDL)
 ```
 
 ---
@@ -152,6 +153,14 @@ STD_CELL_LIBRARY=sky130_fd_sc_hd
 SPICE_USERINIT_DIR=/foss/pdks/sky130A/libs.tech/ngspice
 KLAYOUT_PATH=/headless/.klayout:/foss/pdks/sky130A/libs.tech/klayout:/foss/pdks/sky130A/libs.tech/klayout/tech
 PATH=$PATH:/foss/designs/librelane_summary
+
+# Aggiunge opzioni mancanti a .spiceinit (KLU solver, noinit, skywaterpdk)
+grep -q "option klu" ~/.spiceinit 2>/dev/null || cat >> ~/.spiceinit << 'SPICEINIT'
+* added by .designinit
+set skywaterpdk
+option noinit
+option klu
+SPICEINIT
 EOF
 ```
 
@@ -166,12 +175,22 @@ STD_CELL_LIBRARY=sky130_fd_sc_hd
 SPICE_USERINIT_DIR=/foss/pdks/sky130A/libs.tech/ngspice
 KLAYOUT_PATH=/headless/.klayout:/foss/pdks/sky130A/libs.tech/klayout:/foss/pdks/sky130A/libs.tech/klayout/tech
 PATH=$PATH:/foss/designs/librelane_summary
+
+# Aggiunge opzioni mancanti a .spiceinit (KLU solver, noinit, skywaterpdk)
+grep -q "option klu" ~/.spiceinit 2>/dev/null || cat >> ~/.spiceinit << 'SPICEINIT'
+* added by .designinit
+set skywaterpdk
+option noinit
+option klu
+SPICEINIT
 EOF
 ```
 
 Il risultato è identico — il file apparirà come `/foss/designs/.designinit` dentro il container.
 
 > 💡 `.designinit` è l'equivalente di un `.bashrc` specifico per il PDK: le variabili qui definite saranno disponibili automaticamente in ogni sessione del container, senza doverle riesportare ogni volta.
+
+> 💡 **Nota sul .spiceinit:** il container IIC-OSIC-TOOLS include già un `.spiceinit` di base. Il blocco nel `.designinit` aggiunge le opzioni mancanti: `option klu` (solver più veloce), `option noinit` (sopprime stampa OP all'avvio), `set skywaterpdk` (caricamento modelli più veloce). Il `grep` evita duplicati nei riavvii. La configurazione di xschem viene gestita nel file `xschemrc` locale di ogni progetto — vedi Modulo 1.
 
 ---
 
@@ -185,8 +204,100 @@ echo $PDK                       # atteso: sky130A
 klayout &                       # deve aprire KLayout 0.30.2
 xschem &                        # deve aprire xschem
 ```
+![klayout](../assets/images/klayout.png)
+
+![xschem](../assets/images/xschem.png)
 
 Se tutti i comandi producono l'output atteso, l'ambiente è configurato correttamente. 🎉
+
+---
+
+## Passo 9 — Installare VS Code come editor VHDL
+
+Il container IIC-OSIC-TOOLS include tutti i tool necessari per simulare e sintetizzare codice VHDL (`ghdl`, `gtkwave`, `librelane --flow VHDLClassic`), ma non dispone di un editor con supporto moderno al linguaggio. Il flusso di lavoro raccomandato per il corso è scrivere e fare il debug del codice VHDL in **Visual Studio Code** sul tuo sistema, e poi simulare e sintetizzare dal terminale del container.
+
+Questo funziona senza alcuna configurazione aggiuntiva: la cartella `~/asic/` sul tuo sistema è la stessa cartella che il container vede come `/foss/designs/`. Qualsiasi file che scrivi in VS Code è immediatamente disponibile nel container.
+
+```
+VS Code (Linux)             Container Docker
+~/asic/mio_progetto/  ──►  /foss/designs/mio_progetto/
+  top.vhd                    ghdl -a top.vhd          ← compilazione/simulazione
+  testbench.vhd              ghdl -e tb && ghdl -r tb ← esecuzione testbench
+                             gtkwave dump.vcd          ← forme d'onda
+                             librelane --flow VHDLClassic ← sintesi RTL→GDS
+```
+
+### 9a — Installare VS Code
+
+Su **Ubuntu/Debian**, il metodo più semplice è il pacchetto snap:
+
+```bash
+sudo snap install code --classic
+```
+
+In alternativa, puoi scaricarlo come pacchetto `.deb` dal sito ufficiale e installarlo con:
+
+```bash
+sudo dpkg -i code_*.deb
+sudo apt-get install -f   # risolve eventuali dipendenze mancanti
+```
+
+Su **Fedora**:
+
+```bash
+sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+sudo dnf install https://packages.microsoft.com/yumrepos/vscode/code-latest.x86_64.rpm
+```
+
+Sito ufficiale per il download manuale: 👉 https://code.visualstudio.com/
+
+### 9b — Installare le estensioni VHDL
+
+Apri VS Code, poi accedi al pannello estensioni (`Ctrl+Shift+X`) e installa:
+
+#### Estensione 1 — VHDL LS (obbligatoria)
+
+Cerca: **`VHDL LS`** — autore: _Henrik Bohlin_
+
+ID marketplace: `hbohlin.vhdl-ls`
+
+Questa estensione implementa un Language Server completo per VHDL. Fornisce:
+- rilevamento errori di sintassi e semantici in tempo reale (senza GHDL installato localmente)
+- completamento automatico di segnali, porte, componenti
+- navigazione: _Go to Definition_, _Find All References_
+- hover con informazioni sul tipo
+
+> 💡 VHDL LS funziona autonomamente senza dipendenze esterne. Basta installarla e aprire un file `.vhd` o `.vhdl` per avere il linting attivo.
+
+#### Estensione 2 — TerosHDL (consigliata)
+
+Cerca: **`TerosHDL`** — autore: _Teros Technology_
+
+ID marketplace: `teros-technology.teroshdl`
+
+Estensione avanzata per VHDL e Verilog/SystemVerilog, con:
+- visualizzatore di gerarchia del progetto
+- visualizzatore di macchine a stati FSM (disegna automaticamente il diagramma dal codice)
+- generatore di template per entity, architecture, testbench
+- integrazione con simulatori tra cui GHDL (configurabile in seguito)
+- documentazione automatica del codice
+
+> 💡 TerosHDL è utile soprattutto per i progetti più complessi del corso (Modulo 4 e Modulo 5). Per i primi esercizi è sufficiente VHDL LS.
+
+### 9c — Aprire la cartella dei progetti in VS Code
+
+Per lavorare comodamente, apri la cartella `~/asic/` come workspace di VS Code:
+
+```
+File → Apri cartella... → /home/<tuonome>/asic
+```
+
+In questo modo VS Code vedrà tutti i tuoi progetti e potrai navigare tra i file con l'explorer laterale.
+
+> 💡 Su Linux puoi anche aprire VS Code direttamente da terminale nella cartella del progetto:
+> ```bash
+> code ~/asic/mio_progetto
+> ```
 
 ---
 

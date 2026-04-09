@@ -1,0 +1,105 @@
+** sch_path: /foss/designs/modulo1/lab03/xschem/tb_mc.sch
+**.subckt tb_mc
+x1 vdd out_p out_n vin_p vin_n clk GND strongarm
+VVDD vdd GND 1.8
+VCLK clk GND PULSE(0 1.8 25n 100p 100p 25n 50n)
+VVIN_P vin_p GND PULSE(0.875 0.925 0 5u 1 1)
+VVIN_N vin_n GND 0.9
+C1 out_n GND 20f m=1
+C2 out_p GND 20f m=1
+**** begin user architecture code
+
+.options savecurrents
+
+.control
+  let mc_runs = 300
+  let mc_run = 1
+  let results = unitvec(mc_runs)
+
+  dowhile mc_run <= mc_runs
+    reset
+    tran 100p 5.5u
+
+    * Primo FALL di out_p a VDD/2: il comparatore inverte la decisione
+    meas tran cross_time WHEN v(out_p) = 0.9 FALL=1
+
+    * L'offset e' la differenza d'ingresso in quell'istante
+    meas tran vin_at_cross FIND v(vin_p) AT=cross_time
+    let offset_run = vin_at_cross - 0.9
+    set offset_save = $&offset_run
+    set run_save = $&mc_run
+
+    echo Run $&mc_run: offset = $&offset_run V
+
+    op
+    let offset_run = $offset_save
+    let mc_run = $run_save
+    let results[mc_run - 1] = offset_run
+    remzerovec
+    write tb_mc.raw
+    set appendwrite
+    let mc_run = mc_run + 1
+  end
+
+  * Calcolo statistico finale
+  let mean_off = mean(results)
+  let var_off = mean(results * results) - mean_off * mean_off
+  let sigma_off = sqrt(var_off * mc_runs / (mc_runs - 1))
+
+  echo ======================================
+  echo Monte Carlo completato ($&mc_runs run)
+  echo Media offset:  $&mean_off V
+  echo Sigma offset:  $&sigma_off V
+  echo Pelgrom atteso: ~4.95e-3 V
+  echo ======================================
+
+  print results > tb_mc.txt
+
+  * Simulazione transitoria finale: mostra la rampa di Vin+ e come il
+  * comparatore inverte la decisione al raggiungimento della soglia di offset
+  unset appendwrite
+  tran 100p 5.5u
+  write tb_mc_tran.raw
+.endc
+
+.lib /foss/pdks/sky130A/libs.tech/combined/sky130.lib.spice tt_mm
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  strongarm.sym # of pins=7
+** sym_path: /foss/designs/modulo1/lab03/xschem/strongarm.sym
+** sch_path: /foss/designs/modulo1/lab03/xschem/strongarm.sch
+.subckt strongarm VDD out_p out_n vin_p vin_n clk GND
+*.ipin vin_p
+*.ipin vin_n
+*.ipin clk
+*.opin out_n
+*.opin out_p
+*.iopin VDD
+*.iopin GND
+XM1 sp vin_p tail GND sky130_fd_pr__nfet_01v8 L=0.25 W=4 nf=1 ad=1.16 as=1.16 pd=8.58 ps=8.58 nrd=0.0725 nrs=0.0725 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM2 sn vin_n tail GND sky130_fd_pr__nfet_01v8 L=0.25 W=4 nf=1 ad=1.16 as=1.16 pd=8.58 ps=8.58 nrd=0.0725 nrs=0.0725 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM3 out_p out_n sp GND sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM4 out_n out_p sn GND sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM5 tail clk GND GND sky130_fd_pr__nfet_01v8 L=0.5 W=8 nf=1 ad=2.32 as=2.32 pd=16.58 ps=16.58 nrd=0.03625 nrs=0.03625 sa=0 sb=0
++ sd=0 mult=1 m=1
+XM6 out_p clk VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=3 nf=1 ad=0.87 as=0.87 pd=6.58 ps=6.58 nrd=0.0966666666666667
++ nrs=0.0966666666666667 sa=0 sb=0 sd=0 mult=1 m=1
+XM7 out_n clk VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=3 nf=1 ad=0.87 as=0.87 pd=6.58 ps=6.58 nrd=0.0966666666666667
++ nrs=0.0966666666666667 sa=0 sb=0 sd=0 mult=1 m=1
+XM8 out_n out_p VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=2 nf=1 ad=0.58 as=0.58 pd=4.58 ps=4.58 nrd=0.145 nrs=0.145 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM9 out_p out_n VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=2 nf=1 ad=0.58 as=0.58 pd=4.58 ps=4.58 nrd=0.145 nrs=0.145 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM10 sn clk VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=3 nf=1 ad=0.87 as=0.87 pd=6.58 ps=6.58 nrd=0.0966666666666667
++ nrs=0.0966666666666667 sa=0 sb=0 sd=0 mult=1 m=1
+XM11 sp clk VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=3 nf=1 ad=0.87 as=0.87 pd=6.58 ps=6.58 nrd=0.0966666666666667
++ nrs=0.0966666666666667 sa=0 sb=0 sd=0 mult=1 m=1
+.ends
+
+.GLOBAL GND
+.end

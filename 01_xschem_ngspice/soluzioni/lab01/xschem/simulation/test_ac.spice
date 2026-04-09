@@ -1,0 +1,51 @@
+** sch_path: /foss/pdks/ciel/sky130/versions/8afc8346a57fe1ab7934ba5a6056ea8b43078e71/sky130A/libs.tech/xschem/sky130_tests/test_ac.sch
+**.subckt test_ac
+XM1 G PLUS S GND sky130_fd_pr__nfet_01v8_lvt L=2 W=4 nf=1 ad=1.16 as=1.16 pd=8.58 ps=8.58 nrd=0.0725 nrs=0.0725 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM2 OUT MINUS S GND sky130_fd_pr__nfet_01v8_lvt L=2 W=4 nf=1 ad=1.16 as=1.16 pd=8.58 ps=8.58 nrd=0.0725 nrs=0.0725 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM4 net3 BIAS GND GND sky130_fd_pr__nfet_01v8_lvt L=4 W=4 nf=1 ad=1.16 as=1.16 pd=8.58 ps=8.58 nrd=0.0725 nrs=0.0725 sa=0 sb=0
++ sd=0 mult=1 m=1
+XM3 OUT G VCC VCC sky130_fd_pr__pfet_01v8_lvt L=4 W=4 nf=1 ad=1.16 as=1.16 pd=8.58 ps=8.58 nrd=0.0725 nrs=0.0725 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM5 G G VCC VCC sky130_fd_pr__pfet_01v8_lvt L=4 W=4 nf=1 ad=1.16 as=1.16 pd=8.58 ps=8.58 nrd=0.0725 nrs=0.0725 sa=0 sb=0 sd=0
++ mult=1 m=1
+Vtail S net3 0
+.save i(vtail)
+V1 BIAS GND 0.7
+V2 VCC GND 1.8
+V3 PLUS GND 0.91
+V4 IN GND 0 ac 1 0 sin(0 1m 100meg 0 0 0)
+C2 MINUS IN 1T m=1
+L1 OUT MINUS 1T m=1
+E1 net1 GND S GND 1
+XM6 net2 OUT net1 GND sky130_fd_pr__nfet_01v8_lvt L=2 W=4 nf=1 ad=1.16 as=1.16 pd=8.58 ps=8.58 nrd=0.0725 nrs=0.0725 sa=0 sb=0
++ sd=0 mult=1 m=1
+E2 net2 GND OUT GND 1
+**** begin user architecture code
+.lib /foss/pdks/sky130A/libs.tech/combined/sky130.lib.spice tt
+
+
+
+.include test_ac.save
+.option reltol=1e-5
++  abstol=1e-14 savecurrents
+.control
+  save all
+  op
+  remzerovec
+  write test_ac.raw
+  set appendwrite
+  ac dec 10 1 1e12
+  remzerovec
+  write test_ac.raw
+  tran 0.1n 100n
+  write test_ac.raw
+.endc
+
+
+
+
+**** end user architecture code
+**.ends
+.end
