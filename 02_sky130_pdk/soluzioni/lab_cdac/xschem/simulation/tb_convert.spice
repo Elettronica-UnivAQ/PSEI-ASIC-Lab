@@ -1,0 +1,73 @@
+** sch_path: /foss/designs/modulo2/lab_cdac/xschem/tb_convert.sch
+**.subckt tb_convert
+VBP7 BP7 GND pwl 0 0 1u 0 1.001u 1.8 2u 1.8 2.001u 1.8
+VBP1 BP6_0 GND pwl 0 0 2u 0 2.001u 1.8
+x1 VOUTP VCM BP6_0 BP6_0 BP6_0 BP6_0 BP6_0 BP6_0 BP7 BP6_0 cdac
+V1 VCM GND 0.9
+**** begin user architecture code
+
+** opencircuitdesign pdks install
+.lib /foss/pdks/sky130A/libs.tech/combined/sky130.lib.spice tt
+
+
+.option savecurrents
+.ic v(VOUTP)=0
+
+.control
+    save all
+    tran 10n 3u
+    remzerovec
+    write tb_convert.raw
+
+    * Misura VOUTP nel mezzo di ogni fase (evita transitori iniziali)
+    meas tran VOUT_code0   avg v(VOUTP) from=0.4u  to=0.9u
+    meas tran VOUT_code128 avg v(VOUTP) from=1.4u  to=1.9u
+    meas tran VOUT_code255 avg v(VOUTP) from=2.4u  to=2.9u
+
+    echo
+    echo ============================================
+    echo  CDAC 8 bit — verifica scala DAC
+    echo  VIN = VCM (condizione iniziale VOUTP = 0V)
+    echo ============================================
+    echo  Codice 00000000 (D=0):
+    echo    VOUT misurata  = $&VOUT_code0 V
+    echo    VOUT attesa    = 0.000 V
+    echo  Codice 10000000 (D=128):
+    echo    VOUT misurata  = $&VOUT_code128 V
+    echo    VOUT attesa    = 0.900 V
+    echo  Codice 11111111 (D=255):
+    echo    VOUT misurata  = $&VOUT_code255 V
+    echo    VOUT attesa    = 1.793 V
+    echo ============================================
+.endc
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  cdac.sym # of pins=10
+** sym_path: /foss/designs/modulo2/lab_cdac/xschem/cdac.sym
+** sch_path: /foss/designs/modulo2/lab_cdac/xschem/cdac.sch
+.subckt cdac VOUTP VCM BP3 BP2 BP5 BP4 BP1 BP6 BP7 BP0
+*.ipin VCM
+*.opin VOUTP
+*.ipin BP0
+*.ipin BP1
+*.ipin BP2
+*.ipin BP3
+*.ipin BP4
+*.ipin BP5
+*.ipin BP6
+*.ipin BP7
+XC1 VCM VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=1 m=1
+XC2 BP0 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=1 m=1
+XC3 BP1 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=2 m=2
+XC4 BP2 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=4 m=4
+XC5 BP3 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=8 m=8
+XC6 BP4 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=16 m=16
+XC7 BP5 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=32 m=32
+XC8 BP6 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=64 m=64
+XC9 BP7 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=128 m=128
+.ends
+
+.GLOBAL GND
+.end

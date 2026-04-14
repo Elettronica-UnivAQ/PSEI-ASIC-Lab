@@ -1,0 +1,92 @@
+** sch_path: /foss/designs/modulo2/lab_cdac/xschem/tb_mc.sch
+**.subckt tb_mc
+VBP7 BP7 GND pwl 0 0 0.999u 0 1u 1.8 2u 1.8
+VBP1 BP6_0 GND 0
+x1 VOUTP VCM BP6_0 BP6_0 BP6_0 BP6_0 BP6_0 BP6_0 BP7 BP6_0 cdac
+V1 VCM GND 0.9
+R1 VOUTP GND 1e12 m=1
+**** begin user architecture code
+
+.option savecurrents
+.ic v(VOUTP) = 0
+
+.control
+    save v(VOUTP)
+    let mc_runs = 1000
+    let run = 0
+    let vout_sum  = 0
+    let vout_sum2 = 0
+
+    * Crea il file CSV e scrive l'intestazione (sovrascrive eventuali file precedenti)
+    set outfile = vout_mc.txt
+    echo run vout_V > $outfile
+
+    dowhile run < mc_runs
+        reset
+        * Stessa sequenza di tb_convert per D=128:
+        * da t=0 a t=1us: tutte le BP a 0V (carica nulla, VOUTP=0)
+        * da t=1us in poi: BP7 a 1.8V, BP6..0 restano a 0V
+        * La ridistribuzione porta VOUTP a ~0.9V con variazione da mismatch
+        tran 10n 2u
+        meas tran vout_val AVG v(VOUTP) from=1.5u to=1.9u
+        let vout_sum  = vout_sum  + $&vout_val
+        let vout_sum2 = vout_sum2 + $&vout_val * $&vout_val
+        echo Run $&run : Vout = $&vout_val V
+        * Salva riga CSV: numero di run e tensione misurata
+        echo $&run $&vout_val >> $outfile
+        remzerovec
+        write tb_mc.raw
+        set appendwrite
+        let run = run + 1
+    end
+
+    let vout_mean  = vout_sum  / mc_runs
+    let vout_var   = vout_sum2 / mc_runs - vout_mean * vout_mean
+    let vout_sigma = sqrt(vout_var)
+    let vout_3s    = 3 * vout_sigma
+    let lsb        = 1.8 / 256
+    let vout_3s_lsb = vout_3s / lsb
+
+    echo
+    echo ============================================
+    echo  Monte Carlo CDAC — codice 10000000 (D=128)
+    echo  Run: $&mc_runs  |  VOUT nominale atteso: 0.900 V
+    echo  ----------------------------------------
+    echo  Media VOUT   = $&vout_mean V
+    echo  sigma VOUT   = $&vout_sigma V
+    echo  3sigma VOUT  = $&vout_3s V
+    echo  3sigma [LSB] = $&vout_3s_lsb LSB
+    echo ============================================
+.endc
+
+.lib /foss/pdks/sky130A/libs.tech/combined/sky130.lib.spice tt_mm
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  cdac.sym # of pins=10
+** sym_path: /foss/designs/modulo2/lab_cdac/xschem/cdac.sym
+** sch_path: /foss/designs/modulo2/lab_cdac/xschem/cdac.sch
+.subckt cdac VOUTP VCM BP3 BP2 BP5 BP4 BP1 BP6 BP7 BP0
+*.ipin VCM
+*.opin VOUTP
+*.ipin BP0
+*.ipin BP1
+*.ipin BP2
+*.ipin BP3
+*.ipin BP4
+*.ipin BP5
+*.ipin BP6
+*.ipin BP7
+XC1 VCM VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=1 m=1
+XC2 BP0 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=1 m=1
+XC3 BP1 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=2 m=2
+XC4 BP2 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=4 m=4
+XC5 BP3 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=8 m=8
+XC6 BP4 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=16 m=16
+XC7 BP5 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=32 m=32
+XC8 BP6 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=64 m=64
+XC9 BP7 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=128 m=128
+.ends
+
+.GLOBAL GND
+.end

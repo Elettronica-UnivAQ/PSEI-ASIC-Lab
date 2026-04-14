@@ -1,0 +1,5 @@
+** sch_path: /foss/designs/modulo2/lab_cdac/xschem/cdac.sch
+**.subckt cdac
+XC1 net1 net2 sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=2 m=2
+**.ends
+.end
