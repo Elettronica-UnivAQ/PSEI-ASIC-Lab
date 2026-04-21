@@ -1,0 +1,47 @@
+* NGSPICE file created from buffer.ext - technology: sky130A
+
+.subckt sky130_fd_pr__nfet_01v8_VLDN8W B D S G
+X0 S G D B sky130_fd_pr__nfet_01v8 ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=0.15
+**devattr s=11600,516 d=11600,516
+.ends
+
+.subckt sky130_fd_pr__pfet_01v8_GJ6HWT B D0 G0 S1 G1 a_63_n100#
+X0 a_63_n100# G1 S1 B sky130_fd_pr__pfet_01v8 ad=0.31 pd=2.62 as=0.165 ps=1.33 w=1 l=0.15
+**devattr s=6600,266 d=12400,524
+X1 S1 G0 D0 B sky130_fd_pr__pfet_01v8 ad=0.165 pd=1.33 as=0.31 ps=2.62 w=1 l=0.15
+**devattr s=12400,524 d=6600,266
+.ends
+
+.subckt inverter VDD IN OUT GND
+Xsky130_fd_pr__nfet_01v8_VLDN8W_0 GND OUT GND IN sky130_fd_pr__nfet_01v8_VLDN8W
+XXM2 VDD VDD IN OUT IN VDD sky130_fd_pr__pfet_01v8_GJ6HWT
+.ends
+
+.subckt sky130_fd_pr__nfet_01v8_ENW9XG B D0 G0 S1 G1 a_63_n200#
+X0 S1 G0 D0 B sky130_fd_pr__nfet_01v8 ad=0.33 pd=2.33 as=0.62 ps=4.62 w=2 l=0.15
+**devattr s=24800,924 d=13200,466
+X1 a_63_n200# G1 S1 B sky130_fd_pr__nfet_01v8 ad=0.62 pd=4.62 as=0.33 ps=2.33 w=2 l=0.15
+**devattr s=13200,466 d=24800,924
+.ends
+
+.subckt sky130_fd_pr__pfet_01v8_KJ82MB B D0 G0 S1 G1 D2 G2 S3 G3 a_159_n200#
+X0 a_159_n200# G3 S3 B sky130_fd_pr__pfet_01v8 ad=0.62 pd=4.62 as=0.33 ps=2.33 w=2 l=0.15
+**devattr s=13200,466 d=24800,924
+X1 S3 G2 D2 B sky130_fd_pr__pfet_01v8 ad=0.33 pd=2.33 as=0.33 ps=2.33 w=2 l=0.15
+**devattr s=13200,466 d=13200,466
+X2 S1 G0 D0 B sky130_fd_pr__pfet_01v8 ad=0.33 pd=2.33 as=0.62 ps=4.62 w=2 l=0.15
+**devattr s=24800,924 d=13200,466
+X3 D2 G1 S1 B sky130_fd_pr__pfet_01v8 ad=0.33 pd=2.33 as=0.33 ps=2.33 w=2 l=0.15
+**devattr s=13200,466 d=13200,466
+.ends
+
+.subckt inverterx4 VDD IN OUT GND
+XXM1 GND GND IN OUT IN GND sky130_fd_pr__nfet_01v8_ENW9XG
+XXM2 VDD VDD IN OUT IN VDD IN OUT IN VDD sky130_fd_pr__pfet_01v8_KJ82MB
+.ends
+
+.subckt buffer VDD GND IN OUT
+Xinverter_0 VDD IN out1 GND inverter
+Xinverterx4_0 VDD out1 OUT GND inverterx4
+.ends
+

@@ -1,0 +1,42 @@
+* Extracted by KLayout with SKY130 LVS runset on : 21/04/2026 13:08
+
+* cell buffer
+* pin out1
+* pin VDD
+* pin IN
+* pin OUT
+* pin GND
+.SUBCKT buffer out1 VDD IN OUT GND
+* cell instance $1 r0 *1 6.46,6.77
+X$1 out1 OUT VDD GND inverterx4
+* cell instance $2 r0 *1 -1.9,7.8
+X$2 VDD IN out1 GND inverter
+.ENDS buffer
+
+* cell inverter
+* pin VDD
+* pin IN
+* pin OUT
+* pin GND
+.SUBCKT inverter VDD IN OUT GND
+* device instance $1 r270 *1 6.21,-4.73 sky130_fd_pr__nfet_01v8
+XM$1 OUT IN GND GND sky130_fd_pr__nfet_01v8 L=150000 W=1000000 AS=290000000000
++ AD=290000000000 PS=2580000 PD=2580000
+* device instance $2 r270 *1 5.995,-0.945 sky130_fd_pr__pfet_01v8
+XM$2 VDD IN OUT VDD sky130_fd_pr__pfet_01v8 L=150000 W=2000000 AS=475000000000
++ AD=475000000000 PS=3950000 PD=3950000
+.ENDS inverter
+
+* cell inverterx4
+* pin IN
+* pin OUT
+* pin VDD
+* pin GND
+.SUBCKT inverterx4 IN OUT VDD GND
+* device instance $1 r270 *1 7.065,-3.99 sky130_fd_pr__nfet_01v8
+XM$1 GND IN OUT GND sky130_fd_pr__nfet_01v8 L=150000 W=4000000 AS=950000000000
++ AD=950000000000 PS=6950000 PD=6950000
+* device instance $3 r270 *1 7.07,1.405 sky130_fd_pr__pfet_01v8
+XM$3 VDD IN OUT VDD sky130_fd_pr__pfet_01v8 L=150000 W=8000000 AS=1.61e+12
++ AD=1.61e+12 PS=11610000 PD=11610000
+.ENDS inverterx4

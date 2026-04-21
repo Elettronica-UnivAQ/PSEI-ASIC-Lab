@@ -1,0 +1,6 @@
+** sch_path: /foss/designs/modulo3/lab02/xschem/inverterx4.sch
+.subckt inverterx4 VDD IN OUT GND
+*.PININFO IN:I OUT:O VDD:B GND:B
+XM1 OUT IN GND GND sky130_fd_pr__nfet_01v8 L=0.15 W=4 nf=2 m=1
+XM2 OUT IN VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=8 nf=4 m=1
+.ends

@@ -1,0 +1,32 @@
+magic
+tech sky130A
+magscale 1 2
+timestamp 1776676301
+<< metal1 >>
+rect 5 2230 3533 2417
+rect 703 1862 895 2230
+rect 0 860 200 1060
+rect 1460 858 1910 1059
+rect 3326 862 3526 1062
+rect 735 12 938 200
+rect 735 -24 940 12
+rect -6 -211 3522 -24
+use inverter  inverter_0
+timestamp 1776676301
+transform 1 0 -380 0 1 1560
+box 380 -1560 2040 500
+use inverterx4  inverterx4_0
+timestamp 1776308421
+transform 1 0 1292 0 1 1354
+box 418 -1575 2234 1072
+<< labels >>
+flabel metal1 5 2230 3533 2417 0 FreeSans 1600 0 0 0 VDD
+port 0 nsew
+flabel metal1 -6 -211 3522 -24 0 FreeSans 1600 0 0 0 GND
+port 1 nsew
+flabel metal1 0 860 200 1060 0 FreeSans 1600 0 0 0 IN
+port 2 nsew
+flabel metal1 3326 862 3526 1062 0 FreeSans 1600 0 0 0 OUT
+port 3 nsew
+flabel metal1 1460 858 1910 1059 0 FreeSans 1600 0 0 0 out1
+<< end >>
