@@ -54,36 +54,23 @@ Prima di costruire il circuito semplificato del lab, è importante capire come f
 
 ### Il circuito completo con switch
 
-Nel SAR ADC reale il CDAC è governato da tre tipi di switch, ciascuno pilotato da un segnale di controllo generato dal controller digitale:
+Nel SAR ADC reale il CDAC è governato da due tipi di switch, ciascuno pilotato da un segnale di controllo generato dal controller digitale:
 
-```
-                           SW_smp (campionamento)
-VIN ──────────────────────────/────────────────── VOUTP
-                                                    │
-         BP7        BP6              BP0           top plate (floating in conversione)
-          │          │                │             │
-       [SW_B7]    [SW_B6]  ...    [SW_B0]        [SW_rst]
-          │          │                │             │
-        VDD/        VDD/            VDD/           VCM
-        GND         GND             GND
-          │          │                │
-        [XC7]      [XC6]  ...     [XC0]  [XCTERM]
-          └──────────┴────── ... ──┴──────┘
-                             │
-                           VOUTP
-```
+![CDAC](../assets/images/CDAC.svg)
+
+
 
 Le tre fasi operative sono:
 
-**Fase 1 — Campionamento** (`SW_smp` chiuso, `SW_rst` chiusi, `SW_Bk` tutti a $V_{CM}$):
+**Fase 1 — Campionamento** (`SW_smp` chiuso, `SW_Bk` tutti a GND):
 - La top plate è connessa a $V_{IN}$ tramite `SW_smp`
-- Tutte le bottom plate sono a $V_{CM}$
-- Il nodo `VOUTP` si porta a $V_{IN}$, caricando $C_{tot}$ alla differenza $V_{IN} - V_{CM}$
+- Tutte le bottom plate sono a GND
+- Il nodo `VOUTP` si porta a $V_{IN}$; la carica totale accumulata vale $Q = C_{tot} \cdot V_{IN}$
 
 **Fase 2 — Hold** (`SW_smp` aperto, tutti gli altri invariati):
 - `SW_smp` si apre: la top plate diventa floating
-- La carica $Q = C_{tot} \cdot (V_{IN} - V_{CM})$ rimane intrappolata
-- Il nodo `VOUTP` vale ora $V_{IN} - V_{CM}$ rispetto alla condizione di bottom plate a $V_{CM}$
+- La carica $Q = C_{tot} \cdot V_{IN}$ rimane intrappolata
+- Il nodo `VOUTP` vale $V_{IN}$ (con le bottom plate a GND)
 
 **Fase 3 — Conversione** (bottom plate commutate da `SW_Bk` secondo il codice $B$):
 - Il controller SAR pilota `SW_Bk` verso $V_{DD}$ (bit = 1) o GND (bit = 0)
@@ -91,7 +78,7 @@ Le tre fasi operative sono:
 
 ### Switch reali in SKY130A
 
-In SKY130A con $V_{DD} = 1.8\ \text{V}$ e $V_{CM} = 0.9\ \text{V}$, gli switch delle bottom plate possono essere NMOS singoli: per tensioni di commutazione tra 0 e 1.8 V, un `nfet_01v8` pilotato da $V_{DD}$ ha $V_{GS}$ sufficiente a condurre. Lo switch di campionamento `SW_smp` è più delicato: deve trasmettere $V_{IN}$ vicino a $V_{CM}$ con bassa distorsione, quindi in un progetto reale si usa un **passgate** (NMOS + PMOS in parallelo) per coprire l'intera escursione.
+In SKY130A con $V_{DD} = 1.8\ \text{V}$, gli switch delle bottom plate sono NMOS singoli: commutano tra 0 e 1.8 V, quindi un `nfet_01v8` pilotato da $V_{DD}$ ha $V_{GS}$ sufficiente a condurre in entrambi gli stati. Lo switch di campionamento `SW_smp` è più delicato: deve trasmettere $V_{IN}$ sull'intera escursione del segnale di ingresso con bassa distorsione, quindi in un progetto reale si usa un **passgate** (NMOS + PMOS in parallelo).
 
 > 💡 In questo lab gli switch vengono modellati con **sorgenti di tensione PWL ideali** — ON resistance = 0, OFF resistance = ∞. Questo semplifica enormemente lo schematico e ci permette di concentrarci sul dimensionamento e sul comportamento dell'array capacitivo. Il Modulo 5 sostituirà questi switch ideali con transistor SKY130A reali e analizzerà l'impatto di $R_{on}$, $C_{off}$ e del carico di gate sul settling del CDAC.
 
@@ -112,42 +99,43 @@ L'architettura è la seguente:
     │        │        │      │        │                 │
   128Cu    64Cu     32Cu    2Cu      Cu              Cu_term
     │        │        │      │        │                 │
-   B7       B6       B5    B1       B0              VCM (fisso)
+   B7       B6       B5    B1       B0              VDD (fisso)
   (MSB)                            (LSB)
 ```
 
-Ogni condensatore ha la **top plate** (terminale `c1`, in basso nel simbolo xschem) collegata in comune al nodo `VOUTP`, che è anche l'ingresso del comparatore. Le **bottom plate** sono individualmente controllabili: durante la conversione, il controller SAR le porta a $V_{DD}$ (bit = 1) o a GND (bit = 0). Un condensatore aggiuntivo $C_u$ con bottom plate a $V_{CM}$ serve da terminazione per completare la potenza di 2.
+Ogni condensatore ha la **top plate** (terminale `c1`, in basso nel simbolo xschem) collegata in comune al nodo `VOUTP`, che è anche l'ingresso del comparatore. Le **bottom plate** sono individualmente controllabili: durante la conversione, il controller SAR le porta a $V_{DD}$ (bit = 1) o a GND (bit = 0). Un condensatore aggiuntivo $C_u$ con bottom plate **permanentemente a $V_{DD}$** serve da terminazione per completare la potenza di 2.
 
 ### La fase di campionamento (S&H integrato)
 
 Durante la fase di campionamento, il CDAC si comporta come un circuito Sample & Hold:
 
 1. Lo switch di campionamento si chiude: `VOUTP` viene connesso a $V_{IN}$
-2. Tutte le bottom plate vengono portate a $V_{CM} = V_{DD}/2 = 0.9\ \text{V}$
-3. Il condensatore totale $C_{tot} = 256\,C_u$ si carica alla differenza $V_{IN} - V_{CM}$
-4. Lo switch si apre: la carica $Q = C_{tot} \cdot (V_{IN} - V_{CM})$ è conservata sul nodo `VOUTP`
+2. Tutte le bottom plate vengono portate a GND
+3. Il condensatore totale $C_{tot} = 256\,C_u$ si carica a $V_{IN}$ rispetto a GND
+4. Lo switch si apre: la carica $Q = C_{tot} \cdot V_{IN}$ è conservata sul nodo `VOUTP`
 
 > 💡 La natura distribuita del CDAC è il punto chiave: non è un condensatore singolo che campiona, ma 256 condensatori unitari in parallelo. La carica si trova distribuita su tutti i condensatori dell'array, e la conversione successiva avviene ridistribuendola selettivamente tra le bottom plate.
 
 ### La fase di conversione
 
-Una volta conservata la carica, il controller SAR inizia la ricerca per bisezione. Ad ogni ciclo di clock, una bottom plate viene spostata da $V_{CM}$ a $V_{DD}$ o a GND, ridistribuendo la carica:
+Una volta conservata la carica, il controller SAR inizia la ricerca per bisezione. Ad ogni ciclo di clock, una bottom plate viene spostata da GND a $V_{DD}$ (bit = 1),
+oppure rimane a GND (bit = 0), ridistribuendo la carica:
 
 $$\text{Applicando il codice digitale } B = \sum_{k=0}^{7} b_k \cdot 2^k$$
 
 Per la conservazione della carica:
 
-$$V_{OUT} = (V_{IN} - V_{CM}) + \frac{B}{256} \cdot V_{DD}$$
+$$V_{OUT} = V_{IN} + \left(\frac{B}{256} - \frac{1}{2}\right) \cdot V_{DD}$$
 
-Il comparatore decide il bit confrontando $V_{OUT}$ con $V_{CM}$. La conversione converge quando $V_{OUT} \approx V_{CM}$, ovvero quando:
+Il comparatore decide il bit confrontando $V_{OUT}$ con 0 V. La conversione converge quando $V_{OUT} \approx 0$, ovvero quando:
 
-$$B_{eq} = 256 \cdot \frac{V_{CM} - V_{IN} + V_{CM}}{V_{DD}} = 256 \cdot \frac{2V_{CM} - V_{IN}}{V_{DD}}$$
+$$B_{eq} = 256 \cdot \left(\frac{1}{2} - \frac{V_{IN}}{V_{DD}}\right) = 128 - \frac{256 \cdot V_{IN}}{V_{DD}}$$
 
 ### Struttura differenziale
 
 Il SAR ADC usa un CDAC **differenziale**: un array positivo (INP) e uno negativo (INN) con le bottom plate pilotate da codici complementari $B$ e $\overline{B}$. La tensione differenziale all'ingresso del comparatore è:
 
-$$V_{OUTP} - V_{OUTN} = 2(V_{IN} - V_{CM}) + \left(\frac{B}{256} - \frac{255-B}{256}\right) \cdot V_{DD}$$
+$$V_{OUTP} - V_{OUTN} = 2\,V_{IN} + \left(\frac{B}{256} - \frac{255-B}{256} - 1\right) \cdot V_{DD}$$
 
 Questo schema aumenta l'escursione differenziale di un fattore 2 e azzera il common mode offset. In questo lab simuleremo la metà positiva dell'array; la struttura differenziale completa sarà integrata nel Modulo 5.
 
@@ -246,7 +234,11 @@ Il CDAC a 8 bit è composto da **9 istanze** di `cap_mim_m3_1`: una per ciascun 
 | `XC0` | LSB (B0) | 1 | `MF=1` | $C_u$ |
 | `XCTERM` | — | 1 | `MF=1` | $C_u$ |
 
-Tutte le **top plate** (terminale `c1`) sono collegate alla stessa net: `VOUTP`. Ogni **bottom plate** (terminale `c0`) ha la propria net: `BP7`, `BP6`, ..., `BP0`, e `VCM` per la terminazione.
+> 💡 La bottom plate di `XCTERM` (terminazione) va connessa a `VDD` — non a `VCM`.
+> Nell'architettura adottata, la capacità di terminazione è permanentemente a $V_{DD}$
+> sia durante il campionamento che durante la conversione.
+
+Tutte le **top plate** (terminale `c1`) sono collegate alla stessa net: `VOUTP`. Ogni **bottom plate** (terminale `c0`) ha la propria net: `BP7`, `BP6`, ..., `BP0`, e `VDD` per la terminazione.
 
 > 💡 **`MF` nella netlist:** in xschem si imposta solo `MF`. Nella netlist SPICE generata appariranno sia `MF=N` che `m=N` con lo stesso valore — xschem li sincronizza automaticamente. Non è necessario (né corretto) modificare `m` manualmente.
 
@@ -269,7 +261,7 @@ Ripeti per tutte le 9 istanze, modificando solo `m` per ciascuna.
 
 **Connessioni da disegnare:**
 
-Per ogni condensatore, il terminale **`c1`** (top plate, CAPM — appare in **basso** nel simbolo xschem) va connesso a `VOUTP`. Il terminale **`c0`** (bottom plate, Metal3 — appare in **alto** nel simbolo) va connesso all'etichetta `lab_wire` del bit corrispondente (`BP7`, `BP6`, ..., `BP0`). Per `XCTERM`, la bottom plate va connessa all'etichetta `VCM`.
+Per ogni condensatore, il terminale **`c1`** (top plate, CAPM — appare in **basso** nel simbolo xschem) va connesso a `VOUTP`. Il terminale **`c0`** (bottom plate, Metal3 — appare in **alto** nel simbolo) va connesso all'etichetta `lab_wire` del bit corrispondente (`BP7`, `BP6`, ..., `BP0`). Per `XCTERM`, la bottom plate va connessa all'etichetta `VDD`.
 
 > 💡 Poiché `c1` è in basso nel simbolo, il filo verso VOUTP scende dal bus superiore. In alternativa, specchia verticalmente il simbolo con il tasto `F` in xschem per avere `c1` in alto — questo rende il layout dello schematico più leggibile.
 
@@ -278,7 +270,7 @@ Per ogni condensatore, il terminale **`c1`** (top plate, CAPM — appare in **ba
 **Aggiungi le porte di ingresso/uscita** con `Shift+I` → `devices` → `ipin` e `opin`:
 - `VOUTP` — uscita (top plate, nodo di uscita verso il comparatore)
 - `BP7`, `BP6`, ..., `BP0` — ingressi (bottom plate dei bit, pilotate dal controller)
-- `VCM` — ingresso (tensione di modo comune per la terminazione)
+- `VDD` — ingresso (tensione di alimentazione per la capacità di terminazione)
 
 Al termine, genera il simbolo: **Symbol → Make symbol from schematic**. xschem crea automaticamente `cdac.sym`.
 
@@ -290,9 +282,9 @@ Al termine, genera il simbolo: **Symbol → Make symbol from schematic**. xschem
 
 ### 3.1 Struttura del testbench
 
-Il testbench simula direttamente la **fase di conversione**, partendo da uno stato iniziale che rappresenta il risultato del campionamento di $V_{IN} = V_{CM}$.
+Il testbench simula direttamente la **fase di conversione**, partendo da uno stato iniziale con tutte le bottom plate a GND e la terminazione a $V_{DD}$.
 
-La condizione iniziale (`.ic`) impone $V_{VOUTP} = 0\ \text{V}$ all'istante $t=0$, equivalente ad avere campionato $V_{IN} = V_{CM}$ (tensione di ingresso nulla rispetto al modo comune). In questa condizione, il codice di equilibrio è $B = 10000000$ (D=128), e la tensione di uscita dopo la conversione deve valere $V_{CM} = 0.9\ \text{V}$.
+La condizione iniziale (`.ic`) impone $V_{VOUTP} = 0\ \text{V}$ all'istante $t=0$, con tutte le bottom plate a GND e la terminazione a $V_{DD}$. Questa è la condizione di partenza della conversione, equivalente ad avere campionato $V_{IN} = 0\ \text{V}$ (ingresso a GND). In questa condizione, il codice di equilibrio è $B = 10000000$ (D=128): commutando solo BP7 a $V_{DD}$, il CDAC genera $V_{OUTP} = (128/256) \times V_{DD} = 0.9\ \text{V} = V_{DD}/2$.
 
 ```bash
 cd /foss/designs/modulo2/lab_cdac/xschem
@@ -323,7 +315,7 @@ value = "pwl 0 0 1u 0 1.001u 1.8 2u 1.8 2.001u 1.8"
 
 Per B6...B0 il codice `10000000` richiede B7=1.8V e B6...B0=0V; il codice `11111111` richiede tutti a 1.8V. Costruisci le 8 sorgenti coerentemente.
 
-**Sorgente per VCM:** una sorgente DC da 0.9 V.
+**Sorgente per VDD (terminazione):** una sorgente DC da 1.8 V, connessa alla porta `VDD` del CDAC.
 
 **Blocco modelli PDK:** copia `TT_MODELS` da `top.sch`.
 
@@ -364,7 +356,7 @@ value=".option savecurrents
 .endc"
 ```
 
-> 💡 `.ic v(VOUTP)=0` impone la condizione iniziale sul nodo `VOUTP`, simulando il risultato del campionamento di $V_{IN} = V_{CM}$. È il modo standard in ngspice per inizializzare la carica su un condensatore senza dover simulare esplicitamente la fase di campionamento.
+> 💡 `.ic v(VOUTP)=0` impone la condizione iniziale sul nodo `VOUTP`, con tutte le bottom plate attive a GND e la terminazione a $V_{DD}$. È il modo standard in ngspice per azzerare la carica sull'array capacitivo senza simulare esplicitamente la fase di campionamento.
 
 > ⚠️ Come in Lab01 e Lab03: salva sempre con `Ctrl+S` prima di cliccare **Netlist** e poi **Simulate**. Se modifichi lo schematico senza rigenerare la netlist, ngspice simula la versione precedente.
 
@@ -555,7 +547,7 @@ value=".option savecurrents
 > |---------|-------------------------------|
 > | BP7 (MSB) | `pwl 0 0 0.999u 0 1u 1.8 2u 1.8` |
 > | BP6..BP0 | `dc 0` |
-> | VCM (terminazione) | `dc 0.9` |
+> | VDD (terminazione) | `dc 1.8` |
 >
 > La PWL di BP7 mantiene 0 V fino a t=999 ns, poi sale a 1.8 V a t=1 µs con fronte di 1 ns — identica alla sequenza di `tb_convert.sch` per il codice D=128. Puoi copiare le sorgenti direttamente da lì.
 

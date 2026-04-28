@@ -49,31 +49,33 @@ unitx=1
 logx=0
 logy=0
 digital=1}
-N -590 160 -590 190 {lab=GND}
-N -490 230 -490 260 {lab=GND}
-N -590 -40 -590 100 {lab=BP7}
-N -590 -40 -220 -40 {lab=BP7}
-N -490 -20 -490 170 {lab=BP6_0}
-N -490 -20 -220 -20 {lab=BP6_0}
-N -260 100 -220 100 {lab=BP6_0}
-N -260 -20 -260 100 {lab=BP6_0}
-N -260 80 -220 80 {lab=BP6_0}
-N -260 60 -220 60 {lab=BP6_0}
-N -260 40 -220 40 {lab=BP6_0}
-N -260 20 -220 20 {lab=BP6_0}
-N -260 0 -220 0 {lab=BP6_0}
-N -670 -60 -670 50 {lab=VCM}
-N -670 -60 -220 -60 {lab=VCM}
-N -670 110 -670 130 {lab=GND}
-N -30 -60 50 -60 {lab=VOUTP}
-C {vsource.sym} -590 130 0 0 {name=VBP7 value="pwl 0 0 1u 0 1.001u 1.8 2u 1.8 2.001u 1.8" savecurrent=false}
-C {gnd.sym} -590 190 0 0 {name=l1 lab=GND}
-C {vsource.sym} -490 200 0 0 {name=VBP1 value="pwl 0 0 2u 0 2.001u 1.8" savecurrent=false}
-C {gnd.sym} -490 260 0 0 {name=l2 lab=GND}
-C {cdac.sym} -70 20 0 0 {name=x1}
-C {vsource.sym} -670 80 0 0 {name=V1 value=0.9 savecurrent=false}
-C {gnd.sym} -670 130 0 0 {name=l3 lab=GND}
-C {lab_wire.sym} 50 -60 0 0 {name=p1 sig_type=std_logic lab=VOUTP}
+N -660 130 -660 160 {lab=GND}
+N -340 130 -340 160 {lab=GND}
+N -150 130 -150 150 {lab=GND}
+N -370 -220 -290 -220 {lab=VOUTP}
+N -370 -220 -370 -170 {lab=VOUTP}
+N -340 -30 -340 70 {lab=BP6_0}
+N -460 -30 -460 0 {lab=BP6_0}
+N -460 0 -340 0 {lab=BP6_0}
+N -440 -30 -440 0 {lab=BP6_0}
+N -420 -30 -420 0 {lab=BP6_0}
+N -400 -30 -400 0 {lab=BP6_0}
+N -380 -30 -380 0 {lab=BP6_0}
+N -360 -30 -360 0 {lab=BP6_0}
+N -660 0 -660 70 {lab=BP7}
+N -660 0 -480 0 {lab=BP7}
+N -480 -30 -480 0 {lab=BP7}
+N -320 -30 -320 0 {lab=Vdd}
+N -320 0 -150 0 {lab=Vdd}
+N -150 0 -150 70 {lab=Vdd}
+C {vsource.sym} -660 100 0 0 {name=VBP7 value="pwl 0 0 1u 0 1.001u 1.8 2u 1.8 2.001u 1.8" savecurrent=false}
+C {gnd.sym} -660 160 0 0 {name=l1 lab=GND}
+C {vsource.sym} -340 100 0 0 {name=VBP1 value="pwl 0 0 2u 0 2.001u 1.8" savecurrent=false}
+C {gnd.sym} -340 160 0 0 {name=l2 lab=GND}
+C {cdac.sym} -420 -140 0 0 {name=x1}
+C {vsource.sym} -150 100 0 0 {name=V1 value=1.8 savecurrent=false}
+C {gnd.sym} -150 150 0 0 {name=l3 lab=GND}
+C {lab_wire.sym} -300 -220 0 0 {name=p1 sig_type=std_logic lab=VOUTP}
 C {devices/code.sym} -870 130 0 0 {name=TT_MODELS
 only_toplevel=true
 format="tcleval( @value )"
@@ -120,6 +122,6 @@ tclcommand="
 xschem raw_read $netlist_dir/[file tail [file rootname [xschem get current_name]]].raw tran
 "
 }
-C {lab_wire.sym} -410 -60 0 0 {name=p2 sig_type=std_logic lab=VCM}
-C {lab_wire.sym} -480 -40 0 0 {name=p3 sig_type=std_logic lab=BP7}
-C {lab_wire.sym} -410 -20 0 0 {name=p4 sig_type=std_logic lab=BP6_0}
+C {lab_wire.sym} -630 0 0 0 {name=p3 sig_type=std_logic lab=BP7}
+C {lab_wire.sym} -340 40 0 0 {name=p4 sig_type=std_logic lab=BP6_0}
+C {lab_wire.sym} -150 0 0 0 {name=p2 sig_type=std_logic lab=Vdd}

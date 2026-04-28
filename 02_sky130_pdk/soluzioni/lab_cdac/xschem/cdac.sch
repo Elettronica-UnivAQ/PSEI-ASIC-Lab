@@ -42,7 +42,7 @@ C {sky130_fd_pr/cap_mim_m3_1.sym} 460 -170 2 0 {name=C6 model=cap_mim_m3_1 W=5 L
 C {sky130_fd_pr/cap_mim_m3_1.sym} 580 -170 2 0 {name=C7 model=cap_mim_m3_1 W=5 L=5 MF=32 spiceprefix=X}
 C {sky130_fd_pr/cap_mim_m3_1.sym} 700 -170 2 0 {name=C8 model=cap_mim_m3_1 W=5 L=5 MF=64 spiceprefix=X}
 C {sky130_fd_pr/cap_mim_m3_1.sym} 820 -170 2 0 {name=C9 model=cap_mim_m3_1 W=5 L=5 MF=128 spiceprefix=X}
-C {ipin.sym} -160 -80 3 0 {name=p1 lab=VCM}
+C {ipin.sym} -160 -80 3 0 {name=p1 lab=VDD}
 C {opin.sym} 340 -290 3 0 {name=p2 lab=VOUTP}
 C {ipin.sym} -40 -60 3 0 {name=p3 lab=BP0}
 C {ipin.sym} 90 -60 3 0 {name=p4 lab=BP1}

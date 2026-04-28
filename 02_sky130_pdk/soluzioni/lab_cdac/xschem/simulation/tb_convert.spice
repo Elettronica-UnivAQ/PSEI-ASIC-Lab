@@ -2,8 +2,8 @@
 **.subckt tb_convert
 VBP7 BP7 GND pwl 0 0 1u 0 1.001u 1.8 2u 1.8 2.001u 1.8
 VBP1 BP6_0 GND pwl 0 0 2u 0 2.001u 1.8
-x1 VOUTP VCM BP6_0 BP6_0 BP6_0 BP6_0 BP6_0 BP6_0 BP7 BP6_0 cdac
-V1 VCM GND 0.9
+x1 VOUTP Vdd BP6_0 BP6_0 BP6_0 BP6_0 BP6_0 BP6_0 BP7 BP6_0 cdac
+V1 Vdd GND 1.8
 **** begin user architecture code
 
 ** opencircuitdesign pdks install
@@ -47,8 +47,8 @@ V1 VCM GND 0.9
 * expanding   symbol:  cdac.sym # of pins=10
 ** sym_path: /foss/designs/modulo2/lab_cdac/xschem/cdac.sym
 ** sch_path: /foss/designs/modulo2/lab_cdac/xschem/cdac.sch
-.subckt cdac VOUTP VCM BP3 BP2 BP5 BP4 BP1 BP6 BP7 BP0
-*.ipin VCM
+.subckt cdac VOUTP VDD BP3 BP2 BP5 BP4 BP1 BP6 BP7 BP0
+*.ipin VDD
 *.opin VOUTP
 *.ipin BP0
 *.ipin BP1
@@ -58,7 +58,7 @@ V1 VCM GND 0.9
 *.ipin BP5
 *.ipin BP6
 *.ipin BP7
-XC1 VCM VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=1 m=1
+XC1 VDD VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=1 m=1
 XC2 BP0 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=1 m=1
 XC3 BP1 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=2 m=2
 XC4 BP2 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=4 m=4

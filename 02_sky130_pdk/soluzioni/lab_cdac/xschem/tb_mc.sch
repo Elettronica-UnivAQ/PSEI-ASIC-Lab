@@ -26,33 +26,30 @@ logy=0
 color=4
 node=voutp
 rainbow=1}
-N -590 160 -590 190 {lab=GND}
-N -490 230 -490 260 {lab=GND}
-N -590 -40 -590 100 {lab=BP7}
-N -590 -40 -220 -40 {lab=BP7}
-N -490 -20 -490 170 {lab=BP6_0}
-N -490 -20 -220 -20 {lab=BP6_0}
-N -260 100 -220 100 {lab=BP6_0}
-N -260 -20 -260 100 {lab=BP6_0}
-N -260 80 -220 80 {lab=BP6_0}
-N -260 60 -220 60 {lab=BP6_0}
-N -260 40 -220 40 {lab=BP6_0}
-N -260 20 -220 20 {lab=BP6_0}
-N -260 0 -220 0 {lab=BP6_0}
-N -670 -60 -670 50 {lab=VCM}
-N -670 -60 -220 -60 {lab=VCM}
-N -670 110 -670 130 {lab=GND}
-N -30 -60 50 -60 {lab=VOUTP}
-N 30 40 30 70 {lab=GND}
-N 30 -60 30 -20 {lab=VOUTP}
-C {vsource.sym} -590 130 0 0 {name=VBP7 value="pwl 0 0 0.999u 0 1u 1.8 2u 1.8" savecurrent=false}
-C {gnd.sym} -590 190 0 0 {name=l1 lab=GND}
-C {vsource.sym} -490 200 0 0 {name=VBP1 value=0 savecurrent=false}
-C {gnd.sym} -490 260 0 0 {name=l2 lab=GND}
-C {cdac.sym} -70 20 0 0 {name=x1}
-C {vsource.sym} -670 80 0 0 {name=V1 value=0.9 savecurrent=false}
-C {gnd.sym} -670 130 0 0 {name=l3 lab=GND}
-C {lab_wire.sym} 50 -60 0 0 {name=p1 sig_type=std_logic lab=VOUTP}
+N -600 270 -600 300 {lab=GND}
+N -280 270 -280 300 {lab=GND}
+N -90 270 -90 290 {lab=GND}
+N -310 -80 -230 -80 {lab=VOUTP}
+N -310 -80 -310 -30 {lab=VOUTP}
+N -280 110 -280 210 {lab=BP6_0}
+N -400 110 -400 140 {lab=BP6_0}
+N -400 140 -280 140 {lab=BP6_0}
+N -380 110 -380 140 {lab=BP6_0}
+N -360 110 -360 140 {lab=BP6_0}
+N -340 110 -340 140 {lab=BP6_0}
+N -320 110 -320 140 {lab=BP6_0}
+N -300 110 -300 140 {lab=BP6_0}
+N -600 140 -600 210 {lab=BP7}
+N -600 140 -420 140 {lab=BP7}
+N -420 110 -420 140 {lab=BP7}
+N -260 110 -260 140 {lab=Vdd}
+N -260 140 -90 140 {lab=Vdd}
+N -90 140 -90 210 {lab=Vdd}
+N -230 -80 -100 -80 {lab=VOUTP}
+N -130 -80 -130 -60 {lab=VOUTP}
+N -130 0 -130 30 {lab=GND}
+C {vsource.sym} -600 240 0 0 {name=VBP7 value="pwl 0 0 0.999u 0 1u 1.8 2u 1.8" savecurrent=false}
+C {vsource.sym} -280 240 0 0 {name=VBP1 value=0 savecurrent=false}
 C {devices/code_shown.sym} -1740 -630 0 0 {name=NGSPICE
 only_toplevel=true
 value=".option savecurrents
@@ -106,19 +103,25 @@ value=".option savecurrents
     echo  3sigma [LSB] = $&vout_3s_lsb LSB
     echo ============================================
 .endc"}
-C {lab_wire.sym} -410 -60 0 0 {name=p2 sig_type=std_logic lab=VCM}
-C {lab_wire.sym} -480 -40 0 0 {name=p3 sig_type=std_logic lab=BP7}
-C {lab_wire.sym} -410 -20 0 0 {name=p4 sig_type=std_logic lab=BP6_0}
 C {sky130_fd_pr/corner.sym} -870 190 0 0 {name=CORNER only_toplevel=true corner=tt_mm}
-C {res.sym} 30 10 0 0 {name=R1
+C {res.sym} -130 -30 0 0 {name=R1
 value=1e12
 footprint=1206
 device=resistor
 m=1}
-C {gnd.sym} 30 70 0 0 {name=l4 lab=GND}
+C {gnd.sym} -130 30 0 0 {name=l4 lab=GND}
 C {devices/launcher.sym} -610 -230 0 0 {name=h17 
 descr="Load waves" 
 tclcommand="
 xschem raw_read $netlist_dir/[file tail [file rootname [xschem get current_name]]].raw tran
 "
 }
+C {gnd.sym} -600 300 0 0 {name=l5 lab=GND}
+C {gnd.sym} -280 300 0 0 {name=l6 lab=GND}
+C {cdac.sym} -360 0 0 0 {name=x2}
+C {vsource.sym} -90 240 0 0 {name=V2 value=1.8 savecurrent=false}
+C {gnd.sym} -90 290 0 0 {name=l7 lab=GND}
+C {lab_wire.sym} -100 -80 0 0 {name=p5 sig_type=std_logic lab=VOUTP}
+C {lab_wire.sym} -570 140 0 0 {name=p6 sig_type=std_logic lab=BP7}
+C {lab_wire.sym} -280 180 0 0 {name=p7 sig_type=std_logic lab=BP6_0}
+C {lab_wire.sym} -90 140 0 0 {name=p8 sig_type=std_logic lab=Vdd}
