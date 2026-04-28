@@ -1,5 +1,5 @@
 # Modulo 1 — Schematic Capture e Simulazione con xschem e ngspice
-
+![xschem](https://xschem.sourceforge.io/stefan/xschem1.png)
 ## Obiettivi
 
 Al termine di questo modulo lo studente sarà in grado di:

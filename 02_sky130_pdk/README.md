@@ -1,5 +1,5 @@
 # Modulo 2 — Librerie SKY130A e design del CDAC
-
+![skywater_standard_cell](https://hackster.imgix.net/uploads/attachments/1150258/_r1ms3vnp3l_blob_jzNnRa7bwg.jpeg?auto=compress%2Cformat&w=1200)
 ## Obiettivi
 
 Al termine di questo modulo lo studente sarà in grado di:

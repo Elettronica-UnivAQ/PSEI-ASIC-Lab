@@ -1,5 +1,5 @@
 # Modulo 3 — Layout con Magic VLSI, DRC/LVS e PEX
-
+![magic_VLSI](../assets/images/magic_7_4_screen.png)
 ## Obiettivi
 
 Al termine di questo modulo lo studente sarà in grado di:
