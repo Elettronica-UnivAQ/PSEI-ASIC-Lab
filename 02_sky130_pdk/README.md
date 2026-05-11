@@ -16,11 +16,7 @@ Al termine di questo modulo lo studente sarà in grado di:
 
 Questo modulo produce il secondo blocco del SAR ADC a 8 bit del corso. Il CDAC (Capacitive Digital-to-Analog Converter) svolge simultaneamente il ruolo di campionatore e di DAC: durante la fase di campionamento i condensatori immagazzinano la tensione di ingresso; durante la conversione le bottom plate vengono commutate dal controller digitale (Modulo 4) per implementare la ricerca per bisezione.
 
-```
-VIN ──► [ CDAC 8 bit + S&H ]──► [ Comparatore Strong-ARM ]──► [ Controller SAR ]
-              ▲ Modulo 2              ▲ Modulo 1                   ▲ Modulo 4
-              └──────────────── B[7:0] (bottom-plate drive) ───────┘
-```
+![SAR_block_scheme_m2](../assets/images/SAR_Completo_mod2.png)
 
 **Specifiche di riferimento:** 8 bit · $V_{DD} = 1.8\ \text{V}$ · $V_{FS,diff} = 256\ \text{mV}$ · 1 LSB = 1 mV · $V_{CM} = 0.9\ \text{V}$ · $f_s = 2\ \text{MS/s}$
 

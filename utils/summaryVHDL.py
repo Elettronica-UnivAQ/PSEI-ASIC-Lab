@@ -181,6 +181,18 @@ def print_summary(run_path):
     print()
 
 
+def print_power(run_path):
+    """Stampa il report di power post-PNR (corner nominale nom_tt_025C_1v80)."""
+    pattern = os.path.join(run_path, "*-openroad-stapostpnr",
+                           "nom_tt_025C_1v80", "power.rpt")
+    path = check_path(pattern)
+    if path:
+        with open(path) as f:
+            print(f.read())
+    else:
+        print("Report di power non trovato. Il run è completo?")
+
+
 def print_timing(run_path):
     """Stampa il report di timing post-PNR (cerca summary.rpt)."""
     pattern = os.path.join(run_path, "*-openroad-stapostpnr", "summary.rpt")
@@ -259,6 +271,7 @@ Esempi:
   summaryVHDL.py --summary                        # errori e violazioni ultimo run
   summaryVHDL.py --metrics                         # metriche chiave ultimo run
   summaryVHDL.py --timing                          # timing post-PNR ultimo run
+  summaryVHDL.py --power                           # power breakdown post-PNR
   summaryVHDL.py --yosys-report                    # statistiche sintesi
   summaryVHDL.py --runs runs/util_30 --metrics     # metriche di un run con tag
   summaryVHDL.py --compare runs/util_30 runs/util_55   # confronto due run
@@ -273,7 +286,7 @@ Esempi:
     parser.add_argument("--full-summary", help="mostra tutto il metrics.csv",          action="store_true")
     parser.add_argument("--timing",       help="timing summary post-PNR",              action="store_true")
     parser.add_argument("--yosys-report", help="statistiche sintesi Yosys (VHDLClassic-aware)", action="store_true")
-    parser.add_argument("--gds",          help="apre il GDS finale in KLayout",        action="store_true")
+    parser.add_argument("--power",        help="report di power post-PNR (corner nom_tt_025C_1v80)", action="store_true")
 
     args = parser.parse_args()
 
@@ -307,6 +320,9 @@ Esempi:
 
     if args.yosys_report:
         print_yosys_report(run_path)
+
+    if args.power:
+        print_power(run_path)
 
     if args.gds:
         open_gds(run_path)
