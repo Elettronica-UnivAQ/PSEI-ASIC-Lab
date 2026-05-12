@@ -62,19 +62,20 @@ Nel SAR ADC reale il CDAC è governato da due tipi di switch, ciascuno pilotato 
 
 Le tre fasi operative sono:
 
-**Fase 1 — Campionamento** (`SW_smp` chiuso, `SW_Bk` tutti a GND):
+**Fase 1 — Campionamento** (`SW_smp` chiuso, `SW_Bk` tutti a $V_{ref}$):
 - La top plate è connessa a $V_{IN}$ tramite `SW_smp`
-- Tutte le bottom plate sono a GND
-- Il nodo `VOUTP` si porta a $V_{IN}$; la carica totale accumulata vale $Q = C_{tot} \cdot V_{IN}$
+- Tutte le bottom plate sono a $V_{ref}$ (uguale a $V_{DD}$ nel testbench di questo modulo)
+- Il nodo `VOUTP` si porta a $V_{IN}$; la carica totale accumulata vale $Q = C_{tot} \cdot (V_{IN} - V_{ref})$
 
-**Fase 2 — Hold** (`SW_smp` aperto, tutti gli altri invariati):
+**Fase 2 — Hold** (`SW_smp` aperto, bottom plate ancora a $V_{ref}$):
 - `SW_smp` si apre: la top plate diventa floating
-- La carica $Q = C_{tot} \cdot V_{IN}$ rimane intrappolata
-- Il nodo `VOUTP` vale $V_{IN}$ (con le bottom plate a GND)
+- La carica $Q$ rimane intrappolata
+- Il nodo `VOUTP` vale $V_{IN}$ (le bottom plate sono ancora tutte a $V_{ref}$, invariate)
 
-**Fase 3 — Conversione** (bottom plate commutate da `SW_Bk` secondo il codice $B$):
-- Il controller SAR pilota `SW_Bk` verso $V_{DD}$ (bit = 1) o GND (bit = 0)
-- La ridistribuzione di carica sposta `VOUTP` in funzione del codice
+**Fase 3 — Conversione** (procedura di switching monotona):
+- Il controller SAR abbassa selettivamente le bottom plate da $V_{ref}$ a GND
+- Ad ogni ciclo di clock viene abbassata **una sola piastra di uno solo dei due rami**: quello la cui top plate è più alta
+- La ridistribuzione di carica porta `VOUTP` verso il basso di $\Delta V = (C_k / C_{tot}) \cdot V_{ref}$ ad ogni commutazione
 
 ### Switch reali in SKY130A
 
@@ -110,34 +111,52 @@ Ogni condensatore ha la **top plate** (terminale `c1`, in basso nel simbolo xsch
 Durante la fase di campionamento, il CDAC si comporta come un circuito Sample & Hold:
 
 1. Lo switch di campionamento si chiude: `VOUTP` viene connesso a $V_{IN}$
-2. Tutte le bottom plate vengono portate a GND
-3. Il condensatore totale $C_{tot} = 256\,C_u$ si carica a $V_{IN}$ rispetto a GND
-4. Lo switch si apre: la carica $Q = C_{tot} \cdot V_{IN}$ è conservata sul nodo `VOUTP`
+2. Tutte le bottom plate vengono portate a $V_{ref}$ (procedura di switching monotona)
+3. Il condensatore totale $C_{tot} = 256\,C_u$ si carica a $V_{IN}$ con le bottom plate a $V_{ref}$;
+   la carica sul nodo top plate vale $Q = C_{tot} \cdot (V_{IN} - V_{ref})$
+4. Lo switch si apre: la carica $Q$ è conservata e `VOUTP` rimane a $V_{IN}$
 
 > 💡 La natura distribuita del CDAC è il punto chiave: non è un condensatore singolo che campiona, ma 256 condensatori unitari in parallelo. La carica si trova distribuita su tutti i condensatori dell'array, e la conversione successiva avviene ridistribuendola selettivamente tra le bottom plate.
 
-### La fase di conversione
+### La fase di conversione — procedura monotona
 
-Una volta conservata la carica, il controller SAR inizia la ricerca per bisezione. Ad ogni ciclo di clock, una bottom plate viene spostata da GND a $V_{DD}$ (bit = 1),
-oppure rimane a GND (bit = 0), ridistribuendo la carica:
+Una volta conservata la carica, il controller SAR applica la **procedura di switching monotona** (Liu et al., JSSC 2010). A differenza dello switching convenzionale — dove ogni bit viene prima tentato verso $V_{ref}$ e poi eventualmente rimesso a GND se rigettato — nella procedura monotona le bottom plate partono tutte a $V_{ref}$ e vengono abbassate a GND in modo irreversibile, una per volta, secondo il risultato del comparatore.
 
-$$\text{Applicando il codice digitale } B = \sum_{k=0}^{7} b_k \cdot 2^k$$
+Ad ogni ciclo di clock, il comparatore confronta `VOUTP` con `VOUTN` (tensione differenziale). Se `VOUTP` > `VOUTN`, si abbassa la piastra del ramo positivo corrispondente al bit corrente; altrimenti si abbassa quella del ramo negativo. Una sola piastra cambia stato per ciclo.
 
-Per la conservazione della carica:
+Per la conservazione della carica, abbassando $D$ piastre (da $V_{ref}$ a GND) sul ramo positivo:
 
-$$V_{OUT} = V_{IN} + \left(\frac{B}{256} - \frac{1}{2}\right) \cdot V_{DD}$$
+$$V_{OUTP} = V_{IN} - \frac{D}{256} \cdot V_{ref}$$
 
-Il comparatore decide il bit confrontando $V_{OUT}$ con 0 V. La conversione converge quando $V_{OUT} \approx 0$, ovvero quando:
+La conversione converge quando $V_{OUTP} \approx V_{OUTN}$ (tensione differenziale nulla):
 
-$$B_{eq} = 256 \cdot \left(\frac{1}{2} - \frac{V_{IN}}{V_{DD}}\right) = 128 - \frac{256 \cdot V_{IN}}{V_{DD}}$$
+$$D_{eq} = \frac{V_{IN}}{V_{ref}} \cdot 256$$
+
+> 💡 La procedura monotona ha due vantaggi rispetto a quella convenzionale: consuma meno energia di commutazione (ogni piastra commuta al massimo una volta, sempre nella stessa direzione) e non richiede la prima comparazione — quella dopo il campionamento avviene con le bottom plate ancora tutte a $V_{ref}$, senza nessuna commutazione del CDAC (**comparazione gratuita**). Questo approccio è stato introdotto da Liu et al. nel 2010 e ha rappresentato un punto di svolta nel design dei SAR ADC ad alta efficienza energetica [1].
+
+**[1]** C.-C. Liu, S.-J. Chang, G.-Y. Huang e Y.-Z. Lin, "A 10-bit 50-MS/s SAR ADC With a Monotonic Capacitor Switching Procedure," *IEEE Journal of Solid-State Circuits*, vol. 45, n. 4, pp. 731–740, Apr. 2010. DOI: [10.1109/JSSC.2010.2042254](https://ieeexplore-ieee-org.univaq.idm.oclc.org/document/5437496)
 
 ### Struttura differenziale
 
-Il SAR ADC usa un CDAC **differenziale**: un array positivo (INP) e uno negativo (INN) con le bottom plate pilotate da codici complementari $B$ e $\overline{B}$. La tensione differenziale all'ingresso del comparatore è:
+Il SAR ADC usa un CDAC **differenziale**: un array positivo (ramo INP) e uno negativo (ramo INN), entrambi con le bottom plate inizialmente a $V_{ref}$. La procedura monotona abbassa $D_p$ piastre sul ramo positivo e $D_n = 255 - D_p$ piastre sul ramo negativo, in modo che la somma $D_p + D_n = 255$ sia sempre rispettata (ogni bit va a uno dei due rami).
 
-$$V_{OUTP} - V_{OUTN} = 2\,V_{IN} + \left(\frac{B}{256} - \frac{255-B}{256} - 1\right) \cdot V_{DD}$$
+Applicando la conservazione della carica a entrambi i rami:
 
-Questo schema aumenta l'escursione differenziale di un fattore 2 e azzera il common mode offset. In questo lab simuleremo la metà positiva dell'array; la struttura differenziale completa sarà integrata nel Modulo 5.
+$$V_{OUTP} = V_{IN,P} - \frac{D_p}{256} \cdot V_{ref}$$
+
+$$V_{OUTN} = V_{IN,N} - \frac{255 - D_p}{256} \cdot V_{ref}$$
+
+La tensione differenziale all'ingresso del comparatore vale:
+
+$$V_{OUTP} - V_{OUTN} = (V_{IN,P} - V_{IN,N}) - \frac{2D_p - 255}{256} \cdot V_{ref}$$
+
+La conversione converge quando $V_{OUTP} - V_{OUTN} \approx 0$, da cui:
+
+$$D_p = \frac{V_{IN,P} - V_{IN,N}}{2\,V_{ref}} \cdot 256 + 127.5 = \frac{V_{diff}}{V_{LSB,diff}} + 127.5$$
+
+con $V_{LSB,diff} = 2\,V_{ref}/256$. Per le specifiche del corso ($V_{ref} = 256\ \text{mV}$): $V_{LSB,diff} = 2\ \text{mV}$.
+
+> 💡 Questo schema raddoppia l'escursione differenziale rispetto a un CDAC single-ended e azzera il common mode offset: perturbazioni di modo comune (rumore di alimentazione, charge injection del passgate) agiscono ugualmente su entrambi i rami e non alterano la decisione del comparatore. In questo lab simuleremo il singolo ramo positivo; la struttura differenziale completa è integrata nel Modulo 5.
 
 ---
 
@@ -234,8 +253,8 @@ Il CDAC a 8 bit è composto da **9 istanze** di `cap_mim_m3_1`: una per ciascun 
 | `XC0` | LSB (B0) | 1 | `MF=1` | $C_u$ |
 | `XCTERM` | — | 1 | `MF=1` | $C_u$ |
 
-> 💡 La bottom plate di `XCTERM` (terminazione) va connessa a `VDD` — non a `VCM`.
-> Nell'architettura adottata, la capacità di terminazione è permanentemente a $V_{DD}$
+> 💡 La bottom plate di `XCTERM` (terminazione) va connessa a `Vref`.
+> Nell'architettura adottata, la capacità di terminazione è permanentemente a $V_{ref}$
 > sia durante il campionamento che durante la conversione.
 
 Tutte le **top plate** (terminale `c1`) sono collegate alla stessa net: `VOUTP`. Ogni **bottom plate** (terminale `c0`) ha la propria net: `BP7`, `BP6`, ..., `BP0`, e `VDD` per la terminazione.
@@ -284,7 +303,9 @@ Al termine, genera il simbolo: **Symbol → Make symbol from schematic**. xschem
 
 Il testbench simula direttamente la **fase di conversione**, partendo da uno stato iniziale con tutte le bottom plate a GND e la terminazione a $V_{DD}$.
 
-La condizione iniziale (`.ic`) impone $V_{VOUTP} = 0\ \text{V}$ all'istante $t=0$, con tutte le bottom plate a GND e la terminazione a $V_{DD}$. Questa è la condizione di partenza della conversione, equivalente ad avere campionato $V_{IN} = 0\ \text{V}$ (ingresso a GND). In questa condizione, il codice di equilibrio è $B = 10000000$ (D=128): commutando solo BP7 a $V_{DD}$, il CDAC genera $V_{OUTP} = (128/256) \times V_{DD} = 0.9\ \text{V} = V_{DD}/2$.
+> ⚠️ **Nota sul metodo di switching usato nel testbench:** la simulazione seguente usa lo **switching convenzionale** — bottom plate che partono da GND e vengono alzate a $V_{DD}$ — che semplifica la costruzione del testbench e permette di concentrarsi sulla caratterizzazione della funzione di trasferimento del CDAC. L'architettura SAR ADC del corso adotta invece la **procedura di switching monotona** (Liu et al., JSSC 2010, descritta nella teoria sopra), dove le bottom plate partono da $V_{ref}$ e vengono abbassate a GND. Entrambi gli approcci si basano sullo stesso principio fisico di ridistribuzione di carica e producono la stessa funzione di trasferimento $V_{OUT}$ vs codice — cambiano il punto di partenza e la direzione della commutazione, non la linearità del CDAC che andremo a misurare.
+
+La condizione iniziale (`.ic`) impone $V_{VOUTP} = 0\ \text{V}$ all'istante $t=0$, con tutte le bottom plate a GND e la terminazione a $V_{DD}$. Questa è la condizione di partenza della conversione convenzionale, equivalente ad avere campionato $V_{IN} = 0\ \text{V}$. In questa condizione, il codice di equilibrio è $B = 10000000$ (D=128): commutando solo BP7 a $V_{DD}$, il CDAC genera $V_{OUTP} = (128/256) \times V_{DD} = 0.9\ \text{V} = V_{DD}/2$.
 
 ```bash
 cd /foss/designs/modulo2/lab_cdac/xschem
@@ -301,7 +322,7 @@ Crea `tb_convert.sch`.
 Ciascun bit è pilotato da una sorgente di tensione PWL che rappresenta la sequenza di commutazione del controller SAR. Per verificare la scala del DAC, usiamo tre codici sequenziali nel tempo:
 
 | Intervallo di tempo | Codice | D | $V_{OUT}$ attesa |
-|--------------------|--------|---|-----------------|
+|--------------------|--------|---|--------------------|
 | $0 < t < 1\ \mu\text{s}$ | `00000000` | 0 | 0 V |
 | $1 < t < 2\ \mu\text{s}$ | `10000000` | 128 | 0.9 V |
 | $2 < t < 3\ \mu\text{s}$ | `11111111` | 255 | $\approx 1.793$ V |
