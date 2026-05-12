@@ -149,9 +149,10 @@ Osserva la netlist dell'inverter. Noterai che ogni subcircuito ha sei terminali:
 
 ## 6. Collegamento al convertitore SAR
 
-Il **controller SAR digitale** che realizzeremo nel Modulo 4 è composto interamente da celle standard `sky130_fd_sc_hd`. La sua funzione è semplice ma precisa: ricevere il bit di uscita del comparatore (`CMP_OUT`) ad ogni ciclo di clock, aggiornare il registro di approssimazione e generare i segnali di controllo `B[7:0]` per le bottom plate del CDAC.
+Il **controller SAR digitale** che realizzeremo nel Modulo 4 è composto interamente da celle standard `sky130_fd_sc_hd`. La sua funzione è semplice ma precisa: ricevere il bit di uscita del comparatore (`comp_p` e `comp_n`) ad ogni ciclo di clock, aggiornare il registro di approssimazione e generare i segnali di controllo `dac_p[7:0]` e `dac_n[7:0]` per le bottom plate dei due CDAC (ramo + e ramo -).
 
-![Sar_logic](../assets/images/SA_ADC_Logic.png)
+
+![SAR_controller](../assets/images/SAR_Completo_mod4.png)
 
 Le celle standard che il tool di sintesi userà più frequentemente per questo blocco sono: flip-flop D (`dfrtp`) per il registro di approssimazione, XOR (`xor2`) per la logica di decisione, e multiplexer (`mux2`) per la selezione dei bit. Puoi visualizzarne il layout in KLayout già ora, prima ancora di scrivere una riga di VHDL.
 
