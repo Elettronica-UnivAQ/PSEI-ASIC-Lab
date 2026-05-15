@@ -636,7 +636,7 @@ Il testbench simula una tensione differenziale di ingresso e un **modello compor
 
 Con la procedura monotonica, entrambi i rami del CDAC partono da `11111111` (Vref) e si abbassano unilateralmente a ogni bit. Il differenziale effettivo tra le due top plate evolve come:
 
-$$V_{diff,eff} = (2 \cdot D_{target} - 255) - (\text{to\_integer}(\texttt{dac\_p}) - \text{to\_integer}(\texttt{dac\_n}))$$
+$$V_{diff,eff} = (2 \cdot D_{target} - 255) - (\mathtt{dac\_p} - \mathtt{dac\_n})$$
 
 dove $D_{target}$ è il codice digitale corrispondente alla tensione di ingresso analogica. Il comparatore restituisce `out_comp_p='1'` quando $V_{diff,eff} > 0$ (VOUTP > VOUTN).
 
