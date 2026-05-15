@@ -231,7 +231,7 @@ Con la procedura monotonica il codice atteso è:
 
 $$D = \frac{V_{diff,0}}{2\ \text{mV}} + 127.5 \approx 158 \quad \Rightarrow \quad \texttt{dout = 0x9E = 10011110}$$
 
-Il confronto si basa sulla quantità effettiva $V_{diff,eff} = (2 \cdot D_{target} - 255) - (\text{dac\_p} - \text{dac\_n})$ in unità di LSB. Il comparatore restituisce `out_comp_p='1'` quando $V_{diff,eff} > 0$ (VOUTP > VOUTN).
+Il confronto si basa sulla quantità effettiva $V_{diff,eff} = (2 \cdot D_{target} - 255) - (D_p - D_n)$ in unità di LSB, dove $D_p$ e $D_n$ sono i valori interi di `dac_p` e `dac_n`. Il comparatore restituisce `out_comp_p='1'` quando $V_{diff,eff} > 0$ (VOUTP > VOUTN).
 
 ![SAR_timing](../assets/images/SAR_timing.png)
 
