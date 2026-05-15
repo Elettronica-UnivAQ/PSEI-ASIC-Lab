@@ -921,7 +921,7 @@ Misura con i cursori di GTKWave il tempo tra due fronti di salita consecutivi di
 
 **5.4** Osserva in GTKWave la conversione di `vin_code=128`. Quante commutazioni compie `dac_p` e quante `dac_n`? La loro somma come interi vale sempre 255 a fine conversione? Verifica anche per `vin_code=0` e `vin_code=255`.
 
-**5.5** Il modello di comparatore nel testbench usa la formula $V_{diff,eff} = (2 \cdot D_{target} - 255) - (\text{dac\_p} - \text{dac\_n})$. Deriva questa formula a partire dal principio di conservazione della carica sul nodo di top plate del CDAC differenziale durante la procedura di switching monotonica.
+**5.5** Il modello di comparatore nel testbench usa la formula $V_{diff,eff} = (2 \cdot D_{target} - 255) - (\mathtt{dac\_p} - \mathtt{dac\_n})$. Deriva questa formula a partire dal principio di conservazione della carica sul nodo di top plate del CDAC differenziale durante la procedura di switching monotonica.
 
 ---
 
