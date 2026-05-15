@@ -1,0 +1,380 @@
+VERSION 5.7 ;
+  NOWIREEXTENSIONATPIN ON ;
+  DIVIDERCHAR "/" ;
+  BUSBITCHARS "[]" ;
+MACRO sar_controller
+  CLASS BLOCK ;
+  FOREIGN sar_controller ;
+  ORIGIN 0.000 0.000 ;
+  SIZE 80.415 BY 91.135 ;
+  PIN VGND
+    DIRECTION INOUT ;
+    USE GROUND ;
+    PORT
+      LAYER met4 ;
+        RECT 24.340 10.640 25.940 79.120 ;
+    END
+    PORT
+      LAYER met5 ;
+        RECT 5.280 30.030 74.760 31.630 ;
+    END
+  END VGND
+  PIN VPWR
+    DIRECTION INOUT ;
+    USE POWER ;
+    PORT
+      LAYER met4 ;
+        RECT 21.040 10.640 22.640 79.120 ;
+    END
+    PORT
+      LAYER met5 ;
+        RECT 5.280 26.730 74.760 28.330 ;
+    END
+  END VPWR
+  PIN clk
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    ANTENNAGATEAREA 1.704000 ;
+    PORT
+      LAYER met2 ;
+        RECT 19.870 87.135 20.150 91.135 ;
+    END
+  END clk
+  PIN clk_comp
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met3 ;
+        RECT 76.415 80.280 80.415 80.880 ;
+    END
+  END clk_comp
+  PIN dac_n[0]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met2 ;
+        RECT 42.410 0.000 42.690 4.000 ;
+    END
+  END dac_n[0]
+  PIN dac_n[1]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met2 ;
+        RECT 47.010 0.000 47.290 4.000 ;
+    END
+  END dac_n[1]
+  PIN dac_n[2]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met2 ;
+        RECT 51.610 0.000 51.890 4.000 ;
+    END
+  END dac_n[2]
+  PIN dac_n[3]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met2 ;
+        RECT 56.210 0.000 56.490 4.000 ;
+    END
+  END dac_n[3]
+  PIN dac_n[4]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met2 ;
+        RECT 60.810 0.000 61.090 4.000 ;
+    END
+  END dac_n[4]
+  PIN dac_n[5]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met2 ;
+        RECT 65.410 0.000 65.690 4.000 ;
+    END
+  END dac_n[5]
+  PIN dac_n[6]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met2 ;
+        RECT 70.010 0.000 70.290 4.000 ;
+    END
+  END dac_n[6]
+  PIN dac_n[7]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met2 ;
+        RECT 74.610 0.000 74.890 4.000 ;
+    END
+  END dac_n[7]
+  PIN dac_p[0]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met2 ;
+        RECT 5.610 0.000 5.890 4.000 ;
+    END
+  END dac_p[0]
+  PIN dac_p[1]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met2 ;
+        RECT 10.210 0.000 10.490 4.000 ;
+    END
+  END dac_p[1]
+  PIN dac_p[2]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met2 ;
+        RECT 14.810 0.000 15.090 4.000 ;
+    END
+  END dac_p[2]
+  PIN dac_p[3]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met2 ;
+        RECT 19.410 0.000 19.690 4.000 ;
+    END
+  END dac_p[3]
+  PIN dac_p[4]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met2 ;
+        RECT 24.010 0.000 24.290 4.000 ;
+    END
+  END dac_p[4]
+  PIN dac_p[5]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met2 ;
+        RECT 28.610 0.000 28.890 4.000 ;
+    END
+  END dac_p[5]
+  PIN dac_p[6]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met2 ;
+        RECT 33.210 0.000 33.490 4.000 ;
+    END
+  END dac_p[6]
+  PIN dac_p[7]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met2 ;
+        RECT 37.810 0.000 38.090 4.000 ;
+    END
+  END dac_p[7]
+  PIN dout[0]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 6.840 4.000 7.440 ;
+    END
+  END dout[0]
+  PIN dout[1]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 16.360 4.000 16.960 ;
+    END
+  END dout[1]
+  PIN dout[2]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 25.880 4.000 26.480 ;
+    END
+  END dout[2]
+  PIN dout[3]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 35.400 4.000 36.000 ;
+    END
+  END dout[3]
+  PIN dout[4]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 44.920 4.000 45.520 ;
+    END
+  END dout[4]
+  PIN dout[5]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 54.440 4.000 55.040 ;
+    END
+  END dout[5]
+  PIN dout[6]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 63.960 4.000 64.560 ;
+    END
+  END dout[6]
+  PIN dout[7]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 73.480 4.000 74.080 ;
+    END
+  END dout[7]
+  PIN eoc
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 83.000 4.000 83.600 ;
+    END
+  END eoc
+  PIN out_comp_n
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met3 ;
+        RECT 76.415 27.240 80.415 27.840 ;
+    END
+  END out_comp_n
+  PIN out_comp_p
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    ANTENNAGATEAREA 0.196500 ;
+    PORT
+      LAYER met3 ;
+        RECT 76.415 9.560 80.415 10.160 ;
+    END
+  END out_comp_p
+  PIN phi_sample
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met3 ;
+        RECT 76.415 44.920 80.415 45.520 ;
+    END
+  END phi_sample
+  PIN phi_sample_n
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.340600 ;
+    PORT
+      LAYER met3 ;
+        RECT 76.415 62.600 80.415 63.200 ;
+    END
+  END phi_sample_n
+  PIN rst_n
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    ANTENNAGATEAREA 0.196500 ;
+    PORT
+      LAYER met2 ;
+        RECT 59.890 87.135 60.170 91.135 ;
+    END
+  END rst_n
+  OBS
+      LAYER nwell ;
+        RECT 5.330 10.795 74.710 79.070 ;
+      LAYER li1 ;
+        RECT 5.520 10.795 74.520 78.965 ;
+      LAYER met1 ;
+        RECT 4.210 10.640 74.910 79.120 ;
+      LAYER met2 ;
+        RECT 4.230 86.855 19.590 87.135 ;
+        RECT 20.430 86.855 59.610 87.135 ;
+        RECT 60.450 86.855 74.880 87.135 ;
+        RECT 4.230 4.280 74.880 86.855 ;
+        RECT 4.230 4.000 5.330 4.280 ;
+        RECT 6.170 4.000 9.930 4.280 ;
+        RECT 10.770 4.000 14.530 4.280 ;
+        RECT 15.370 4.000 19.130 4.280 ;
+        RECT 19.970 4.000 23.730 4.280 ;
+        RECT 24.570 4.000 28.330 4.280 ;
+        RECT 29.170 4.000 32.930 4.280 ;
+        RECT 33.770 4.000 37.530 4.280 ;
+        RECT 38.370 4.000 42.130 4.280 ;
+        RECT 42.970 4.000 46.730 4.280 ;
+        RECT 47.570 4.000 51.330 4.280 ;
+        RECT 52.170 4.000 55.930 4.280 ;
+        RECT 56.770 4.000 60.530 4.280 ;
+        RECT 61.370 4.000 65.130 4.280 ;
+        RECT 65.970 4.000 69.730 4.280 ;
+        RECT 70.570 4.000 74.330 4.280 ;
+      LAYER met3 ;
+        RECT 4.400 82.600 76.415 83.465 ;
+        RECT 3.990 81.280 76.415 82.600 ;
+        RECT 3.990 79.880 76.015 81.280 ;
+        RECT 3.990 74.480 76.415 79.880 ;
+        RECT 4.400 73.080 76.415 74.480 ;
+        RECT 3.990 64.960 76.415 73.080 ;
+        RECT 4.400 63.600 76.415 64.960 ;
+        RECT 4.400 63.560 76.015 63.600 ;
+        RECT 3.990 62.200 76.015 63.560 ;
+        RECT 3.990 55.440 76.415 62.200 ;
+        RECT 4.400 54.040 76.415 55.440 ;
+        RECT 3.990 45.920 76.415 54.040 ;
+        RECT 4.400 44.520 76.015 45.920 ;
+        RECT 3.990 36.400 76.415 44.520 ;
+        RECT 4.400 35.000 76.415 36.400 ;
+        RECT 3.990 28.240 76.415 35.000 ;
+        RECT 3.990 26.880 76.015 28.240 ;
+        RECT 4.400 26.840 76.015 26.880 ;
+        RECT 4.400 25.480 76.415 26.840 ;
+        RECT 3.990 17.360 76.415 25.480 ;
+        RECT 4.400 15.960 76.415 17.360 ;
+        RECT 3.990 10.560 76.415 15.960 ;
+        RECT 3.990 9.160 76.015 10.560 ;
+        RECT 3.990 7.840 76.415 9.160 ;
+        RECT 4.400 6.990 76.415 7.840 ;
+      LAYER met4 ;
+        RECT 41.695 47.775 47.545 83.465 ;
+  END
+END sar_controller
+END LIBRARY
+

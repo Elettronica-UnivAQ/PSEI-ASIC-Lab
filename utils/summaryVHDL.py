@@ -182,15 +182,49 @@ def print_summary(run_path):
 
 
 def print_power(run_path):
-    """Stampa il report di power post-PNR (corner nominale nom_tt_025C_1v80)."""
+    """Stampa il report di power post-PNR in formato leggibile (µW)."""
     pattern = os.path.join(run_path, "*-openroad-stapostpnr",
                            "nom_tt_025C_1v80", "power.rpt")
     path = check_path(pattern)
-    if path:
-        with open(path) as f:
-            print(f.read())
-    else:
+    if not path:
         print("Report di power non trovato. Il run è completo?")
+        return
+
+    # Legge il file e parse le righe dati
+    with open(path) as f:
+        raw = f.read()
+
+    # Intestazione
+    print()
+    print("Power Report — nom_tt_025C_1v80")
+    print("─" * 72)
+    header = f"  {'Gruppo':<16} {'Internal (µW)':>14} {'Switching (µW)':>15} {'Leakage (nW)':>13} {'Totale (µW)':>12}  {'%':>5}"
+    print(header)
+    print("─" * 72)
+
+    groups = ["Sequential", "Combinational", "Clock", "Macro", "Pad", "Total"]
+    for line in raw.splitlines():
+        parts = line.split()
+        if not parts:
+            continue
+        # Cerca le righe che iniziano con un nome di gruppo noto
+        if parts[0] in groups:
+            try:
+                group = parts[0]
+                internal  = float(parts[1]) * 1e6   # W → µW
+                switching = float(parts[2]) * 1e6
+                leakage   = float(parts[3]) * 1e9   # W → nW
+                total     = float(parts[4]) * 1e6
+                pct       = parts[5] if len(parts) > 5 else ""
+                sep = "─" * 72 if group == "Total" else ""
+                if sep:
+                    print(sep)
+                print(f"  {group:<16} {internal:>14.3f} {switching:>15.3f} {leakage:>13.3f} {total:>12.3f}  {pct:>5}")
+            except (ValueError, IndexError):
+                continue
+
+    print("─" * 72)
+    print()
 
 
 def print_timing(run_path):
@@ -250,12 +284,12 @@ def compare_runs(run_a, run_b):
 
 
 def open_gds(run_path):
-    """Apre il GDS finale in KLayout."""
+    """Apre il GDS finale in KLayout (in background — terminale rimane libero)."""
     klayout_gds = os.path.join(os.path.dirname(sys.argv[0]), "klayout_gds.xml")
     pattern = os.path.join(run_path, "final", "gds", "*.gds")
     path = check_path(pattern)
     if path:
-        os.system(f"klayout -l {klayout_gds} {path}")
+        os.system(f"klayout -l {klayout_gds} {path} &")
 
 
 # ---------------------------------------------------------------------------
@@ -287,6 +321,7 @@ Esempi:
     parser.add_argument("--timing",       help="timing summary post-PNR",              action="store_true")
     parser.add_argument("--yosys-report", help="statistiche sintesi Yosys (VHDLClassic-aware)", action="store_true")
     parser.add_argument("--power",        help="report di power post-PNR (corner nom_tt_025C_1v80)", action="store_true")
+    parser.add_argument("--gds",          help="apre il GDS finale in KLayout",        action="store_true")
 
     args = parser.parse_args()
 

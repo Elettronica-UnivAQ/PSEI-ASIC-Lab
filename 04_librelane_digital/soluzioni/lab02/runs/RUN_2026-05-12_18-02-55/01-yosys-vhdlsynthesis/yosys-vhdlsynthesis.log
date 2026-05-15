@@ -1,0 +1,1125 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2025  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.55 (git sha1 60f126cd0, g++ 13.3.0-6ubuntu2~24.04 -fPIC -O3)
+
+1. Executing Liberty frontend: /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+Imported 428 cell types from liberty file.
+[INFO] Using SDC file '/foss/designs/modulo4/lab02/runs/RUN_2026-05-12_18-02-55/01-yosys-vhdlsynthesis/synthesis.abc.sdc' for ABC…
+
+2. Executing GHDL.
+Importing module sar_controller.
+
+3. Executing HIERARCHY pass (managing design hierarchy).
+
+3.1. Analyzing design hierarchy..
+Top module:  \sar_controller
+
+3.2. Analyzing design hierarchy..
+Top module:  \sar_controller
+Removed 0 unused modules.
+Renaming module sar_controller to sar_controller.
+
+4. Generating Graphviz representation of design.
+Writing dot description to `/foss/designs/modulo4/lab02/runs/RUN_2026-05-12_18-02-55/01-yosys-vhdlsynthesis/hierarchy.dot'.
+Dumping module sar_controller to page 1.
+
+5. Executing ATTRMAP pass (move or copy attributes).
+
+6. Executing TRIBUF pass.
+
+7. Executing HIERARCHY pass (managing design hierarchy).
+
+7.1. Analyzing design hierarchy..
+Top module:  \sar_controller
+
+7.2. Analyzing design hierarchy..
+Top module:  \sar_controller
+Removed 0 unused modules.
+
+8. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+9. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Removed a total of 0 dead cases.
+
+10. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 0 assignments to connections.
+
+11. Executing PROC_INIT pass (extract init attributes).
+
+12. Executing PROC_ARST pass (detect async resets in processes).
+
+13. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+
+14. Executing PROC_MUX pass (convert decision trees to multiplexers).
+
+15. Executing PROC_DLATCH pass (convert process syncs to latches).
+
+16. Executing PROC_DFF pass (convert process syncs to FFs).
+
+17. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+18. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+19. Executing CHECK pass (checking for obvious problems).
+Checking module sar_controller...
+Found and reported 0 problems.
+
+20. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_controller.
+<suppressed ~7 debug messages>
+
+21. Executing FLATTEN pass (flatten design).
+
+22. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_controller.
+
+23. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_controller..
+Removed 1 unused cells and 9 unused wires.
+<suppressed ~2 debug messages>
+
+24. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_controller.
+
+25. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_controller'.
+<suppressed ~24 debug messages>
+Removed a total of 8 cells.
+
+26. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \sar_controller..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~27 debug messages>
+
+27. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \sar_controller.
+    New ctrl vector for $pmux cell \:129: { $auto$ghdl.cc:825:import_module$10 $auto$opt_reduce.cc:137:opt_pmux$59 }
+    New ctrl vector for $pmux cell \:132: { $auto$ghdl.cc:825:import_module$24 $auto$ghdl.cc:825:import_module$6 }
+    New ctrl vector for $pmux cell \:135: { $auto$ghdl.cc:825:import_module$22 $auto$ghdl.cc:825:import_module$6 }
+    New ctrl vector for $pmux cell \:138: { $auto$ghdl.cc:825:import_module$20 $auto$ghdl.cc:825:import_module$6 }
+    New ctrl vector for $pmux cell \:141: { $auto$ghdl.cc:825:import_module$18 $auto$ghdl.cc:825:import_module$6 }
+    New ctrl vector for $pmux cell \:144: { $auto$ghdl.cc:825:import_module$16 $auto$ghdl.cc:825:import_module$6 }
+    New ctrl vector for $pmux cell \:147: { $auto$ghdl.cc:825:import_module$14 $auto$ghdl.cc:825:import_module$6 }
+    New ctrl vector for $pmux cell \:150: { $auto$ghdl.cc:825:import_module$12 $auto$ghdl.cc:825:import_module$6 }
+    New ctrl vector for $pmux cell \:153: { $auto$ghdl.cc:825:import_module$10 $auto$ghdl.cc:825:import_module$6 }
+    New ctrl vector for $pmux cell \:101: { $auto$ghdl.cc:825:import_module$24 $auto$opt_reduce.cc:137:opt_pmux$61 }
+    New ctrl vector for $pmux cell \:105: { $auto$ghdl.cc:825:import_module$22 $auto$opt_reduce.cc:137:opt_pmux$63 }
+    New ctrl vector for $pmux cell \:109: { $auto$ghdl.cc:825:import_module$20 $auto$opt_reduce.cc:137:opt_pmux$65 }
+    New ctrl vector for $pmux cell \:113: { $auto$ghdl.cc:825:import_module$18 $auto$opt_reduce.cc:137:opt_pmux$67 }
+    New ctrl vector for $pmux cell \:117: { $auto$ghdl.cc:825:import_module$16 $auto$opt_reduce.cc:137:opt_pmux$69 }
+    New ctrl vector for $pmux cell \:121: { $auto$ghdl.cc:825:import_module$14 $auto$opt_reduce.cc:137:opt_pmux$71 }
+    New ctrl vector for $pmux cell \:47: $auto$ghdl.cc:825:import_module$24
+    New ctrl vector for $pmux cell \:61: { $auto$ghdl.cc:825:import_module$22 $auto$ghdl.cc:825:import_module$20 $auto$ghdl.cc:825:import_module$18 $auto$ghdl.cc:825:import_module$16 $auto$ghdl.cc:825:import_module$14 $auto$ghdl.cc:825:import_module$12 $auto$ghdl.cc:825:import_module$10 $auto$ghdl.cc:825:import_module$8 $auto$ghdl.cc:825:import_module$7 $auto$opt_reduce.cc:137:opt_pmux$73 }
+    New ctrl vector for $pmux cell \:65: { $auto$ghdl.cc:825:import_module$7 $auto$opt_reduce.cc:137:opt_pmux$75 }
+    New ctrl vector for $pmux cell \:69: { $auto$ghdl.cc:825:import_module$24 $auto$opt_reduce.cc:137:opt_pmux$77 }
+    New ctrl vector for $pmux cell \:73: { $auto$ghdl.cc:825:import_module$22 $auto$opt_reduce.cc:137:opt_pmux$79 }
+    New ctrl vector for $pmux cell \:77: { $auto$ghdl.cc:825:import_module$20 $auto$opt_reduce.cc:137:opt_pmux$81 }
+    New ctrl vector for $pmux cell \:81: { $auto$ghdl.cc:825:import_module$18 $auto$opt_reduce.cc:137:opt_pmux$83 }
+    New ctrl vector for $pmux cell \:85: { $auto$ghdl.cc:825:import_module$16 $auto$opt_reduce.cc:137:opt_pmux$85 }
+    New ctrl vector for $pmux cell \:89: { $auto$ghdl.cc:825:import_module$14 $auto$opt_reduce.cc:137:opt_pmux$87 }
+    New ctrl vector for $pmux cell \:125: { $auto$ghdl.cc:825:import_module$12 $auto$opt_reduce.cc:137:opt_pmux$89 }
+    New ctrl vector for $pmux cell \:93: { $auto$ghdl.cc:825:import_module$12 $auto$opt_reduce.cc:137:opt_pmux$91 }
+    New ctrl vector for $pmux cell \:97: { $auto$ghdl.cc:825:import_module$10 $auto$opt_reduce.cc:137:opt_pmux$93 }
+  Optimizing cells in module \sar_controller.
+Performed a total of 27 changes.
+
+28. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_controller'.
+<suppressed ~45 debug messages>
+Removed a total of 15 cells.
+
+29. Executing OPT_DFF pass (perform DFF optimizations).
+
+30. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_controller..
+Removed 0 unused cells and 23 unused wires.
+<suppressed ~1 debug messages>
+
+31. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_controller.
+
+32. Rerunning OPT passes. (Maybe there is more to do…)
+
+33. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \sar_controller..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~27 debug messages>
+
+34. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \sar_controller.
+Performed a total of 0 changes.
+
+35. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_controller'.
+Removed a total of 0 cells.
+
+36. Executing OPT_DFF pass (perform DFF optimizations).
+
+37. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_controller..
+
+38. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_controller.
+
+39. Executing FSM pass (extract and optimize FSM).
+
+39.1. Executing FSM_DETECT pass (finding FSMs in design).
+Not marking sar_controller.state as FSM state register:
+    Circuit seems to be self-resetting.
+
+39.2. Executing FSM_EXTRACT pass (extracting FSM from design).
+
+39.3. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+39.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_controller..
+
+39.5. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+39.6. Executing FSM_RECODE pass (re-assigning FSM state encoding).
+
+39.7. Executing FSM_INFO pass (dumping all available information on FSM cells).
+
+39.8. Executing FSM_MAP pass (mapping FSMs to basic logic).
+
+40. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_controller.
+
+41. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_controller'.
+Removed a total of 0 cells.
+
+42. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \sar_controller..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~27 debug messages>
+
+43. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \sar_controller.
+Performed a total of 0 changes.
+
+44. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_controller'.
+Removed a total of 0 cells.
+
+45. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on :180 ($adff) from module sar_controller (D = $auto$ghdl.cc:825:import_module$51, Q = \dout_r [7]).
+Adding EN signal on :180 ($adff) from module sar_controller (D = $auto$ghdl.cc:825:import_module$50, Q = \dout_r [6]).
+Adding EN signal on :180 ($adff) from module sar_controller (D = $auto$ghdl.cc:825:import_module$49, Q = \dout_r [5]).
+Adding EN signal on :180 ($adff) from module sar_controller (D = $auto$ghdl.cc:825:import_module$48, Q = \dout_r [4]).
+Adding EN signal on :180 ($adff) from module sar_controller (D = $auto$ghdl.cc:825:import_module$47, Q = \dout_r [3]).
+Adding EN signal on :180 ($adff) from module sar_controller (D = $auto$ghdl.cc:825:import_module$46, Q = \dout_r [2]).
+Adding EN signal on :180 ($adff) from module sar_controller (D = $auto$ghdl.cc:825:import_module$45, Q = \dout_r [1]).
+Adding EN signal on :180 ($adff) from module sar_controller (D = $auto$ghdl.cc:825:import_module$44, Q = \dout_r [0]).
+Adding EN signal on :179 ($adff) from module sar_controller (D = $auto$ghdl.cc:825:import_module$43, Q = \dac_n_r [7]).
+Adding EN signal on :179 ($adff) from module sar_controller (D = $auto$ghdl.cc:825:import_module$42, Q = \dac_n_r [6]).
+Adding EN signal on :179 ($adff) from module sar_controller (D = $auto$ghdl.cc:825:import_module$41, Q = \dac_n_r [5]).
+Adding EN signal on :179 ($adff) from module sar_controller (D = $auto$ghdl.cc:825:import_module$40, Q = \dac_n_r [4]).
+Adding EN signal on :179 ($adff) from module sar_controller (D = $auto$ghdl.cc:825:import_module$39, Q = \dac_n_r [3]).
+Adding EN signal on :179 ($adff) from module sar_controller (D = $auto$ghdl.cc:825:import_module$38, Q = \dac_n_r [2]).
+Adding EN signal on :179 ($adff) from module sar_controller (D = $auto$ghdl.cc:825:import_module$37, Q = \dac_n_r [1]).
+Adding EN signal on :179 ($adff) from module sar_controller (D = $auto$ghdl.cc:825:import_module$36, Q = \dac_n_r [0]).
+Adding EN signal on :178 ($adff) from module sar_controller (D = $auto$ghdl.cc:825:import_module$35, Q = \dac_p_r [7]).
+Adding EN signal on :178 ($adff) from module sar_controller (D = $auto$ghdl.cc:825:import_module$34, Q = \dac_p_r [6]).
+Adding EN signal on :178 ($adff) from module sar_controller (D = $auto$ghdl.cc:825:import_module$33, Q = \dac_p_r [5]).
+Adding EN signal on :178 ($adff) from module sar_controller (D = $auto$ghdl.cc:825:import_module$32, Q = \dac_p_r [4]).
+Adding EN signal on :178 ($adff) from module sar_controller (D = $auto$ghdl.cc:825:import_module$31, Q = \dac_p_r [3]).
+Adding EN signal on :178 ($adff) from module sar_controller (D = $auto$ghdl.cc:825:import_module$30, Q = \dac_p_r [2]).
+Adding EN signal on :178 ($adff) from module sar_controller (D = $auto$ghdl.cc:825:import_module$29, Q = \dac_p_r [1]).
+Adding EN signal on :178 ($adff) from module sar_controller (D = $auto$ghdl.cc:825:import_module$28, Q = \dac_p_r [0]).
+Adding EN signal on :177 ($adff) from module sar_controller (D = $auto$ghdl.cc:825:import_module$27, Q = \phi_sample_r).
+
+46. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_controller..
+
+47. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_controller.
+<suppressed ~25 debug messages>
+
+48. Rerunning OPT passes. (Maybe there is more to do…)
+
+49. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \sar_controller..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~27 debug messages>
+
+50. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \sar_controller.
+Performed a total of 0 changes.
+
+51. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_controller'.
+<suppressed ~24 debug messages>
+Removed a total of 8 cells.
+
+52. Executing OPT_DFF pass (perform DFF optimizations).
+
+53. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_controller..
+Removed 0 unused cells and 8 unused wires.
+<suppressed ~1 debug messages>
+
+54. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_controller.
+
+55. Rerunning OPT passes. (Maybe there is more to do…)
+
+56. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \sar_controller..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~27 debug messages>
+
+57. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \sar_controller.
+Performed a total of 0 changes.
+
+58. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_controller'.
+Removed a total of 0 cells.
+
+59. Executing OPT_DFF pass (perform DFF optimizations).
+
+60. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_controller..
+
+61. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_controller.
+
+62. Executing WREDUCE pass (reducing word size of cells).
+Removed top 3 bits (of 4) from port B of cell sar_controller.:17 ($eq).
+Removed top 2 bits (of 4) from port B of cell sar_controller.:19 ($eq).
+Removed top 2 bits (of 4) from port B of cell sar_controller.:22 ($eq).
+Removed top 1 bits (of 4) from port B of cell sar_controller.:25 ($eq).
+Removed top 1 bits (of 4) from port B of cell sar_controller.:28 ($eq).
+Removed top 1 bits (of 4) from port B of cell sar_controller.:31 ($eq).
+Removed top 1 bits (of 4) from port B of cell sar_controller.:34 ($eq).
+
+63. Executing PEEPOPT pass (run peephole optimizers).
+
+64. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_controller..
+
+65. Executing ALUMACC pass (create $alu and $macc cells).
+Extracting $alu and $macc cells in module sar_controller:
+  created 0 $alu and 0 $macc cells.
+
+66. Executing SHARE pass (SAT-based resource sharing).
+
+67. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_controller.
+
+68. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_controller'.
+Removed a total of 0 cells.
+
+69. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \sar_controller..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~27 debug messages>
+
+70. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \sar_controller.
+Performed a total of 0 changes.
+
+71. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_controller'.
+Removed a total of 0 cells.
+
+72. Executing OPT_DFF pass (perform DFF optimizations).
+
+73. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_controller..
+
+74. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_controller.
+
+75. Executing MEMORY pass.
+
+75.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+75.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+75.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+75.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+75.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+
+75.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_controller..
+
+75.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+75.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+75.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_controller..
+
+75.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+76. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_controller..
+
+77. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_controller.
+<suppressed ~43 debug messages>
+
+78. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_controller'.
+<suppressed ~63 debug messages>
+Removed a total of 21 cells.
+
+79. Executing OPT_DFF pass (perform DFF optimizations).
+
+80. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_controller..
+Removed 0 unused cells and 22 unused wires.
+<suppressed ~1 debug messages>
+
+81. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+82. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_controller.
+
+83. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_controller'.
+Removed a total of 0 cells.
+
+84. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \sar_controller..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~2 debug messages>
+
+85. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \sar_controller.
+Performed a total of 0 changes.
+
+86. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_controller'.
+Removed a total of 0 cells.
+
+87. Executing OPT_SHARE pass.
+
+88. Executing OPT_DFF pass (perform DFF optimizations).
+
+89. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_controller..
+
+90. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_controller.
+
+91. Executing TECHMAP pass (map to technology primitives).
+
+91.1. Executing Verilog-2005 frontend: /foss/tools/yosys/bin/../share/yosys/techmap.v
+Parsing Verilog input from `/foss/tools/yosys/bin/../share/yosys/techmap.v' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu_brent_kung'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `\$__div_mod_u'.
+Generating RTLIL representation for module `\$__div_mod_trunc'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `\$__div_mod_floor'.
+Generating RTLIL representation for module `\_90_divfloor'.
+Generating RTLIL representation for module `\_90_modfloor'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_pmux'.
+Generating RTLIL representation for module `\_90_demux'.
+Generating RTLIL representation for module `\_90_lut'.
+Successfully finished Verilog frontend.
+
+91.2. Continuing TECHMAP pass.
+Using extmapper simplemap for cells of type $reduce_or.
+Using extmapper simplemap for cells of type $adffe.
+Using extmapper simplemap for cells of type $reduce_bool.
+Using extmapper simplemap for cells of type $not.
+Using extmapper simplemap for cells of type $and.
+Using extmapper simplemap for cells of type $logic_not.
+Using extmapper simplemap for cells of type $eq.
+Using template $paramod$274c8d34472ef950383656115be6e1c8ace5024c\_90_pmux for cells of type $pmux.
+Using extmapper simplemap for cells of type $or.
+Using extmapper simplemap for cells of type $mux.
+Using extmapper simplemap for cells of type $adff.
+No more expansions possible.
+<suppressed ~171 debug messages>
+
+92. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_controller.
+<suppressed ~104 debug messages>
+
+93. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_controller'.
+<suppressed ~93 debug messages>
+Removed a total of 31 cells.
+
+94. Executing OPT_DFF pass (perform DFF optimizations).
+
+95. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_controller..
+Removed 0 unused cells and 96 unused wires.
+<suppressed ~1 debug messages>
+
+96. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_controller.
+
+97. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_controller'.
+Removed a total of 0 cells.
+
+98. Executing OPT_DFF pass (perform DFF optimizations).
+
+99. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_controller..
+
+100. Executing ABC pass (technology mapping using ABC).
+
+100.1. Extracting gate netlist of module `\sar_controller' to `<abc-temp-dir>/input.blif'..
+Extracted 84 gates and 92 wires to a netlist network with 7 inputs and 28 outputs.
+
+100.1.1. Executing ABC.
+Running ABC command: "<yosys-exe-dir>/yosys-abc" -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: + strash 
+ABC: + dretime 
+ABC: + map 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+100.1.2. Re-integrating ABC results.
+ABC RESULTS:               AND cells:        2
+ABC RESULTS:            ANDNOT cells:       10
+ABC RESULTS:              NAND cells:        1
+ABC RESULTS:               NOR cells:       11
+ABC RESULTS:               NOT cells:        2
+ABC RESULTS:                OR cells:       37
+ABC RESULTS:             ORNOT cells:        4
+ABC RESULTS:        internal signals:       57
+ABC RESULTS:           input signals:        7
+ABC RESULTS:          output signals:       28
+Removing temp directory.
+
+101. Executing OPT pass (performing simple optimizations).
+
+101.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_controller.
+
+101.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_controller'.
+Removed a total of 0 cells.
+
+101.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+101.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_controller..
+Removed 0 unused cells and 72 unused wires.
+<suppressed ~2 debug messages>
+
+101.5. Finished fast OPT passes.
+
+102. Executing HIERARCHY pass (managing design hierarchy).
+
+102.1. Analyzing design hierarchy..
+Top module:  \sar_controller
+
+102.2. Analyzing design hierarchy..
+Top module:  \sar_controller
+Removed 0 unused modules.
+
+103. Executing CHECK pass (checking for obvious problems).
+Checking module sar_controller...
+Found and reported 0 problems.
+
+104. Printing statistics.
+
+=== sar_controller ===
+
+   Number of wires:                 85
+   Number of wire bits:            259
+   Number of public wires:          25
+   Number of public wire bits:     199
+   Number of ports:                 11
+   Number of port bits:             32
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 97
+     $_ANDNOT_                      10
+     $_AND_                          2
+     $_DFFE_PN0P_                    9
+     $_DFFE_PN1P_                   16
+     $_DFF_PN0_                      5
+     $_NAND_                         1
+     $_NOR_                         11
+     $_NOT_                          2
+     $_ORNOT_                        4
+     $_OR_                          37
+
+105. Generating Graphviz representation of design.
+Writing dot description to `/foss/designs/modulo4/lab02/runs/RUN_2026-05-12_18-02-55/01-yosys-vhdlsynthesis/primitive_techmap.dot'.
+Dumping module sar_controller to page 1.
+
+106. Executing OPT pass (performing simple optimizations).
+
+106.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_controller.
+
+106.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_controller'.
+Removed a total of 0 cells.
+
+106.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \sar_controller..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+106.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \sar_controller.
+Performed a total of 0 changes.
+
+106.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_controller'.
+Removed a total of 0 cells.
+
+106.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+106.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_controller..
+
+106.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_controller.
+
+106.9. Finished OPT passes. (There is nothing left to do.)
+
+107. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_controller..
+Removed 0 unused cells and 11 unused wires.
+<suppressed ~11 debug messages>
+{
+   "creator": "Yosys 0.55 (git sha1 60f126cd0, g++ 13.3.0-6ubuntu2~24.04 -fPIC -O3)",
+   "invocation": "stat -json -liberty /foss/designs/modulo4/lab02/runs/RUN_2026-05-12_18-02-55/tmp/e5647022939044b38e327f77ceda023a.lib ",
+   "modules": {
+      "\\sar_controller": {
+         "num_wires":         74,
+         "num_wire_bits":     140,
+         "num_pub_wires":     14,
+         "num_pub_wire_bits": 80,
+         "num_ports":         11,
+         "num_port_bits":     32,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         97,
+         "num_cells_by_type": {
+            "$_ANDNOT_": 10,
+            "$_AND_": 2,
+            "$_DFFE_PN0P_": 9,
+            "$_DFFE_PN1P_": 16,
+            "$_DFF_PN0_": 5,
+            "$_NAND_": 1,
+            "$_NOR_": 11,
+            "$_NOT_": 2,
+            "$_ORNOT_": 4,
+            "$_OR_": 37
+         }
+      }
+   },
+      "design": {
+         "num_wires":         74,
+         "num_wire_bits":     140,
+         "num_pub_wires":     14,
+         "num_pub_wire_bits": 80,
+         "num_ports":         11,
+         "num_port_bits":     32,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         97,
+         "num_cells_by_type": {
+            "$_ANDNOT_": 10,
+            "$_AND_": 2,
+            "$_DFFE_PN0P_": 9,
+            "$_DFFE_PN1P_": 16,
+            "$_DFF_PN0_": 5,
+            "$_NAND_": 1,
+            "$_NOR_": 11,
+            "$_NOT_": 2,
+            "$_ORNOT_": 4,
+            "$_OR_": 37
+         }
+      }
+}
+
+108. Printing statistics.
+
+=== sar_controller ===
+
+   Number of wires:                 74
+   Number of wire bits:            140
+   Number of public wires:          14
+   Number of public wire bits:      80
+   Number of ports:                 11
+   Number of port bits:             32
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 97
+     $_ANDNOT_                      10
+     $_AND_                          2
+     $_DFFE_PN0P_                    9
+     $_DFFE_PN1P_                   16
+     $_DFF_PN0_                      5
+     $_NAND_                         1
+     $_NOR_                         11
+     $_NOT_                          2
+     $_ORNOT_                        4
+     $_OR_                          37
+
+   Area for cell type $_NOT_ is unknown!
+   Area for cell type $_AND_ is unknown!
+   Area for cell type $_NAND_ is unknown!
+   Area for cell type $_OR_ is unknown!
+   Area for cell type $_NOR_ is unknown!
+   Area for cell type $_ANDNOT_ is unknown!
+   Area for cell type $_ORNOT_ is unknown!
+   Area for cell type $_DFF_PN0_ is unknown!
+   Area for cell type $_DFFE_PN0P_ is unknown!
+   Area for cell type $_DFFE_PN1P_ is unknown!
+
+[INFO] Applying tri-state buffer mapping from '/foss/pdks/sky130A/libs.tech/openlane/sky130_fd_sc_hd/tribuff_map.v'…
+
+109. Executing TECHMAP pass (map to technology primitives).
+
+109.1. Executing Verilog-2005 frontend: /foss/pdks/sky130A/libs.tech/openlane/sky130_fd_sc_hd/tribuff_map.v
+Parsing Verilog input from `/foss/pdks/sky130A/libs.tech/openlane/sky130_fd_sc_hd/tribuff_map.v' to AST representation.
+Generating RTLIL representation for module `\$_TBUF_'.
+Successfully finished Verilog frontend.
+
+109.2. Continuing TECHMAP pass.
+No more expansions possible.
+<suppressed ~3 debug messages>
+
+110. Executing SIMPLEMAP pass (map simple cells to gate primitives).
+[INFO] Applying latch mapping from '/foss/pdks/sky130A/libs.tech/openlane/sky130_fd_sc_hd/latch_map.v'…
+
+111. Executing TECHMAP pass (map to technology primitives).
+
+111.1. Executing Verilog-2005 frontend: /foss/pdks/sky130A/libs.tech/openlane/sky130_fd_sc_hd/latch_map.v
+Parsing Verilog input from `/foss/pdks/sky130A/libs.tech/openlane/sky130_fd_sc_hd/latch_map.v' to AST representation.
+Generating RTLIL representation for module `\$_DLATCH_P_'.
+Generating RTLIL representation for module `\$_DLATCH_N_'.
+Successfully finished Verilog frontend.
+
+111.2. Continuing TECHMAP pass.
+No more expansions possible.
+<suppressed ~4 debug messages>
+
+112. Executing SIMPLEMAP pass (map simple cells to gate primitives).
+
+113. Executing DFFLIBMAP pass (mapping DFF cells to sequential cells from liberty file).
+  cell sky130_fd_sc_hd__dfxtp_2 (noninv, pins=3, area=21.27) is a direct match for cell type $_DFF_P_.
+  cell sky130_fd_sc_hd__dfrtp_2 (noninv, pins=4, area=26.28) is a direct match for cell type $_DFF_PN0_.
+  cell sky130_fd_sc_hd__dfstp_2 (noninv, pins=4, area=26.28) is a direct match for cell type $_DFF_PN1_.
+  cell sky130_fd_sc_hd__dfbbn_2 (noninv, pins=6, area=35.03) is a direct match for cell type $_DFFSR_NNN_.
+  final dff cell mappings:
+    unmapped dff cell: $_DFF_N_
+    \sky130_fd_sc_hd__dfxtp_2 _DFF_P_ (.CLK( C), .D( D), .Q( Q));
+    unmapped dff cell: $_DFF_NN0_
+    unmapped dff cell: $_DFF_NN1_
+    unmapped dff cell: $_DFF_NP0_
+    unmapped dff cell: $_DFF_NP1_
+    \sky130_fd_sc_hd__dfrtp_2 _DFF_PN0_ (.CLK( C), .D( D), .Q( Q), .RESET_B( R));
+    \sky130_fd_sc_hd__dfstp_2 _DFF_PN1_ (.CLK( C), .D( D), .Q( Q), .SET_B( R));
+    unmapped dff cell: $_DFF_PP0_
+    unmapped dff cell: $_DFF_PP1_
+    unmapped dff cell: $_DFFE_NN_
+    unmapped dff cell: $_DFFE_NP_
+    unmapped dff cell: $_DFFE_PN_
+    unmapped dff cell: $_DFFE_PP_
+    \sky130_fd_sc_hd__dfbbn_2 _DFFSR_NNN_ (.CLK_N( C), .D( D), .Q( Q), .Q_N(~Q), .RESET_B( R), .SET_B( S));
+    unmapped dff cell: $_DFFSR_NNP_
+    unmapped dff cell: $_DFFSR_NPN_
+    unmapped dff cell: $_DFFSR_NPP_
+    unmapped dff cell: $_DFFSR_PNN_
+    unmapped dff cell: $_DFFSR_PNP_
+    unmapped dff cell: $_DFFSR_PPN_
+    unmapped dff cell: $_DFFSR_PPP_
+
+113.1. Executing DFFLEGALIZE pass (convert FFs to types supported by the target).
+Mapping DFF cells in module `\sar_controller':
+  mapped 14 $_DFF_PN0_ cells to \sky130_fd_sc_hd__dfrtp_2 cells.
+  mapped 16 $_DFF_PN1_ cells to \sky130_fd_sc_hd__dfstp_2 cells.
+{
+   "creator": "Yosys 0.55 (git sha1 60f126cd0, g++ 13.3.0-6ubuntu2~24.04 -fPIC -O3)",
+   "invocation": "stat -json -liberty /foss/designs/modulo4/lab02/runs/RUN_2026-05-12_18-02-55/tmp/e5647022939044b38e327f77ceda023a.lib ",
+   "modules": {
+      "\\sar_controller": {
+         "num_wires":         99,
+         "num_wire_bits":     165,
+         "num_pub_wires":     14,
+         "num_pub_wire_bits": 80,
+         "num_ports":         11,
+         "num_port_bits":     32,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         122,
+         "area":              788.256000,
+         "num_cells_by_type": {
+            "$_ANDNOT_": 10,
+            "$_AND_": 2,
+            "$_MUX_": 25,
+            "$_NAND_": 1,
+            "$_NOR_": 11,
+            "$_NOT_": 2,
+            "$_ORNOT_": 4,
+            "$_OR_": 37,
+            "sky130_fd_sc_hd__dfrtp_2": 14,
+            "sky130_fd_sc_hd__dfstp_2": 16
+         }
+      }
+   },
+      "design": {
+         "num_wires":         99,
+         "num_wire_bits":     165,
+         "num_pub_wires":     14,
+         "num_pub_wire_bits": 80,
+         "num_ports":         11,
+         "num_port_bits":     32,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         122,
+         "area":              788.256000,
+         "num_cells_by_type": {
+            "$_ANDNOT_": 10,
+            "$_AND_": 2,
+            "$_MUX_": 25,
+            "$_NAND_": 1,
+            "$_NOR_": 11,
+            "$_NOT_": 2,
+            "$_ORNOT_": 4,
+            "$_OR_": 37,
+            "sky130_fd_sc_hd__dfrtp_2": 14,
+            "sky130_fd_sc_hd__dfstp_2": 16
+         }
+      }
+}
+
+114. Printing statistics.
+
+=== sar_controller ===
+
+   Number of wires:                 99
+   Number of wire bits:            165
+   Number of public wires:          14
+   Number of public wire bits:      80
+   Number of ports:                 11
+   Number of port bits:             32
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                122
+     $_ANDNOT_                      10
+     $_AND_                          2
+     $_MUX_                         25
+     $_NAND_                         1
+     $_NOR_                         11
+     $_NOT_                          2
+     $_ORNOT_                        4
+     $_OR_                          37
+     sky130_fd_sc_hd__dfrtp_2       14
+     sky130_fd_sc_hd__dfstp_2       16
+
+   Area for cell type $_NOT_ is unknown!
+   Area for cell type $_AND_ is unknown!
+   Area for cell type $_NAND_ is unknown!
+   Area for cell type $_OR_ is unknown!
+   Area for cell type $_NOR_ is unknown!
+   Area for cell type $_ANDNOT_ is unknown!
+   Area for cell type $_ORNOT_ is unknown!
+   Area for cell type $_MUX_ is unknown!
+
+   Chip area for module '\sar_controller': 788.256000
+     of which used for sequential elements: 788.256000 (100.00%)
+
+[INFO] Using generated ABC script '/foss/designs/modulo4/lab02/runs/RUN_2026-05-12_18-02-55/01-yosys-vhdlsynthesis/AREA_0.abc'…
+
+115. Executing ABC pass (technology mapping using ABC).
+
+115.1. Extracting gate netlist of module `\sar_controller' to `/tmp/yosys-abc-C9RZUJ/input.blif'..
+Extracted 92 gates and 123 wires to a netlist network with 31 inputs and 32 outputs.
+
+115.1.1. Executing ABC.
+Running ABC command: "/foss/tools/yosys/bin/yosys-abc" -s -f /tmp/yosys-abc-C9RZUJ/abc.script 2>&1
+ABC: ABC command line: "source /tmp/yosys-abc-C9RZUJ/abc.script".
+ABC: 
+ABC: + read_blif /tmp/yosys-abc-C9RZUJ/input.blif 
+ABC: + read_lib -w /foss/designs/modulo4/lab02/runs/RUN_2026-05-12_18-02-55/tmp/e5647022939044b38e327f77ceda023a.lib 
+ABC: Parsing finished successfully.  Parsing time =     0.06 sec
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfbbn_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfrbp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfrtp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfrtp_4".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfsbp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfstp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfstp_4".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfxbp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfxtp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfxtp_4".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlxtn_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlxtn_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlxtn_4".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlxtp_1".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "sky130_fd_sc_hd__ebufn_2".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "sky130_fd_sc_hd__ebufn_4".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "sky130_fd_sc_hd__ebufn_8".
+ABC: Library "sky130_fd_sc_hd__tt_025C_1v80" from "/foss/designs/modulo4/lab02/runs/RUN_2026-05-12_18-02-55/tmp/e5647022939044b38e327f77ceda023a.lib" has 175 cells (17 skipped: 14 seq; 3 tri-state; 0 no func; 0 dont_use).  Time =     0.08 sec
+ABC: Memory =    9.54 MB. Time =     0.08 sec
+ABC: Warning: Detected 2 multi-output gates (for example, "sky130_fd_sc_hd__fa_1").
+ABC: + read_constr -v /foss/designs/modulo4/lab02/runs/RUN_2026-05-12_18-02-55/01-yosys-vhdlsynthesis/synthesis.abc.sdc 
+ABC: Setting driving cell to be "sky130_fd_sc_hd__inv_2/Y".
+ABC: Setting output load to be 33.442001.
+ABC: + source /foss/designs/modulo4/lab02/runs/RUN_2026-05-12_18-02-55/01-yosys-vhdlsynthesis/AREA_0.abc 
+ABC: Error: The network is combinational.
+ABC: Cannot find the default PI driving cell (sky130_fd_sc_hd__inv_2/Y) in the library.
+ABC: WireLoad = "none"  Gates =     78 (  5.1 %)   Cap = 14.6 ff (  3.8 %)   Area =      655.63 ( 83.3 %)   Delay =  1392.37 ps  ( 11.5 %)               
+ABC: Path  0 --       1 : 0   15 pi                      A =   0.00  Df =   0.0   -0.0 ps  S =   0.0 ps  Cin =  0.0 ff  Cout =  39.5 ff  Cmax =   0.0 ff  G =    0  
+ABC: Path  1 --     107 : 4    3 sky130_fd_sc_hd__or4b_2 A =  10.01  Df = 699.9 -492.3 ps  S = 133.1 ps  Cin =  1.5 ff  Cout =  10.8 ff  Cmax = 265.5 ff  G =  695  
+ABC: Path  2 --     109 : 3    1 sky130_fd_sc_hd__mux2_1 A =  11.26  Df =1021.6 -620.7 ps  S =  48.2 ps  Cin =  2.3 ff  Cout =   1.5 ff  Cmax = 173.0 ff  G =   61  
+ABC: Path  3 --     110 : 2    1 sky130_fd_sc_hd__or2_2  A =   6.26  Df =1392.4 -571.0 ps  S = 179.0 ps  Cin =  1.5 ff  Cout =  33.4 ff  Cmax = 299.4 ff  G = 2305  
+ABC: Start-point = pi0 (\state [0]).  End-point = po13 ($auto$rtlil.cc:3203:MuxGate$721).
+ABC: netlist                       : i/o =   31/   32  lat =    0  nd =    78  edge =    213  area =655.74  delay = 3.00  lev = 3
+ABC: + write_blif /tmp/yosys-abc-C9RZUJ/output.blif 
+
+115.1.2. Re-integrating ABC results.
+ABC RESULTS:   sky130_fd_sc_hd__a211o_2 cells:        3
+ABC RESULTS:   sky130_fd_sc_hd__a21o_2 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__a21oi_2 cells:        3
+ABC RESULTS:   sky130_fd_sc_hd__a31o_2 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__a31oi_2 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__and2_2 cells:        5
+ABC RESULTS:   sky130_fd_sc_hd__and2b_2 cells:        4
+ABC RESULTS:   sky130_fd_sc_hd__and3_2 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__and4_2 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__and4b_2 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__and4bb_2 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__inv_2 cells:        4
+ABC RESULTS:   sky130_fd_sc_hd__mux2_1 cells:        8
+ABC RESULTS:   sky130_fd_sc_hd__nand2_2 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__nand2b_2 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__nor2_2 cells:        7
+ABC RESULTS:   sky130_fd_sc_hd__o21a_2 cells:        5
+ABC RESULTS:   sky130_fd_sc_hd__o21ai_2 cells:        4
+ABC RESULTS:   sky130_fd_sc_hd__o21ba_2 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__o22a_2 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__o31a_2 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__or2_2 cells:       11
+ABC RESULTS:   sky130_fd_sc_hd__or3_2 cells:        4
+ABC RESULTS:   sky130_fd_sc_hd__or4b_2 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__or4bb_2 cells:        2
+ABC RESULTS:        internal signals:       60
+ABC RESULTS:           input signals:       31
+ABC RESULTS:          output signals:       32
+Removing temp directory.
+
+116. Executing SETUNDEF pass (replace undef values with defined constants).
+
+117. Executing HILOMAP pass (mapping to constant drivers).
+
+118. Executing SPLITNETS pass (splitting up multi-bit signals).
+
+119. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_controller..
+Removed 23 unused cells and 185 unused wires.
+<suppressed ~64 debug messages>
+
+120. Executing INSBUF pass (insert buffer cells for connected wires).
+
+121. Executing CHECK pass (checking for obvious problems).
+Checking module sar_controller...
+Found and reported 0 problems.
+{
+   "creator": "Yosys 0.55 (git sha1 60f126cd0, g++ 13.3.0-6ubuntu2~24.04 -fPIC -O3)",
+   "invocation": "stat -json -liberty /foss/designs/modulo4/lab02/runs/RUN_2026-05-12_18-02-55/tmp/e5647022939044b38e327f77ceda023a.lib ",
+   "modules": {
+      "\\sar_controller": {
+         "num_wires":         91,
+         "num_wire_bits":     112,
+         "num_pub_wires":     19,
+         "num_pub_wire_bits": 40,
+         "num_ports":         11,
+         "num_port_bits":     32,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         108,
+         "area":              1443.884800,
+         "num_cells_by_type": {
+            "sky130_fd_sc_hd__a211o_2": 3,
+            "sky130_fd_sc_hd__a21o_2": 2,
+            "sky130_fd_sc_hd__a21oi_2": 3,
+            "sky130_fd_sc_hd__a31o_2": 1,
+            "sky130_fd_sc_hd__a31oi_2": 1,
+            "sky130_fd_sc_hd__and2_2": 5,
+            "sky130_fd_sc_hd__and2b_2": 4,
+            "sky130_fd_sc_hd__and3_2": 2,
+            "sky130_fd_sc_hd__and4_2": 1,
+            "sky130_fd_sc_hd__and4b_2": 1,
+            "sky130_fd_sc_hd__and4bb_2": 2,
+            "sky130_fd_sc_hd__dfrtp_2": 14,
+            "sky130_fd_sc_hd__dfstp_2": 16,
+            "sky130_fd_sc_hd__inv_2": 4,
+            "sky130_fd_sc_hd__mux2_1": 8,
+            "sky130_fd_sc_hd__nand2_2": 1,
+            "sky130_fd_sc_hd__nand2b_2": 1,
+            "sky130_fd_sc_hd__nor2_2": 7,
+            "sky130_fd_sc_hd__o21a_2": 5,
+            "sky130_fd_sc_hd__o21ai_2": 4,
+            "sky130_fd_sc_hd__o21ba_2": 1,
+            "sky130_fd_sc_hd__o22a_2": 2,
+            "sky130_fd_sc_hd__o31a_2": 2,
+            "sky130_fd_sc_hd__or2_2": 11,
+            "sky130_fd_sc_hd__or3_2": 4,
+            "sky130_fd_sc_hd__or4b_2": 1,
+            "sky130_fd_sc_hd__or4bb_2": 2
+         }
+      }
+   },
+      "design": {
+         "num_wires":         91,
+         "num_wire_bits":     112,
+         "num_pub_wires":     19,
+         "num_pub_wire_bits": 40,
+         "num_ports":         11,
+         "num_port_bits":     32,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         108,
+         "area":              1443.884800,
+         "num_cells_by_type": {
+            "sky130_fd_sc_hd__a211o_2": 3,
+            "sky130_fd_sc_hd__a21o_2": 2,
+            "sky130_fd_sc_hd__a21oi_2": 3,
+            "sky130_fd_sc_hd__a31o_2": 1,
+            "sky130_fd_sc_hd__a31oi_2": 1,
+            "sky130_fd_sc_hd__and2_2": 5,
+            "sky130_fd_sc_hd__and2b_2": 4,
+            "sky130_fd_sc_hd__and3_2": 2,
+            "sky130_fd_sc_hd__and4_2": 1,
+            "sky130_fd_sc_hd__and4b_2": 1,
+            "sky130_fd_sc_hd__and4bb_2": 2,
+            "sky130_fd_sc_hd__dfrtp_2": 14,
+            "sky130_fd_sc_hd__dfstp_2": 16,
+            "sky130_fd_sc_hd__inv_2": 4,
+            "sky130_fd_sc_hd__mux2_1": 8,
+            "sky130_fd_sc_hd__nand2_2": 1,
+            "sky130_fd_sc_hd__nand2b_2": 1,
+            "sky130_fd_sc_hd__nor2_2": 7,
+            "sky130_fd_sc_hd__o21a_2": 5,
+            "sky130_fd_sc_hd__o21ai_2": 4,
+            "sky130_fd_sc_hd__o21ba_2": 1,
+            "sky130_fd_sc_hd__o22a_2": 2,
+            "sky130_fd_sc_hd__o31a_2": 2,
+            "sky130_fd_sc_hd__or2_2": 11,
+            "sky130_fd_sc_hd__or3_2": 4,
+            "sky130_fd_sc_hd__or4b_2": 1,
+            "sky130_fd_sc_hd__or4bb_2": 2
+         }
+      }
+}
+
+122. Printing statistics.
+
+=== sar_controller ===
+
+   Number of wires:                 91
+   Number of wire bits:            112
+   Number of public wires:          19
+   Number of public wire bits:      40
+   Number of ports:                 11
+   Number of port bits:             32
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                108
+     sky130_fd_sc_hd__a211o_2        3
+     sky130_fd_sc_hd__a21o_2         2
+     sky130_fd_sc_hd__a21oi_2        3
+     sky130_fd_sc_hd__a31o_2         1
+     sky130_fd_sc_hd__a31oi_2        1
+     sky130_fd_sc_hd__and2_2         5
+     sky130_fd_sc_hd__and2b_2        4
+     sky130_fd_sc_hd__and3_2         2
+     sky130_fd_sc_hd__and4_2         1
+     sky130_fd_sc_hd__and4b_2        1
+     sky130_fd_sc_hd__and4bb_2       2
+     sky130_fd_sc_hd__dfrtp_2       14
+     sky130_fd_sc_hd__dfstp_2       16
+     sky130_fd_sc_hd__inv_2          4
+     sky130_fd_sc_hd__mux2_1         8
+     sky130_fd_sc_hd__nand2_2        1
+     sky130_fd_sc_hd__nand2b_2       1
+     sky130_fd_sc_hd__nor2_2         7
+     sky130_fd_sc_hd__o21a_2         5
+     sky130_fd_sc_hd__o21ai_2        4
+     sky130_fd_sc_hd__o21ba_2        1
+     sky130_fd_sc_hd__o22a_2         2
+     sky130_fd_sc_hd__o31a_2         2
+     sky130_fd_sc_hd__or2_2         11
+     sky130_fd_sc_hd__or3_2          4
+     sky130_fd_sc_hd__or4b_2         1
+     sky130_fd_sc_hd__or4bb_2        2
+
+   Chip area for module '\sar_controller': 1443.884800
+     of which used for sequential elements: 788.256000 (54.59%)
+
+123. Executing Verilog backend.
+Dumping module `\sar_controller'.
+
+124. Executing JSON backend.

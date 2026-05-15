@@ -1,0 +1,5 @@
+- cell: sar_controller
+  inout: []
+  input:
+  - out_comp_n
+  output: []

@@ -1,0 +1,7 @@
+v 4
+file "/foss/designs/modulo4/lab01/esempi/semaforo/" "src/semaforo_tb.vhd" "906d76d97941fb6567be5636c63b421948e32537" "20260511091508.267":
+  entity semaforo_tb at 1( 0) + 0 on 13;
+  architecture sim of semaforo_tb at 7( 97) + 0 on 14;
+file "/foss/designs/modulo4/lab01/esempi/semaforo/" "src/semaforo.vhd" "5c9de49f43d0991ef08472c088028a4ee223802b" "20260511091508.174":
+  entity semaforo at 1( 0) + 0 on 11;
+  architecture rtl of semaforo at 25( 895) + 0 on 12;

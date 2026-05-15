@@ -1,0 +1,7 @@
+v 4
+file "/foss/designs/modulo4/lab01/" "src/sar_controller_tb.vhd" "4661a9c7c918f8107a547e245bddde97243fb3b1" "20260512114256.072":
+  entity sar_controller_tb at 1( 0) + 0 on 13;
+  architecture sim of sar_controller_tb at 33( 1452) + 0 on 14;
+file "/foss/designs/modulo4/lab01/" "src/sar_controller.vhd" "36296aa1aff4577bfeb29dc14970a83049c27bc9" "20260512114255.992":
+  entity sar_controller at 1( 0) + 0 on 11;
+  architecture rtl of sar_controller at 73( 3565) + 0 on 12;

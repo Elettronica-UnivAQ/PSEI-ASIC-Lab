@@ -1,0 +1,41 @@
+Reading technology LEF file at '/foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/techlef/sky130_fd_sc_hd__max.tlef'…
+[INFO ODB-0227] LEF file: /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/techlef/sky130_fd_sc_hd__max.tlef, created 14 layers, 25 vias
+Reading cell LEF file at '/foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef'…
+[WARNING ODB-0220] WARNING (LEFPARS-2008): NOWIREEXTENSIONATPIN statement is obsolete in version 5.6 or later.
+The NOWIREEXTENSIONATPIN statement will be ignored. See file /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef at line 2.
+
+[INFO ODB-0227] LEF file: /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef, created 437 library cells
+Reading cell LEF file at '/foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_ef_sc_hd.lef'…
+[WARNING ODB-0220] WARNING (LEFPARS-2008): NOWIREEXTENSIONATPIN statement is obsolete in version 5.6 or later.
+The NOWIREEXTENSIONATPIN statement will be ignored. See file /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_ef_sc_hd.lef at line 2.
+
+[INFO ODB-0227] LEF file: /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_ef_sc_hd.lef, created 8 library cells
+[INFO ODB-0127] Reading DEF file: /foss/designs/modulo4/lab02/runs/util_40/46-odb-cellfrequencytables/sar_controller.def
+[INFO ODB-0128] Design: sar_controller
+[INFO ODB-0130]     Created 34 pins.
+[INFO ODB-0131]     Created 705 components and 3259 component-terminals.
+[INFO ODB-0132]     Created 2 special nets and 2724 connections.
+[INFO ODB-0133]     Created 171 nets and 532 connections.
+[INFO ODB-0134] Finished DEF file: /foss/designs/modulo4/lab02/runs/util_40/46-odb-cellfrequencytables/sar_controller.def
+Using RCX ruleset '/foss/pdks/sky130A/libs.tech/openlane/rules.openrcx.sky130A.max.calibre'…
+[INFO RCX-0431] Defined process_corner CURRENT_CORNER with ext_model_index 0
+[INFO RCX-0029] Defined extraction corner CURRENT_CORNER
++ extract_parasitics  -ext_model_file /foss/pdks/sky130A/libs.tech/openlane/rules.openrcx.sky130A.max.calibre -lef_res
+[INFO RCX-0435] Reading extraction model file /foss/pdks/sky130A/libs.tech/openlane/rules.openrcx.sky130A.max.calibre ...
+[INFO RCX-0436] RC segment generation sar_controller (max_merge_res 50.0) ...
+[INFO RCX-0040] Final 760 rc segments
+[INFO RCX-0439] Coupling Cap extraction sar_controller ...
+[INFO RCX-0440] Coupling threshhold is 0.1000 fF, coupling capacitance less than 0.1000 fF will be grounded.
+[INFO RCX-0442] 54% of 1111 wires extracted
+[INFO RCX-0442] 100% of 1111 wires extracted
+[INFO RCX-0045] Extract 171 nets, 930 rsegs, 930 caps, 1049 ccs
+Setting global connections for newly added cells…
+[INFO] Setting global connections...
+Updating metrics…
+Cell type report:                       Count       Area
+  Fill cell                               487    1646.58
+  Tap cell                                 48      60.06
+  Standard cell                           170    1871.80
+  Total                                   705    3578.43
+Writing extracted parasitics to '/foss/designs/modulo4/lab02/runs/util_40/47-openroad-rcx/max/sar_controller.max.spef'…
+[INFO RCX-0443] 171 nets finished

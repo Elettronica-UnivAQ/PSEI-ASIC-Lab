@@ -1,0 +1,55 @@
+{
+   "creator": "Yosys 0.55 (git sha1 60f126cd0, g++ 13.3.0-6ubuntu2~24.04 -fPIC -O3)",
+   "invocation": "stat -json -liberty /foss/designs/modulo4/lab02/runs/synth_only/tmp/d5f4c01687b04ec09982462d25c23f12.lib ",
+   "modules": {
+      "\\sar_controller": {
+         "num_wires":         74,
+         "num_wire_bits":     140,
+         "num_pub_wires":     14,
+         "num_pub_wire_bits": 80,
+         "num_ports":         11,
+         "num_port_bits":     32,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         97,
+         "num_cells_by_type": {
+            "$_ANDNOT_": 10,
+            "$_AND_": 2,
+            "$_DFFE_PN0P_": 9,
+            "$_DFFE_PN1P_": 16,
+            "$_DFF_PN0_": 5,
+            "$_NAND_": 1,
+            "$_NOR_": 11,
+            "$_NOT_": 2,
+            "$_ORNOT_": 4,
+            "$_OR_": 37
+         }
+      }
+   },
+      "design": {
+         "num_wires":         74,
+         "num_wire_bits":     140,
+         "num_pub_wires":     14,
+         "num_pub_wire_bits": 80,
+         "num_ports":         11,
+         "num_port_bits":     32,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         97,
+         "num_cells_by_type": {
+            "$_ANDNOT_": 10,
+            "$_AND_": 2,
+            "$_DFFE_PN0P_": 9,
+            "$_DFFE_PN1P_": 16,
+            "$_DFF_PN0_": 5,
+            "$_NAND_": 1,
+            "$_NOR_": 11,
+            "$_NOT_": 2,
+            "$_ORNOT_": 4,
+            "$_OR_": 37
+         }
+      }
+}
+

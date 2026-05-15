@@ -1,0 +1,1 @@
+ruby /usr/local/lib/python3.12/dist-packages/librelane/scripts/klayout/xor.drc --output /foss/designs/modulo4/lab02/runs/util_40/54-klayout-xor/xor.xml --top sar_controller --threads 20 --ignore 81/14 /foss/designs/modulo4/lab02/runs/util_40/50-magic-streamout/sar_controller.magic.gds /foss/designs/modulo4/lab02/runs/util_40/51-klayout-streamout/sar_controller.klayout.gds

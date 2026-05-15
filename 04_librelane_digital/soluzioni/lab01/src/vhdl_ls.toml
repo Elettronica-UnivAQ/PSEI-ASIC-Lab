@@ -1,0 +1,6 @@
+[libraries]
+  [libraries.defaultlib]
+    files = [
+      "sar_controller.vhd",
+      "sar_controller_tb.vhd"
+    ]

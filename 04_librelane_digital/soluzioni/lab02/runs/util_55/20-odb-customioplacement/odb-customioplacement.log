@@ -1,0 +1,41 @@
+[WARNING ORD-0039] .openroad ignored with -python
+Top-level design name: sar_controller
+Block boundaries: 0 0 62275 72995
+Horizontal Tracks Origin: 340, Count: 107, Step: 680
+Vertical Tracks Origin: 230, Count: 135, Step: 460
+Placement details for the N side
+Virtual pin count:  0
+Actual pin count:  2
+Total pin count:  2
+Tracks count:  135
+Tracks per pin:  67
+Used tracks count:  68
+Unused track count:  67
+Starting track index:  33
+Placement details for the E side
+Virtual pin count:  0
+Actual pin count:  5
+Total pin count:  5
+Tracks count:  54
+Tracks per pin:  10
+Used tracks count:  41
+Unused track count:  13
+Starting track index:  6
+Placement details for the W side
+Virtual pin count:  0
+Actual pin count:  9
+Total pin count:  9
+Tracks count:  54
+Tracks per pin:  6
+Used tracks count:  49
+Unused track count:  5
+Starting track index:  2
+Placement details for the S side
+Virtual pin count:  0
+Actual pin count:  16
+Total pin count:  16
+Tracks count:  135
+Tracks per pin:  8
+Used tracks count:  121
+Unused track count:  14
+Starting track index:  7
