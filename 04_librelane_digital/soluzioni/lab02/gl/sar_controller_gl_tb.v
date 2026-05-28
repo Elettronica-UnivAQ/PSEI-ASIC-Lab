@@ -149,16 +149,14 @@ end
 // =============================================================================
 integer dac_p_int, dac_n_int;
 
-always @(*) begin
-    if (dac_p[0] === 1'b0 || dac_p[0] === 1'b1) begin
-        dac_p_int = dac_p;
-        dac_n_int = dac_n;
-        if ((2*vin_code - 255) > (dac_p_int - dac_n_int)) begin
-            comp_out_p = #1 1'b1;
-            comp_out_n = #1 1'b0;
+always @(posedge clk_comp) begin
+    if (rst_n === 1'b1) begin
+        if ((2*vin_code - 255) > ($signed({1'b0, dac_p}) - $signed({1'b0, dac_n}))) begin
+            comp_out_p = 1'b1;
+            comp_out_n = 1'b0;
         end else begin
-            comp_out_p = #1 1'b0;
-            comp_out_n = #1 1'b1;
+            comp_out_p = 1'b0;
+            comp_out_n = 1'b1;
         end
     end
 end
