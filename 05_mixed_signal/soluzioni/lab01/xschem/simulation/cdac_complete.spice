@@ -1,0 +1,137 @@
+** sch_path: /foss/designs/modulo5/lab01/xschem/cdac_complete.sch
+**.subckt cdac_complete VDD GND SMPL_not Vout Vin SMPL Vref ctrl[7],ctrl[6],ctrl[5],ctrl[4],ctrl[3],ctrl[2],ctrl[1],ctrl[0]
+*.ipin VDD
+*.ipin GND
+*.ipin Vref
+*.ipin Vin
+*.opin Vout
+*.ipin SMPL
+*.ipin SMPL_not
+*.ipin ctrl[7],ctrl[6],ctrl[5],ctrl[4],ctrl[3],ctrl[2],ctrl[1],ctrl[0]
+x1 Vout Vref net5 net6 net3 net4 net7 net2 net1 net8 cdac
+x2 net8 net3 net6 net5 net1 net4 net7 net2 VDD ctrl[5] ctrl[6] ctrl[7] ctrl[1] ctrl[4] ctrl[2] ctrl[3] ctrl[0] Vref GND
++ switch_bank
+x3 Vin GND SMPL_not SMPL VDD Vout passgate
+* tap: ctrl[7:0] --> ctrl[7]
+* tap: ctrl[7:0] --> ctrl[6]
+* tap: ctrl[7:0] --> ctrl[5]
+* tap: ctrl[7:0] --> ctrl[4]
+* tap: ctrl[7:0] --> ctrl[3]
+* tap: ctrl[7:0] --> ctrl[2]
+* tap: ctrl[7:0] --> ctrl[1]
+* tap: ctrl[7:0] --> ctrl[0]
+**.ends
+
+* expanding   symbol:  cdac.sym # of pins=10
+** sym_path: /foss/designs/modulo5/lab01/xschem/cdac.sym
+** sch_path: /foss/designs/modulo5/lab01/xschem/cdac.sch
+.subckt cdac VOUTP Vref BP3 BP2 BP5 BP4 BP1 BP6 BP7 BP0
+*.ipin Vref
+*.opin VOUTP
+*.ipin BP0
+*.ipin BP1
+*.ipin BP2
+*.ipin BP3
+*.ipin BP4
+*.ipin BP5
+*.ipin BP6
+*.ipin BP7
+XC1 Vref VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=1 m=1
+XC2 BP0 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=1 m=1
+XC3 BP1 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=2 m=2
+XC4 BP2 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=4 m=4
+XC5 BP3 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=8 m=8
+XC6 BP4 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=16 m=16
+XC7 BP5 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=32 m=32
+XC8 BP6 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=64 m=64
+XC9 BP7 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=128 m=128
+.ends
+
+
+* expanding   symbol:  switch_bank.sym # of pins=19
+** sym_path: /foss/designs/modulo5/lab01/xschem/switch_bank.sym
+** sch_path: /foss/designs/modulo5/lab01/xschem/switch_bank.sch
+.subckt switch_bank BP0 BP5 BP2 BP3 BP7 BP4 BP1 BP6 VDD ctrl5 ctrl6 ctrl7 ctrl1 ctrl4 ctrl2 ctrl3 ctrl0 Vref GND
+*.ipin Vref
+*.ipin GND
+*.iopin BP7
+*.iopin BP6
+*.iopin BP5
+*.iopin BP4
+*.iopin BP3
+*.iopin BP2
+*.iopin BP1
+*.iopin BP0
+*.ipin VDD
+*.ipin ctrl7
+*.ipin ctrl6
+*.ipin ctrl5
+*.ipin ctrl4
+*.ipin ctrl3
+*.ipin ctrl2
+*.ipin ctrl1
+*.ipin ctrl0
+x1 VDD GND ctrl7 BP7 Vref T_gate
+x2 VDD GND ctrl6 BP6 Vref T_gate
+x3 VDD GND ctrl5 BP5 Vref T_gate
+x4 VDD GND ctrl4 BP4 Vref T_gate
+x5 VDD GND ctrl3 BP3 Vref T_gate
+x6 VDD GND ctrl2 BP2 Vref T_gate
+x7 VDD GND ctrl1 BP1 Vref T_gate
+x8 VDD GND ctrl0 BP0 Vref T_gate
+.ends
+
+
+* expanding   symbol:  passgate.sym # of pins=6
+** sym_path: /foss/designs/modulo5/lab01/xschem/passgate.sym
+** sch_path: /foss/designs/modulo5/lab01/xschem/passgate.sch
+.subckt passgate Vin gnd !CTRL CTRL Vdd Vout
+*.ipin CTRL
+*.ipin !CTRL
+*.iopin Vin
+*.iopin Vout
+*.ipin Vdd
+*.ipin gnd
+XM3 Vin CTRL Vout gnd sky130_fd_pr__nfet_01v8_lvt L=0.15 W=6 nf=1 ad=1.74 as=1.74 pd=12.58 ps=12.58 nrd=0.0483333333333333
++ nrs=0.0483333333333333 sa=0 sb=0 sd=0 mult=1 m=1
+XM1 Vin !CTRL Vout Vdd sky130_fd_pr__pfet_01v8_lvt L=0.35 W=12 nf=1 ad=3.48 as=3.48 pd=24.58 ps=24.58 nrd=0.0241666666666667
++ nrs=0.0241666666666667 sa=0 sb=0 sd=0 mult=1 m=1
+.ends
+
+
+* expanding   symbol:  T_gate.sym # of pins=5
+** sym_path: /foss/designs/modulo5/lab01/xschem/T_gate.sym
+** sch_path: /foss/designs/modulo5/lab01/xschem/T_gate.sch
+.subckt T_gate VDD GND Ctrl Vout Vref
+*.ipin Ctrl
+*.iopin Vout
+*.iopin VDD
+*.iopin GND
+*.iopin Vref
+x1 VDD Ctrl net1 GND inverter
+XM1 GND net1 Vout GND sky130_fd_pr__nfet_01v8_lvt L=0.15 W=2 nf=1 ad=0.58 as=0.58 pd=4.58 ps=4.58 nrd=0.145 nrs=0.145 sa=0 sb=0
++ sd=0 mult=1 m=1
+XM2 GND Ctrl Vout VDD sky130_fd_pr__pfet_01v8_lvt L=0.35 W=4 nf=1 ad=1.16 as=1.16 pd=8.58 ps=8.58 nrd=0.0725 nrs=0.0725 sa=0 sb=0
++ sd=0 mult=1 m=1
+XM3 Vref Ctrl Vout GND sky130_fd_pr__nfet_01v8_lvt L=0.15 W=2 nf=1 ad=0.58 as=0.58 pd=4.58 ps=4.58 nrd=0.145 nrs=0.145 sa=0 sb=0
++ sd=0 mult=1 m=1
+XM4 Vref net1 Vout VDD sky130_fd_pr__pfet_01v8_lvt L=0.35 W=4 nf=1 ad=1.16 as=1.16 pd=8.58 ps=8.58 nrd=0.0725 nrs=0.0725 sa=0 sb=0
++ sd=0 mult=1 m=1
+.ends
+
+
+* expanding   symbol:  inverter.sym # of pins=4
+** sym_path: /foss/designs/modulo5/lab01/xschem/inverter.sym
+** sch_path: /foss/designs/modulo5/lab01/xschem/inverter.sch
+.subckt inverter VDD IN OUT GND
+*.ipin IN
+*.opin OUT
+*.iopin VDD
+*.iopin GND
+XM1 OUT IN GND GND sky130_fd_pr__nfet_01v8_lvt L=0.15 W=2 nf=1 ad=0.58 as=0.58 pd=4.58 ps=4.58 nrd=0.145 nrs=0.145 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM2 OUT IN VDD VDD sky130_fd_pr__pfet_01v8_lvt L=0.35 W=4 nf=1 ad=1.16 as=1.16 pd=8.58 ps=8.58 nrd=0.0725 nrs=0.0725 sa=0 sb=0
++ sd=0 mult=1 m=1
+.ends
+
+.end

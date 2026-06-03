@@ -1,0 +1,8 @@
+# Carica la configurazione completa del PDK SKY130A
+source /foss/pdks/sky130A/libs.tech/xschem/xschemrc
+
+# Salva netlist e simulazioni nella cartella locale del progetto
+set netlist_dir [file normalize [file dirname [info script]]/simulation]
+
+# Aggiunge la cartella del progetto ai path di ricerca dei simboli
+append XSCHEM_LIBRARY_PATH :[file dirname [info script]]

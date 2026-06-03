@@ -1,0 +1,58 @@
+v {xschem version=3.4.5 file_version=1.2
+*
+* This file is part of XSCHEM,
+* a schematic capture and Spice/Vhdl/Verilog netlisting tool for circuit
+* simulation.
+* Copyright (C) 1998-2023 Stefan Frederik Schippers
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+}
+G {}
+K {type=primitive
+verilog_ignore=true
+vhdl_ignore=true
+format="@name [ @@clk @@rst_n ] [ @@q0 @@q1 @@q2 @@q3 ] @model
+.model @model d_cosim simulation=./counter4_behav.so"
+template="name=adut
+model=dut"
+}
+V {}
+S {}
+E {}
+L 4 -140 -10 -120 -10 {}
+L 4 -140 10 -120 10 {}
+L 4 120 -30 140 -30 {}
+L 4 120 -10 140 -10 {}
+L 4 120 10 140 10 {}
+L 4 120 30 140 30 {}
+L 4 -120 -50 -120 50 {}
+L 4  120 -50  120 50 {}
+L 4 -120 -50  120 -50 {}
+L 4 -120  50  120  50 {}
+B 5 -142.5 -12.5 -137.5 -7.5 {name=clk dir=in verilog_type=wire propag=0}
+B 5 -142.5 7.5 -137.5 12.5 {name=rst_n dir=in verilog_type=wire propag=0}
+B 5 137.5 -32.5 142.5 -27.5 {name=q0 dir=out verilog_type=wire propag=1}
+B 5 137.5 -12.5 142.5 -7.5 {name=q1 dir=out verilog_type=wire propag=1}
+B 5 137.5 7.5 142.5 12.5 {name=q2 dir=out verilog_type=wire propag=1}
+B 5 137.5 27.5 142.5 32.5 {name=q3 dir=out verilog_type=wire propag=1}
+T {counter4} 0 0 0 0 0.3 0.3 {hcenter=true vcenter=true}
+T {@name}  -120 -68 0 0 0.2 0.2 {}
+T {d_cosim} -120 -56  0 0 0.15 0.15 {layer=4}
+T {clk} -108 -14 0 0 0.15 0.15 {}
+T {rst_n} -108 6 0 0 0.15 0.15 {}
+T {q0} 108 -34 0 1 0.15 0.15 {}
+T {q1} 108 -14 0 1 0.15 0.15 {}
+T {q2} 108 6 0 1 0.15 0.15 {}
+T {q3} 108 26 0 1 0.15 0.15 {}

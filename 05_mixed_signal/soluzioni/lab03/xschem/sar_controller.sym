@@ -1,0 +1,136 @@
+v {xschem version=3.4.5 file_version=1.2
+*
+* This file is part of XSCHEM,
+* a schematic capture and Spice/Vhdl/Verilog netlisting tool for circuit
+* simulation.
+* Copyright (C) 1998-2023 Stefan Frederik Schippers
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+}
+G {}
+K {type=primitive
+verilog_ignore=true
+vhdl_ignore=true
+format="@name [ @@clk @@rst_n @@out_comp_p @@out_comp_n ] [ @@phi_sample @@phi_sample_n @@clk_comp @@dac_p7 @@dac_p6 @@dac_p5 @@dac_p4 @@dac_p3 @@dac_p2 @@dac_p1 @@dac_p0 @@dac_n7 @@dac_n6 @@dac_n5 @@dac_n4 @@dac_n3 @@dac_n2 @@dac_n1 @@dac_n0 @@dout7 @@dout6 @@dout5 @@dout4 @@dout3 @@dout2 @@dout1 @@dout0 @@eoc ] @model
+.model @model d_cosim simulation=./sar_controller_behav.so"
+template="name=adut
+model=dut"
+}
+V {}
+S {}
+E {}
+L 4 -140 -30 -120 -30 {}
+L 4 -140 -10 -120 -10 {}
+L 4 -140 10 -120 10 {}
+L 4 -140 30 -120 30 {}
+L 4 120 -270 140 -270 {}
+L 4 120 -250 140 -250 {}
+L 4 120 -230 140 -230 {}
+L 4 120 -210 140 -210 {}
+L 4 120 -190 140 -190 {}
+L 4 120 -170 140 -170 {}
+L 4 120 -150 140 -150 {}
+L 4 120 -130 140 -130 {}
+L 4 120 -110 140 -110 {}
+L 4 120 -90 140 -90 {}
+L 4 120 -70 140 -70 {}
+L 4 120 -50 140 -50 {}
+L 4 120 -30 140 -30 {}
+L 4 120 -10 140 -10 {}
+L 4 120 10 140 10 {}
+L 4 120 30 140 30 {}
+L 4 120 50 140 50 {}
+L 4 120 70 140 70 {}
+L 4 120 90 140 90 {}
+L 4 120 110 140 110 {}
+L 4 120 130 140 130 {}
+L 4 120 150 140 150 {}
+L 4 120 170 140 170 {}
+L 4 120 190 140 190 {}
+L 4 120 210 140 210 {}
+L 4 120 230 140 230 {}
+L 4 120 250 140 250 {}
+L 4 120 270 140 270 {}
+L 4 -120 -290 -120 290 {}
+L 4  120 -290  120 290 {}
+L 4 -120 -290  120 -290 {}
+L 4 -120  290  120  290 {}
+B 5 -142.5 -32.5 -137.5 -27.5 {name=clk dir=in verilog_type=wire propag=0}
+B 5 -142.5 -12.5 -137.5 -7.5 {name=rst_n dir=in verilog_type=wire propag=0}
+B 5 -142.5 7.5 -137.5 12.5 {name=out_comp_p dir=in verilog_type=wire propag=0}
+B 5 -142.5 27.5 -137.5 32.5 {name=out_comp_n dir=in verilog_type=wire propag=0}
+B 5 137.5 -272.5 142.5 -267.5 {name=phi_sample dir=out verilog_type=wire propag=1}
+B 5 137.5 -252.5 142.5 -247.5 {name=phi_sample_n dir=out verilog_type=wire propag=1}
+B 5 137.5 -232.5 142.5 -227.5 {name=clk_comp dir=out verilog_type=wire propag=1}
+B 5 137.5 -212.5 142.5 -207.5 {name=dac_p7 dir=out verilog_type=wire propag=1}
+B 5 137.5 -192.5 142.5 -187.5 {name=dac_p6 dir=out verilog_type=wire propag=1}
+B 5 137.5 -172.5 142.5 -167.5 {name=dac_p5 dir=out verilog_type=wire propag=1}
+B 5 137.5 -152.5 142.5 -147.5 {name=dac_p4 dir=out verilog_type=wire propag=1}
+B 5 137.5 -132.5 142.5 -127.5 {name=dac_p3 dir=out verilog_type=wire propag=1}
+B 5 137.5 -112.5 142.5 -107.5 {name=dac_p2 dir=out verilog_type=wire propag=1}
+B 5 137.5 -92.5 142.5 -87.5 {name=dac_p1 dir=out verilog_type=wire propag=1}
+B 5 137.5 -72.5 142.5 -67.5 {name=dac_p0 dir=out verilog_type=wire propag=1}
+B 5 137.5 -52.5 142.5 -47.5 {name=dac_n7 dir=out verilog_type=wire propag=1}
+B 5 137.5 -32.5 142.5 -27.5 {name=dac_n6 dir=out verilog_type=wire propag=1}
+B 5 137.5 -12.5 142.5 -7.5 {name=dac_n5 dir=out verilog_type=wire propag=1}
+B 5 137.5 7.5 142.5 12.5 {name=dac_n4 dir=out verilog_type=wire propag=1}
+B 5 137.5 27.5 142.5 32.5 {name=dac_n3 dir=out verilog_type=wire propag=1}
+B 5 137.5 47.5 142.5 52.5 {name=dac_n2 dir=out verilog_type=wire propag=1}
+B 5 137.5 67.5 142.5 72.5 {name=dac_n1 dir=out verilog_type=wire propag=1}
+B 5 137.5 87.5 142.5 92.5 {name=dac_n0 dir=out verilog_type=wire propag=1}
+B 5 137.5 107.5 142.5 112.5 {name=dout7 dir=out verilog_type=wire propag=1}
+B 5 137.5 127.5 142.5 132.5 {name=dout6 dir=out verilog_type=wire propag=1}
+B 5 137.5 147.5 142.5 152.5 {name=dout5 dir=out verilog_type=wire propag=1}
+B 5 137.5 167.5 142.5 172.5 {name=dout4 dir=out verilog_type=wire propag=1}
+B 5 137.5 187.5 142.5 192.5 {name=dout3 dir=out verilog_type=wire propag=1}
+B 5 137.5 207.5 142.5 212.5 {name=dout2 dir=out verilog_type=wire propag=1}
+B 5 137.5 227.5 142.5 232.5 {name=dout1 dir=out verilog_type=wire propag=1}
+B 5 137.5 247.5 142.5 252.5 {name=dout0 dir=out verilog_type=wire propag=1}
+B 5 137.5 267.5 142.5 272.5 {name=eoc dir=out verilog_type=wire propag=1}
+T {sar_controller} 0 0 0 0 0.3 0.3 {hcenter=true vcenter=true}
+T {@name}  -120 -308 0 0 0.2 0.2 {}
+T {d_cosim} -120 -296  0 0 0.15 0.15 {layer=4}
+T {clk} -108 -34 0 0 0.15 0.15 {}
+T {rst_n} -108 -14 0 0 0.15 0.15 {}
+T {out_comp_p} -108 6 0 0 0.15 0.15 {}
+T {out_comp_n} -108 26 0 0 0.15 0.15 {}
+T {phi_sample} 108 -274 0 1 0.15 0.15 {}
+T {phi_sample_n} 108 -254 0 1 0.15 0.15 {}
+T {clk_comp} 108 -234 0 1 0.15 0.15 {}
+T {dac_p7} 108 -214 0 1 0.15 0.15 {}
+T {dac_p6} 108 -194 0 1 0.15 0.15 {}
+T {dac_p5} 108 -174 0 1 0.15 0.15 {}
+T {dac_p4} 108 -154 0 1 0.15 0.15 {}
+T {dac_p3} 108 -134 0 1 0.15 0.15 {}
+T {dac_p2} 108 -114 0 1 0.15 0.15 {}
+T {dac_p1} 108 -94 0 1 0.15 0.15 {}
+T {dac_p0} 108 -74 0 1 0.15 0.15 {}
+T {dac_n7} 108 -54 0 1 0.15 0.15 {}
+T {dac_n6} 108 -34 0 1 0.15 0.15 {}
+T {dac_n5} 108 -14 0 1 0.15 0.15 {}
+T {dac_n4} 108 6 0 1 0.15 0.15 {}
+T {dac_n3} 108 26 0 1 0.15 0.15 {}
+T {dac_n2} 108 46 0 1 0.15 0.15 {}
+T {dac_n1} 108 66 0 1 0.15 0.15 {}
+T {dac_n0} 108 86 0 1 0.15 0.15 {}
+T {dout7} 108 106 0 1 0.15 0.15 {}
+T {dout6} 108 126 0 1 0.15 0.15 {}
+T {dout5} 108 146 0 1 0.15 0.15 {}
+T {dout4} 108 166 0 1 0.15 0.15 {}
+T {dout3} 108 186 0 1 0.15 0.15 {}
+T {dout2} 108 206 0 1 0.15 0.15 {}
+T {dout1} 108 226 0 1 0.15 0.15 {}
+T {dout0} 108 246 0 1 0.15 0.15 {}
+T {eoc} 108 266 0 1 0.15 0.15 {}

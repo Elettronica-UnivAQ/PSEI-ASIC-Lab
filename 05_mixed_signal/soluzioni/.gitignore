@@ -1,0 +1,11 @@
+# File raw ngspice — molto grandi, si rigenerano simulando
+**/*.raw
+
+# File compilati da Verilator — si rigenerano con make cosim_setup
+**/*.so
+**/*.o
+**/*.a
+**/*_obj_dir/
+
+# File di testo ngspice grandi
+**/simulation/*.txt

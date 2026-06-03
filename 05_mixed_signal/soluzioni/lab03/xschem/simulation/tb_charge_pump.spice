@@ -1,0 +1,287 @@
+** sch_path: /foss/pdks/ciel/sky130/versions/8afc8346a57fe1ab7934ba5a6056ea8b43078e71/sky130A/libs.tech/xschem/sky130_tests/tb_charge_pump.sch
+.lib /foss/pdks/sky130A/libs.tech/combined/sky130.lib.spice tt
+.include /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/spice/sky130_fd_sc_hd.spice
+
+**.subckt tb_charge_pump
+x1 VCC HV A B C D charge_pump
+x2 A B C CK D VCC charge_pump_phasegen
+V1 VCC GND 'VCC'
+V2 CK GND pulse 0 {VCC} 0 100p 100p {PER/2-0.1n} {PER}
+C1 HV GND 15p m=1
+I0 net2 GND pwl 0 0 1u 0 1.01u 100u 2u 100u 2.01u 150u 3u 150u 3.01u 200u 4u 200u 4.01u 250u
+Vload HV net2 0
+.save i(vload)
+x3 VCC HV2 CK CKN charge_pump2
+V3 CKN GND pulse {VCC} 0 0 100p 100p {PER/2-0.1n} {PER}
+C2 HV2 GND 15p m=1
+I1 net3 GND pwl 0 0 1u 0 1.01u 100u 2u 100u 2.01u 150u 3u 150u 3.01u 200u 4u 200u 4.01u 250u
+Vload1 HV2 net3 0
+.save i(vload1)
+* noconn GND
+C3 HV_IDEAL GND 15p m=1
+Vload2 HV_IDEAL net4 0
+.save i(vload2)
+x7 VCC HV_IDEAL CK CKN charge_pump_ideal
+I2 net4 GND pwl 0 0 1u 0 1.01u 100u 2u 100u 2.01u 150u 3u 150u 3.01u 200u 4u 200u 4.01u 250u
+V4 net1 GND pwl 0 {VCC} 1n {3*VCC}
+R1 HV_IDEAL2 net1 {2/1.82p/FREQ} m=1
+C4 HV_IDEAL2 GND 15p m=1
+Vload3 HV_IDEAL2 net5 0
+.save i(vload3)
+I3 net5 GND pwl 0 0 1u 0 1.01u 100u 2u 100u 2.01u 150u 3u 150u 3.01u 200u 4u 200u 4.01u 250u
+**** begin user architecture code
+
+.option savecurrents
+.param VCC=1.8
+.param FREQ=100e6
+.param PER={1/FREQ}
+.control
+  save all
+  tran 100p 5u
+  remzerovec
+  write tb_charge_pump.raw
+  * quit 0
+.endc
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  sky130_tests/charge_pump.sym # of pins=6
+** sym_path: /foss/pdks/ciel/sky130/versions/8afc8346a57fe1ab7934ba5a6056ea8b43078e71/sky130A/libs.tech/xschem/sky130_tests/charge_pump.sym
+** sch_path: /foss/pdks/ciel/sky130/versions/8afc8346a57fe1ab7934ba5a6056ea8b43078e71/sky130A/libs.tech/xschem/sky130_tests/charge_pump.sch
+.subckt charge_pump VCC HV A B C D
+*.ipin A
+*.ipin B
+*.ipin C
+*.ipin D
+*.ipin VCC
+*.iopin HV
+XM1 net15 net9 net16 net5 sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=8 nf=1 ad=2.32 as=2.32 pd=16.58 ps=16.58 nrd=0.03625 nrs=0.03625
++ sa=0 sb=0 sd=0 mult=1 m=1
+XM2 VCC HV1A G1A VCC sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=1.5 nf=1 ad=0.435 as=0.435 pd=3.58 ps=3.58 nrd=0.193333333333333
++ nrs=0.193333333333333 sa=0 sb=0 sd=0 mult=1 m=1
+XM3 net1 net10 net17 net6 sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=8 nf=1 ad=2.32 as=2.32 pd=16.58 ps=16.58 nrd=0.03625 nrs=0.03625
++ sa=0 sb=0 sd=0 mult=1 m=1
+XM4 HV1A HV2A G2A HV1A sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=1.5 nf=1 ad=0.435 as=0.435 pd=3.58 ps=3.58 nrd=0.193333333333333
++ nrs=0.193333333333333 sa=0 sb=0 sd=0 mult=1 m=1
+XM5 HV2A net11 HV3A HV2A sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=1.5 nf=1 ad=0.435 as=0.435 pd=3.58 ps=3.58 nrd=0.193333333333333
++ nrs=0.193333333333333 sa=0 sb=0 sd=0 mult=1 m=1
+XM6 HV2A HV3A G3A HV2A sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=1.5 nf=1 ad=0.435 as=0.435 pd=3.58 ps=3.58 nrd=0.193333333333333
++ nrs=0.193333333333333 sa=0 sb=0 sd=0 mult=1 m=1
+XM7 HV2A G3A net3 HV2A sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=8 nf=1 ad=2.32 as=2.32 pd=16.58 ps=16.58 nrd=0.03625 nrs=0.03625 sa=0
++ sb=0 sd=0 mult=1 m=1
+XC1 G1A A sky130_fd_pr__cap_mim_m3_1 W=6 L=4 MF=1 m=1
+XC2 HV1A B sky130_fd_pr__cap_mim_m3_1 W=30 L=15 MF=1 m=1
+XC3 G2A C sky130_fd_pr__cap_mim_m3_1 W=6 L=4 MF=1 m=1
+XC4 HV2A D sky130_fd_pr__cap_mim_m3_1 W=30 L=15 MF=1 m=1
+XC5 G3A A sky130_fd_pr__cap_mim_m3_1 W=6 L=4 MF=1 m=1
+XC6 HV3A B sky130_fd_pr__cap_mim_m3_1 W=6 L=4 MF=1 m=1
+XM8 net18 net12 net19 net7 sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=8 nf=1 ad=2.32 as=2.32 pd=16.58 ps=16.58 nrd=0.03625 nrs=0.03625
++ sa=0 sb=0 sd=0 mult=1 m=1
+XM9 VCC HV1B G1B VCC sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=1.5 nf=1 ad=0.435 as=0.435 pd=3.58 ps=3.58 nrd=0.193333333333333
++ nrs=0.193333333333333 sa=0 sb=0 sd=0 mult=1 m=1
+XM10 net2 net13 net20 net8 sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=8 nf=1 ad=2.32 as=2.32 pd=16.58 ps=16.58 nrd=0.03625 nrs=0.03625
++ sa=0 sb=0 sd=0 mult=1 m=1
+XM11 HV1B HV2B G2B HV1B sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=1.5 nf=1 ad=0.435 as=0.435 pd=3.58 ps=3.58 nrd=0.193333333333333
++ nrs=0.193333333333333 sa=0 sb=0 sd=0 mult=1 m=1
+XM12 HV2B net14 HV3B HV2B sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=1.5 nf=1 ad=0.435 as=0.435 pd=3.58 ps=3.58 nrd=0.193333333333333
++ nrs=0.193333333333333 sa=0 sb=0 sd=0 mult=1 m=1
+XM13 HV2B HV3B G3B HV2B sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=1.5 nf=1 ad=0.435 as=0.435 pd=3.58 ps=3.58 nrd=0.193333333333333
++ nrs=0.193333333333333 sa=0 sb=0 sd=0 mult=1 m=1
+XM14 HV2B G3B net4 HV2B sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=8 nf=1 ad=2.32 as=2.32 pd=16.58 ps=16.58 nrd=0.03625 nrs=0.03625 sa=0
++ sb=0 sd=0 mult=1 m=1
+XC7 G1B C sky130_fd_pr__cap_mim_m3_1 W=6 L=4 MF=1 m=1
+XC8 HV1B D sky130_fd_pr__cap_mim_m3_1 W=30 L=15 MF=1 m=1
+XC9 G2B A sky130_fd_pr__cap_mim_m3_1 W=6 L=4 MF=1 m=1
+XC10 HV2B B sky130_fd_pr__cap_mim_m3_1 W=30 L=15 MF=1 m=1
+XC11 G3B C sky130_fd_pr__cap_mim_m3_1 W=6 L=4 MF=1 m=1
+XC12 HV3B D sky130_fd_pr__cap_mim_m3_1 W=6 L=4 MF=1 m=1
+V1 HV1B net2 0
+.save i(v1)
+V2 net3 HV 0
+.save i(v2)
+V3 net4 HV 0
+.save i(v3)
+V4 HV1A net1 0
+.save i(v4)
+V5 VCC net18 0
+.save i(v5)
+V6 VCC net15 0
+.save i(v6)
+V7 net20 HV2B 0
+.save i(v7)
+V8 net17 HV2A 0
+.save i(v8)
+V9 VCC net5 0
+.save i(v9)
+V10 HV1A net6 0
+.save i(v10)
+V11 VCC net7 0
+.save i(v11)
+V12 HV1B net8 0
+.save i(v12)
+V13 net19 HV1B 0
+.save i(v13)
+V14 net16 HV1A 0
+.save i(v14)
+V15 G1A net9 0
+.save i(v15)
+V16 G2A net10 0
+.save i(v16)
+V17 G3A net11 0
+.save i(v17)
+V18 G1B net12 0
+.save i(v18)
+V19 G2B net13 0
+.save i(v19)
+V20 G3B net14 0
+.save i(v20)
+.ends
+
+
+* expanding   symbol:  sky130_tests/charge_pump_phasegen.sym # of pins=6
+** sym_path: /foss/pdks/ciel/sky130/versions/8afc8346a57fe1ab7934ba5a6056ea8b43078e71/sky130A/libs.tech/xschem/sky130_tests/charge_pump_phasegen.sym
+** sch_path: /foss/pdks/ciel/sky130/versions/8afc8346a57fe1ab7934ba5a6056ea8b43078e71/sky130A/libs.tech/xschem/sky130_tests/charge_pump_phasegen.sch
+.subckt charge_pump_phasegen A B C CK D VCC
+*.ipin CK
+*.opin A
+*.opin B
+*.opin C
+*.opin D
+*.ipin VCC
+x1 CKN BN GND GND VCC VCC AN sky130_fd_sc_hd__nand2_2
+x2 AN GND GND VCC VCC A sky130_fd_sc_hd__inv_4
+x5 AN CK GND GND VCC VCC net1 sky130_fd_sc_hd__nand2_1
+x6 net1 net2 GND GND VCC VCC net5 sky130_fd_sc_hd__nand2_1
+x7 DI net6 VCC GND lvtnot W_N=0.5 L_N=1 W_P=1 L_P=1 m=1
+x8 net6 net2 VCC GND lvtnot W_N=0.5 L_N=1 W_P=1 L_P=1 m=1
+x9 BN GND GND VCC VCC B sky130_fd_sc_hd__inv_12
+x10 net5 GND GND VCC VCC BN sky130_fd_sc_hd__inv_2
+x11 CK DN GND GND VCC VCC CN sky130_fd_sc_hd__nand2_2
+x12 CN GND GND VCC VCC C sky130_fd_sc_hd__inv_4
+x13 CN CKN GND GND VCC VCC net3 sky130_fd_sc_hd__nand2_1
+x14 net3 net4 GND GND VCC VCC net7 sky130_fd_sc_hd__nand2_1
+x15 BI net8 VCC GND lvtnot W_N=0.5 L_N=1 W_P=1 L_P=1 m=1
+x16 net8 net4 VCC GND lvtnot W_N=0.5 L_N=1 W_P=1 L_P=1 m=1
+x17 DN GND GND VCC VCC D sky130_fd_sc_hd__inv_12
+x18 net7 GND GND VCC VCC DN sky130_fd_sc_hd__inv_2
+x3 CK GND GND VCC VCC CKN sky130_fd_sc_hd__inv_12
+* noconn VCC
+x19 BN GND GND VCC VCC BI sky130_fd_sc_hd__inv_2
+x20 DN GND GND VCC VCC DI sky130_fd_sc_hd__inv_2
+.ends
+
+
+* expanding   symbol:  sky130_tests/charge_pump2.sym # of pins=4
+** sym_path: /foss/pdks/ciel/sky130/versions/8afc8346a57fe1ab7934ba5a6056ea8b43078e71/sky130A/libs.tech/xschem/sky130_tests/charge_pump2.sym
+** sch_path: /foss/pdks/ciel/sky130/versions/8afc8346a57fe1ab7934ba5a6056ea8b43078e71/sky130A/libs.tech/xschem/sky130_tests/charge_pump2.sch
+.subckt charge_pump2 VCC HV CK CKN
+*.ipin VCC
+*.iopin HV
+*.ipin CK
+*.ipin CKN
+XM8 D1 GN1 VCC VCC sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=8 nf=1 ad=2.32 as=2.32 pd=16.58 ps=16.58 nrd=0.03625 nrs=0.03625 sa=0 sb=0
++ sd=0 mult=1 m=1
+XM9 D2 GN2 VCC VCC sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=8 nf=1 ad=2.32 as=2.32 pd=16.58 ps=16.58 nrd=0.03625 nrs=0.03625 sa=0 sb=0
++ sd=0 mult=1 m=1
+XM10 D1 GP1 HV1 HV1 sky130_fd_pr__pfet_g5v0d10v5 L=0.5 W=16 nf=1 ad=4.64 as=4.64 pd=32.58 ps=32.58 nrd=0.018125 nrs=0.018125 sa=0
++ sb=0 sd=0 mult=1 m=1
+XM11 D2 GP2 HV1 HV1 sky130_fd_pr__pfet_g5v0d10v5 L=0.5 W=16 nf=1 ad=4.64 as=4.64 pd=32.58 ps=32.58 nrd=0.018125 nrs=0.018125 sa=0
++ sb=0 sd=0 mult=1 m=1
+XC7 D2 net1 sky130_fd_pr__cap_mim_m3_1 W=30 L=15 MF=1 m=1
+XC8 D1 net2 sky130_fd_pr__cap_mim_m3_1 W=30 L=15 MF=1 m=1
+XM12 D3 GN3 HV1 HV1 sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=8 nf=1 ad=2.32 as=2.32 pd=16.58 ps=16.58 nrd=0.03625 nrs=0.03625 sa=0
++ sb=0 sd=0 mult=1 m=1
+XM13 D4 GN4 HV1 HV1 sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=8 nf=1 ad=2.32 as=2.32 pd=16.58 ps=16.58 nrd=0.03625 nrs=0.03625 sa=0
++ sb=0 sd=0 mult=1 m=1
+XM14 D3 GP3 HV HV sky130_fd_pr__pfet_g5v0d10v5 L=0.5 W=16 nf=1 ad=4.64 as=4.64 pd=32.58 ps=32.58 nrd=0.018125 nrs=0.018125 sa=0
++ sb=0 sd=0 mult=1 m=1
+XM15 D4 GP4 HV HV sky130_fd_pr__pfet_g5v0d10v5 L=0.5 W=16 nf=1 ad=4.64 as=4.64 pd=32.58 ps=32.58 nrd=0.018125 nrs=0.018125 sa=0
++ sb=0 sd=0 mult=1 m=1
+XC9 D4 net3 sky130_fd_pr__cap_mim_m3_1 W=30 L=15 MF=1 m=1
+XC10 D3 net4 sky130_fd_pr__cap_mim_m3_1 W=30 L=15 MF=1 m=1
+x12 CK GND GND VCC VCC net1 sky130_fd_sc_hd__inv_6
+x1 CKN GND GND VCC VCC net2 sky130_fd_sc_hd__inv_6
+x2 CK GND GND VCC VCC net3 sky130_fd_sc_hd__inv_6
+x3 CKN GND GND VCC VCC net4 sky130_fd_sc_hd__inv_6
+XM1 GP3 GP4 HV HV sky130_fd_pr__pfet_g5v0d10v5 L=0.5 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM2 GP4 GP3 HV HV sky130_fd_pr__pfet_g5v0d10v5 L=0.5 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1 m=1
+XC1 GP3 net5 sky130_fd_pr__cap_mim_m3_1 W=6 L=8 MF=1 m=1
+XC2 GP4 net6 sky130_fd_pr__cap_mim_m3_1 W=6 L=8 MF=1 m=1
+XM3 GP1 GP2 HV1 HV1 sky130_fd_pr__pfet_g5v0d10v5 L=0.5 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM4 GP2 GP1 HV1 HV1 sky130_fd_pr__pfet_g5v0d10v5 L=0.5 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1 m=1
+XC3 GP1 net7 sky130_fd_pr__cap_mim_m3_1 W=6 L=8 MF=1 m=1
+XC4 GP2 net8 sky130_fd_pr__cap_mim_m3_1 W=6 L=8 MF=1 m=1
+x4 CK GND GND VCC VCC net5 sky130_fd_sc_hd__inv_2
+x5 CKN GND GND VCC VCC net6 sky130_fd_sc_hd__inv_2
+x6 CK GND GND VCC VCC net7 sky130_fd_sc_hd__inv_2
+x7 CKN GND GND VCC VCC net8 sky130_fd_sc_hd__inv_2
+XC5 GN1 net9 sky130_fd_pr__cap_mim_m3_1 W=6 L=4 MF=1 m=1
+XC6 GN2 net10 sky130_fd_pr__cap_mim_m3_1 W=6 L=4 MF=1 m=1
+x8 CK GND GND VCC VCC net9 sky130_fd_sc_hd__inv_2
+x9 CKN GND GND VCC VCC net10 sky130_fd_sc_hd__inv_2
+XM5 VCC GN1 GN2 VCC sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=0.5 nf=1 ad=0.145 as=0.145 pd=1.58 ps=1.58 nrd=0.58 nrs=0.58 sa=0 sb=0
++ sd=0 mult=1 m=1
+XM6 VCC GN2 GN1 VCC sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=0.5 nf=1 ad=0.145 as=0.145 pd=1.58 ps=1.58 nrd=0.58 nrs=0.58 sa=0 sb=0
++ sd=0 mult=1 m=1
+XC11 GN3 net11 sky130_fd_pr__cap_mim_m3_1 W=6 L=4 MF=1 m=1
+XC12 GN4 net12 sky130_fd_pr__cap_mim_m3_1 W=6 L=4 MF=1 m=1
+x10 CK GND GND VCC VCC net11 sky130_fd_sc_hd__inv_2
+x11 CKN GND GND VCC VCC net12 sky130_fd_sc_hd__inv_2
+XM7 HV1 GN3 GN4 HV1 sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=0.5 nf=1 ad=0.145 as=0.145 pd=1.58 ps=1.58 nrd=0.58 nrs=0.58 sa=0 sb=0
++ sd=0 mult=1 m=1
+XM16 HV1 GN4 GN3 HV1 sky130_fd_pr__nfet_g5v0d10v5 L=0.5 W=0.5 nf=1 ad=0.145 as=0.145 pd=1.58 ps=1.58 nrd=0.58 nrs=0.58 sa=0 sb=0
++ sd=0 mult=1 m=1
+.ends
+
+
+* expanding   symbol:  sky130_tests/charge_pump_ideal.sym # of pins=4
+** sym_path: /foss/pdks/ciel/sky130/versions/8afc8346a57fe1ab7934ba5a6056ea8b43078e71/sky130A/libs.tech/xschem/sky130_tests/charge_pump_ideal.sym
+** sch_path: /foss/pdks/ciel/sky130/versions/8afc8346a57fe1ab7934ba5a6056ea8b43078e71/sky130A/libs.tech/xschem/sky130_tests/charge_pump_ideal.sch
+.subckt charge_pump_ideal VCC HV CK CKN
+*.ipin CK
+*.ipin CKN
+*.iopin HV
+*.ipin VCC
+X4 net2 HV diode_ngspice Ron=0.1 Roff=1e9 m=1
+X5 net1 net2 diode_ngspice Ron=0.1 Roff=1e9 m=1
+X6 VCC net1 diode_ngspice Ron=0.1 Roff=1e9 m=1
+C1 net2 CKN 1.82p m=1
+C2 net1 CK 1.82p m=1
+.ends
+
+
+* expanding   symbol:  sky130_tests/lvtnot.sym # of pins=2
+** sym_path: /foss/pdks/ciel/sky130/versions/8afc8346a57fe1ab7934ba5a6056ea8b43078e71/sky130A/libs.tech/xschem/sky130_tests/lvtnot.sym
+** sch_path: /foss/pdks/ciel/sky130/versions/8afc8346a57fe1ab7934ba5a6056ea8b43078e71/sky130A/libs.tech/xschem/sky130_tests/lvtnot.sch
+.subckt lvtnot a y VCCPIN VSSPIN     W_N=1 L_N=0.15 W_P=2 L_P=0.35
+*.opin y
+*.ipin a
+XM2 y a VCCPIN VCCPIN sky130_fd_pr__pfet_01v8_lvt L=L_P W=W_P nf=1 ad='int((1 + 1)/2) * W_P / 1 * 0.29' as='int((1 + 2)/2) * W_P / 1 * 0.29'
++ pd='2*int((1 + 1)/2) * (W_P / 1 + 0.29)' ps='2*int((1 + 2)/2) * (W_P / 1 + 0.29)' nrd='0.29 / W_P ' nrs='0.29 / W_P ' sa=0 sb=0 sd=0
++ mult=1 m=1
+XM1 y a VSSPIN VSSPIN sky130_fd_pr__nfet_01v8_lvt L=L_N W=W_N nf=1 ad='int((1 + 1)/2) * W_N / 1 * 0.29' as='int((1 + 2)/2) * W_N / 1 * 0.29'
++ pd='2*int((1 + 1)/2) * (W_N / 1 + 0.29)' ps='2*int((1 + 2)/2) * (W_N / 1 + 0.29)' nrd='0.29 / W_N ' nrs='0.29 / W_N ' sa=0 sb=0 sd=0
++ mult=1 m=1
+.ends
+
+
+* expanding   symbol:  sky130_tests/diode_ngspice.sym # of pins=2
+** sym_path: /foss/pdks/ciel/sky130/versions/8afc8346a57fe1ab7934ba5a6056ea8b43078e71/sky130A/libs.tech/xschem/sky130_tests/diode_ngspice.sym
+** sch_path: /foss/pdks/ciel/sky130/versions/8afc8346a57fe1ab7934ba5a6056ea8b43078e71/sky130A/libs.tech/xschem/sky130_tests/diode_ngspice.sch
+.subckt diode_ngspice plus minus   Roff=1e9 Ron=0.1
+*.iopin plus
+*.iopin minus
+Vm mn minus 0
+.save i(vm)
+Vp plus pn 0
+.save i(vp)
+B1 pn mn I = 'v(pn,mn) > 0 ? v(pn,mn) / Ron : v(pn,mn) / Roff' m=1
+.ends
+
+.end

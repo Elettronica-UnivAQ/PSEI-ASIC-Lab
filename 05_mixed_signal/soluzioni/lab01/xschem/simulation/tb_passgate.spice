@@ -1,0 +1,45 @@
+** sch_path: /foss/designs/modulo5/lab01/xschem/tb_passgate.sch
+**.subckt tb_passgate
+Vvdd vdd GND 1.8
+x1 Vin GND ctrl_not ctrl vdd Vout passgate
+Vvin Vin GND PWL(0 0.9 500n 1.8 500n 0.9 1000n 0)
+Vctrl ctrl GND PULSE(0 1.8 100n 1n 1n 200n 400n)
+Vctrl_not ctrl_not GND PULSE(1.8 0 100n 1n 1n 200n 400n)
+C1 Vout GND 12.8p m=1
+R1 Vout GND 1G m=1
+**** begin user architecture code
+
+
+.control
+  save all
+  tran 100p 1000n
+  write tb_passgate.raw
+  plot v(Vin) v(Vout) v(CTRL)
+.endc
+
+
+
+** opencircuitdesign pdks install
+.lib /foss/pdks/sky130A/libs.tech/combined/sky130.lib.spice tt
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  passgate.sym # of pins=6
+** sym_path: /foss/designs/modulo5/lab01/xschem/passgate.sym
+** sch_path: /foss/designs/modulo5/lab01/xschem/passgate.sch
+.subckt passgate Vin gnd !CTRL CTRL Vdd Vout
+*.ipin CTRL
+*.ipin !CTRL
+*.iopin Vin
+*.iopin Vout
+*.ipin Vdd
+*.ipin gnd
+XM1 Vin CTRL Vout gnd sky130_fd_pr__nfet_01v8_lvt L=0.15 W=6 nf=1 ad=1.74 as=1.74 pd=12.58 ps=12.58 nrd=0.0483333333333333
++ nrs=0.0483333333333333 sa=0 sb=0 sd=0 mult=1 m=1
+XM2 Vin !CTRL Vout Vdd sky130_fd_pr__pfet_01v8_lvt L=0.35 W=12 nf=1 ad=3.48 as=3.48 pd=24.58 ps=24.58 nrd=0.0241666666666667
++ nrs=0.0241666666666667 sa=0 sb=0 sd=0 mult=1 m=1
+.ends
+
+.GLOBAL GND
+.end

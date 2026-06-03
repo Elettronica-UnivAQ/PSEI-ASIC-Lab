@@ -1,0 +1,35 @@
+** sch_path: /foss/designs/modulo5/lab02_cosim_test/xschem/counter4_tb.sch
+**.subckt counter4_tb
+Vclk clk_ana GND PULSE(0 1.8 0 1n 1n 49n 100n)
+Vrst rst_ana GND PULSE(0 1.8 200n 1n 1n 10u 20u)
+Abr_clk [ clk_ana ] [ clk_d ] adc1
+.model adc1 adc_bridge in_low=0.7 in_high=1.1
+Abr_rst [ rst_ana ] [ rst_d ] adc1
+.model adc1 adc_bridge in_low=0.7 in_high=1.1
+adut [ clk_d rst_d ] [ q0_d q1_d q2_d q3_d ] dut
+.model dut d_cosim simulation=./counter4_behav.so
+A1 [ q0_d ] [ v_q0 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A2 [ q1_d ] [ v_q1 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A3 [ q2_d ] [ v_q2 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A4 [ q3_d ] [ v_q3 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+R1 v_q3 GND 100k m=1
+R2 v_q2 GND 100k m=1
+R3 v_q1 GND 100k m=1
+R4 v_q0 GND 100k m=1
+**** begin user architecture code
+
+
+.control
+tran 1n 2000n
+plot v_q3+6 v_q2+4 v_q1+2 v_q0
+.endc
+
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+.end

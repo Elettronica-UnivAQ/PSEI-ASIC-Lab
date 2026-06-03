@@ -1,0 +1,268 @@
+** sch_path: /foss/designs/modulo5/lab03/xschem/sar_adc_top.sch
+**.subckt sar_adc_top VDD GND Vref VOUTP VOUTN clk rst_n VIN_P dout7 dout6 dout5 dout4 dout3 dout2 dout1 dout0 VIN_N eoc
+*.iopin VDD
+*.iopin GND
+*.ipin Vref
+*.ipin VIN_P
+*.ipin VIN_N
+*.ipin clk
+*.ipin rst_n
+*.opin VOUTP
+*.opin VOUTN
+*.opin dout7
+*.opin dout6
+*.opin dout5
+*.opin dout4
+*.opin dout3
+*.opin dout2
+*.opin dout1
+*.opin dout0
+*.opin eoc
+x1 VDD GND phi_smp_inv_a VOUTP VIN_P phi_a Vref dac_p_a7 dac_p_a6 dac_p_a5 dac_p_a4 dac_p_a3 dac_p_a2 dac_p_a1 dac_p_a0
++ cdac_complete
+x2 VDD out_comp_p_a out_comp_n_a VOUTP VOUTN clk_comp GND strongarm
+x3 VDD GND phi_smp_inv_a VOUTN VIN_N phi_a Vref dac_n_a7 dac_n_a6 dac_n_a5 dac_n_a4 dac_n_a3 dac_n_a2 dac_n_a1 dac_n_a0
++ cdac_complete
+A1 [ out_comp_p_a ] [ out_comp_p_d ] adc1
+.model adc1 adc_bridge in_low=0.7 in_high=1.1
+A2 [ out_comp_n_a ] [ out_comp_n_d ] adc1
+.model adc1 adc_bridge in_low=0.7 in_high=1.1
+A3 [ net1 ] [ phi_a ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A4 [ net2 ] [ phi_smp_inv_a ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A5 [ net3 ] [ dac_p_a7 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A6 [ net4 ] [ dac_p_a6 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A7 [ net5 ] [ dac_p_a5 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A8 [ net6 ] [ dac_p_a4 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A9 [ net7 ] [ dac_p_a3 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A10 [ net8 ] [ dac_p_a2 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A11 [ net9 ] [ dac_p_a1 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A12 [ net10 ] [ dac_p_a0 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A13 [ net11 ] [ dac_n_a7 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A14 [ net12 ] [ dac_n_a6 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A15 [ net13 ] [ dac_n_a5 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A16 [ net14 ] [ dac_n_a4 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A17 [ net15 ] [ dac_n_a3 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A18 [ net16 ] [ dac_n_a2 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A19 [ net17 ] [ dac_n_a1 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A20 [ net18 ] [ dac_n_a0 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A21 [ rst_n ] [ rst_d ] adc1
+.model adc1 adc_bridge in_low=0.7 in_high=1.1
+A22 [ clk ] [ clk_d ] adc1
+.model adc1 adc_bridge in_low=0.7 in_high=1.1
+A23 [ net19 ] [ dout7 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A24 [ net20 ] [ dout6 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A25 [ net21 ] [ dout5 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A26 [ net22 ] [ dout4 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A27 [ net23 ] [ dout3 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A28 [ net24 ] [ dout2 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A29 [ net25 ] [ dout1 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A30 [ net26 ] [ dout0 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A31 [ net27 ] [ eoc ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+A32 [ net28 ] [ clk_comp ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.8
+adut [ clk_d rst_d out_comp_p_d out_comp_n_d ] [ net1 net2 net28 net3 net4 net5 net6 net7 net8 net9 net10 net11 net12 net13 net14
++ net15 net16 net17 net18 net19 net20 net21 net22 net23 net24 net25 net26 net27 ] dut
+.model dut d_cosim simulation=./sar_controller_behav.so
+**.ends
+
+* expanding   symbol:  cdac_complete.sym # of pins=15
+** sym_path: /foss/designs/modulo5/lab03/xschem/cdac_complete.sym
+** sch_path: /foss/designs/modulo5/lab03/xschem/cdac_complete.sch
+.subckt cdac_complete VDD GND SMPL_not Vout Vin SMPL Vref ctrl7 ctrl6 ctrl5 ctrl4 ctrl3 ctrl2 ctrl1 ctrl0
+*.ipin VDD
+*.ipin GND
+*.ipin Vref
+*.ipin Vin
+*.opin Vout
+*.ipin SMPL
+*.ipin SMPL_not
+*.ipin ctrl7
+*.ipin ctrl6
+*.ipin ctrl5
+*.ipin ctrl4
+*.ipin ctrl3
+*.ipin ctrl2
+*.ipin ctrl1
+*.ipin ctrl0
+x1 Vout Vref net5 net6 net3 net4 net7 net2 net1 net8 cdac
+x2 net8 net3 net6 net5 net1 net4 net7 net2 VDD ctrl5 ctrl6 ctrl7 ctrl1 ctrl4 ctrl2 ctrl3 ctrl0 Vref GND switch_bank
+x3 Vin GND SMPL_not SMPL VDD Vout passgate
+.ends
+
+
+* expanding   symbol:  strongarm.sym # of pins=7
+** sym_path: /foss/designs/modulo5/lab03/xschem/strongarm.sym
+** sch_path: /foss/designs/modulo5/lab03/xschem/strongarm.sch
+.subckt strongarm VDD out_p out_n vin_p vin_n clk GND
+*.ipin vin_p
+*.ipin vin_n
+*.ipin clk
+*.opin out_n
+*.opin out_p
+*.iopin VDD
+*.iopin GND
+XM1 sp vin_p tail GND sky130_fd_pr__nfet_01v8 L=0.25 W=4 nf=1 ad=1.16 as=1.16 pd=8.58 ps=8.58 nrd=0.0725 nrs=0.0725 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM2 sn vin_n tail GND sky130_fd_pr__nfet_01v8 L=0.25 W=4 nf=1 ad=1.16 as=1.16 pd=8.58 ps=8.58 nrd=0.0725 nrs=0.0725 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM3 out_p out_n sp GND sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM4 out_n out_p sn GND sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM5 tail clk GND GND sky130_fd_pr__nfet_01v8 L=0.5 W=8 nf=1 ad=2.32 as=2.32 pd=16.58 ps=16.58 nrd=0.03625 nrs=0.03625 sa=0 sb=0
++ sd=0 mult=1 m=1
+XM6 out_p clk VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=3 nf=1 ad=0.87 as=0.87 pd=6.58 ps=6.58 nrd=0.0966666666666667
++ nrs=0.0966666666666667 sa=0 sb=0 sd=0 mult=1 m=1
+XM7 out_n clk VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=3 nf=1 ad=0.87 as=0.87 pd=6.58 ps=6.58 nrd=0.0966666666666667
++ nrs=0.0966666666666667 sa=0 sb=0 sd=0 mult=1 m=1
+XM8 out_n out_p VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=2 nf=1 ad=0.58 as=0.58 pd=4.58 ps=4.58 nrd=0.145 nrs=0.145 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM9 out_p out_n VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=2 nf=1 ad=0.58 as=0.58 pd=4.58 ps=4.58 nrd=0.145 nrs=0.145 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM10 sn clk VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=3 nf=1 ad=0.87 as=0.87 pd=6.58 ps=6.58 nrd=0.0966666666666667
++ nrs=0.0966666666666667 sa=0 sb=0 sd=0 mult=1 m=1
+XM11 sp clk VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=3 nf=1 ad=0.87 as=0.87 pd=6.58 ps=6.58 nrd=0.0966666666666667
++ nrs=0.0966666666666667 sa=0 sb=0 sd=0 mult=1 m=1
+.ends
+
+
+* expanding   symbol:  cdac.sym # of pins=10
+** sym_path: /foss/designs/modulo5/lab03/xschem/cdac.sym
+** sch_path: /foss/designs/modulo5/lab03/xschem/cdac.sch
+.subckt cdac VOUTP Vref BP3 BP2 BP5 BP4 BP1 BP6 BP7 BP0
+*.ipin Vref
+*.opin VOUTP
+*.ipin BP0
+*.ipin BP1
+*.ipin BP2
+*.ipin BP3
+*.ipin BP4
+*.ipin BP5
+*.ipin BP6
+*.ipin BP7
+XC1 Vref VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=1 m=1
+XC2 BP0 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=1 m=1
+XC3 BP1 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=2 m=2
+XC4 BP2 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=4 m=4
+XC5 BP3 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=8 m=8
+XC6 BP4 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=16 m=16
+XC7 BP5 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=32 m=32
+XC8 BP6 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=64 m=64
+XC9 BP7 VOUTP sky130_fd_pr__cap_mim_m3_1 W=5 L=5 MF=128 m=128
+.ends
+
+
+* expanding   symbol:  switch_bank.sym # of pins=19
+** sym_path: /foss/designs/modulo5/lab03/xschem/switch_bank.sym
+** sch_path: /foss/designs/modulo5/lab03/xschem/switch_bank.sch
+.subckt switch_bank BP0 BP5 BP2 BP3 BP7 BP4 BP1 BP6 VDD ctrl5 ctrl6 ctrl7 ctrl1 ctrl4 ctrl2 ctrl3 ctrl0 Vref GND
+*.ipin Vref
+*.ipin GND
+*.iopin BP7
+*.iopin BP6
+*.iopin BP5
+*.iopin BP4
+*.iopin BP3
+*.iopin BP2
+*.iopin BP1
+*.iopin BP0
+*.ipin VDD
+*.ipin ctrl7
+*.ipin ctrl6
+*.ipin ctrl5
+*.ipin ctrl4
+*.ipin ctrl3
+*.ipin ctrl2
+*.ipin ctrl1
+*.ipin ctrl0
+x1 VDD GND ctrl7 BP7 Vref T_gate
+x2 VDD GND ctrl6 BP6 Vref T_gate
+x3 VDD GND ctrl5 BP5 Vref T_gate
+x4 VDD GND ctrl4 BP4 Vref T_gate
+x5 VDD GND ctrl3 BP3 Vref T_gate
+x6 VDD GND ctrl2 BP2 Vref T_gate
+x7 VDD GND ctrl1 BP1 Vref T_gate
+x8 VDD GND ctrl0 BP0 Vref T_gate
+.ends
+
+
+* expanding   symbol:  passgate.sym # of pins=6
+** sym_path: /foss/designs/modulo5/lab03/xschem/passgate.sym
+** sch_path: /foss/designs/modulo5/lab03/xschem/passgate.sch
+.subckt passgate Vin gnd !CTRL CTRL Vdd Vout
+*.ipin CTRL
+*.ipin !CTRL
+*.iopin Vin
+*.iopin Vout
+*.ipin Vdd
+*.ipin gnd
+XM3 Vin CTRL Vout gnd sky130_fd_pr__nfet_01v8_lvt L=0.15 W=6 nf=1 ad=1.74 as=1.74 pd=12.58 ps=12.58 nrd=0.0483333333333333
++ nrs=0.0483333333333333 sa=0 sb=0 sd=0 mult=1 m=1
+XM1 Vin !CTRL Vout Vdd sky130_fd_pr__pfet_01v8_lvt L=0.35 W=12 nf=1 ad=3.48 as=3.48 pd=24.58 ps=24.58 nrd=0.0241666666666667
++ nrs=0.0241666666666667 sa=0 sb=0 sd=0 mult=1 m=1
+.ends
+
+
+* expanding   symbol:  T_gate.sym # of pins=5
+** sym_path: /foss/designs/modulo5/lab03/xschem/T_gate.sym
+** sch_path: /foss/designs/modulo5/lab03/xschem/T_gate.sch
+.subckt T_gate VDD GND Ctrl Vout Vref
+*.ipin Ctrl
+*.iopin Vout
+*.iopin VDD
+*.iopin GND
+*.iopin Vref
+x1 VDD Ctrl net1 GND inverter
+XM1 GND net1 Vout GND sky130_fd_pr__nfet_01v8_lvt L=0.15 W=2 nf=1 ad=0.58 as=0.58 pd=4.58 ps=4.58 nrd=0.145 nrs=0.145 sa=0 sb=0
++ sd=0 mult=1 m=1
+XM2 GND Ctrl Vout VDD sky130_fd_pr__pfet_01v8_lvt L=0.35 W=4 nf=1 ad=1.16 as=1.16 pd=8.58 ps=8.58 nrd=0.0725 nrs=0.0725 sa=0 sb=0
++ sd=0 mult=1 m=1
+XM3 Vref Ctrl Vout GND sky130_fd_pr__nfet_01v8_lvt L=0.15 W=2 nf=1 ad=0.58 as=0.58 pd=4.58 ps=4.58 nrd=0.145 nrs=0.145 sa=0 sb=0
++ sd=0 mult=1 m=1
+XM4 Vref net1 Vout VDD sky130_fd_pr__pfet_01v8_lvt L=0.35 W=4 nf=1 ad=1.16 as=1.16 pd=8.58 ps=8.58 nrd=0.0725 nrs=0.0725 sa=0 sb=0
++ sd=0 mult=1 m=1
+.ends
+
+
+* expanding   symbol:  inverter.sym # of pins=4
+** sym_path: /foss/designs/modulo5/lab03/xschem/inverter.sym
+** sch_path: /foss/designs/modulo5/lab03/xschem/inverter.sch
+.subckt inverter VDD IN OUT GND
+*.ipin IN
+*.opin OUT
+*.iopin VDD
+*.iopin GND
+XM1 OUT IN GND GND sky130_fd_pr__nfet_01v8_lvt L=0.15 W=2 nf=1 ad=0.58 as=0.58 pd=4.58 ps=4.58 nrd=0.145 nrs=0.145 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM2 OUT IN VDD VDD sky130_fd_pr__pfet_01v8_lvt L=0.35 W=4 nf=1 ad=1.16 as=1.16 pd=8.58 ps=8.58 nrd=0.0725 nrs=0.0725 sa=0 sb=0
++ sd=0 mult=1 m=1
+.ends
+
+.end

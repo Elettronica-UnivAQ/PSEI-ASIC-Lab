@@ -1,0 +1,48 @@
+* Test del sar_controller in isolamento (senza CDAC né comparatore)
+
+* Sorgenti analogiche (tensioni)
+Vclk    clk_a    0  PULSE(0 1.8 0 1n 1n 24n 50n)
+Vrst    rst_a    0  PULSE(0 1.8 100n 1n 1n 100u 200u)
+
+* Comparatore stub: out_comp_p=1, out_comp_n=0 (decisione: bit=1 sempre)
+Vcmp_p  outp_a   0  DC 1.8
+Vcmp_n  outn_a   0  DC 0
+
+* ADC bridge: convertono le tensioni in segnali digitali per il d_cosim
+* (il d_cosim lavora su nodi digitali XSPICE, non su tensioni)
+Aclk    [ clk_a  ] [ clk_d  ] adc_model
+Arst    [ rst_a  ] [ rst_d  ] adc_model
+Acompp  [ outp_a ] [ outp_d ] adc_model
+Acompn  [ outn_a ] [ outn_d ] adc_model
+.model adc_model adc_bridge in_low=0.7 in_high=1.1
+
+* Blocco d_cosim — l'ordine delle porte è quello della PORT LIST del modulo
+* Verilog (riga "module sar_controller(...);"), NON quello delle dichiarazioni
+* input/output che seguono. Verifica con: head -5 sar_controller_behav.v
+Asar [ clk_d rst_d outp_d outn_d ]
++    [ phi_sample
++      dac_p7 dac_p6 dac_p5 dac_p4 dac_p3 dac_p2 dac_p1 dac_p0
++      dac_n7 dac_n6 dac_n5 dac_n4 dac_n3 dac_n2 dac_n1 dac_n0
++      dout7  dout6  dout5  dout4  dout3  dout2  dout1  dout0
++      eoc ]
++    sar_model
+.model sar_model d_cosim simulation="./sar_controller_behav.so"
+
+* DAC bridge: convertono le uscite digitali in tensioni visualizzabili
+Aphi   [ phi_sample ] [ v_phi ]   dac_model
+Adout7 [ dout7 ]      [ v_dout7 ] dac_model
+Adout0 [ dout0 ]      [ v_dout0 ] dac_model
+Aeoc   [ eoc ]        [ v_eoc ]   dac_model
+.model dac_model dac_bridge out_low=0 out_high=1.8
+
+R1 v_phi   0 100k
+R2 v_dout7 0 100k
+R3 v_dout0 0 100k
+R4 v_eoc   0 100k
+
+.control
+  tran 1n 1500n
+  plot v_phi+6 v_dout7+4 v_dout0+2 v_eoc
+.endc
+
+.end

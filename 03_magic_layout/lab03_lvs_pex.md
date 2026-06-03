@@ -667,6 +667,8 @@ klayout strongarm.gds &
 
 **Efabless sky130 → Run LVS** → seleziona `../xschem/simulation/strongarm.spice` → Match=1
 
+Il file di soluzione completo è disponibile in [`soluzioni/lab03/`](./soluzioni/lab03/).
+
 ---
 
 ## Domande di riflessione
