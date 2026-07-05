@@ -102,6 +102,8 @@ Il flag `/M` rende le variabili **persistenti a livello di sistema**, quindi sop
 
 > ✅ Dopo aver eseguito questi comandi, **chiudi e riapri il terminale** affinché le variabili siano attive.
 
+> 💡 **Se in futuro vuoi usare anche le [modalità di avvio alternative](#modalità-di-avvio-alternative-in-caso-di-problemi-grafici)** (VNC, X-server via MobaXterm), che richiedono più container distinti con tag/nomi diversi, `setx /M` diventa scomodo: è permanente e globale, quindi andrebbe ri-eseguito (con un nuovo terminale) ogni volta che cambi configurazione. In quel caso conviene usare variabili di **sessione** (`$env:DOCKER_TAG = "..."` in PowerShell, valide solo nella finestra corrente) impostate una sola volta al momento della creazione di ciascun container — vedi [Configurazione avanzata](#configurazione-avanzata-far-convivere-più-modalità) in fondo a questa guida. Per un setup con **una sola modalità** (quella standard qui sopra), `setx /M` resta la scelta più semplice.
+
 ---
 
 ## Passo 5 — Avviare il container
@@ -283,6 +285,28 @@ In questo modo VS Code vedrà tutti i tuoi progetti e potrai navigare tra i file
 
 ---
 
+## Modalità di avvio alternative (in caso di problemi grafici)
+
+IIC-OSIC-TOOLS su Windows (Docker Desktop + WSL2) può mostrare la grafica delle app Linux in tre
+modi. Su macchine **4K con GPU AMD** (integrata o ibrida AMD+NVIDIA), la modalità standard descritta
+sopra (WSLg) non è sempre perfetta: possono comparire un **cursore del mouse enorme** (schermi ad
+alto DPI) o **lag nei menu/finestre**. In quel caso puoi tenere la modalità standard per il rendering
+pesante e usare una delle due alternative sotto per il lavoro quotidiano — coesistono tutte e tre
+senza conflitti (container con nomi diversi).
+
+| Modalità | Avvio | Punti di forza | Punti deboli | Ideale per |
+|----------|-------|----------------|--------------|-----------|
+| **X via WSLg** (predefinita, sopra) | `start_x.bat` | Accelerazione GPU reale (OpenGL), nitidezza nativa, `magic -d XR/-d OGL` | Lag dei menu su GPU AMD, cursore enorme su schermi 4K | rendering pesante, magic in modalità XR/OGL |
+| **X via MobaXterm** (o VcXsrv/GWSL) | `start_x.bat` con `DISP` rediretto | Fluidità dei menu, nitidezza nativa, cursore gestibile | X-server software (no GPU vera), `magic -d XR` fallisce | **lavoro quotidiano**: xschem, KLayout, magic "liscio" |
+| **VNC** (noVNC nel browser) | `start_vnc.bat` | Indipendente da GPU/scaling, cursore e scaling risolti, zero attriti su 4K | Nitidezza inferiore (immagine compressa), no GPU | fallback robusto su 4K/AMD, accesso remoto |
+
+**Regola pratica:**
+- **VNC** → la più semplice e priva di grane per schermi 4K e/o GPU AMD → 👉 [guida VNC](./alternative-launch-vnc.md)
+- **MobaXterm** → finestre native fluide e nitide per il lavoro di tutti i giorni → 👉 [guida MobaXterm](./alternative-launch-xserver-mobaxterm.md)
+- **WSLg** → per ciò che richiede GPU/pixmap vere (`magic -d XR`, OpenGL) — resta la modalità standard descritta sopra in questa pagina
+
+---
+
 ## Gestione del container
 
 ### Chiudere il container
@@ -325,6 +349,107 @@ docker stop $(docker ps -q)
 
 ### Le variabili d'ambiente non sono riconosciute
 Dopo `setx`, devi aprire un **nuovo** terminale. Le variabili non vengono aggiornate nelle finestre già aperte.
+
+### Warning `libEGL` / `MESA` / `ZINK` all'avvio di KLayout (modalità WSLg standard)
+Su alcune combinazioni GPU (es. laptop con GPU ibrida AMD+NVIDIA), all'avvio di KLayout o altre app OpenGL puoi vedere:
+```
+libEGL warning: failed to get driver name for fd -1
+MESA: error: ZINK: failed to choose pdev
+libEGL warning: egl: failed to create dri2 screen
+```
+Sono avvisi non bloccanti (l'app si apre comunque, ripiegando sul rendering software) dovuti a WSLg che non seleziona correttamente la GPU per l'accelerazione OpenGL. Se hai una GPU NVIDIA e vuoi forzarne l'uso corretto (elimina anche i warning), aggiungi al tuo `.designinit`:
+```bash
+export GALLIUM_DRIVER=d3d12
+export MESA_LOADER_DRIVER_OVERRIDE=d3d12
+export MESA_D3D12_DEFAULT_ADAPTER_NAME=NVIDIA
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/wsl/lib
+```
+Verifica con `glxinfo -B | grep -iE "renderer|accel"` — atteso: `D3D12 (NVIDIA GeForce RTX ...)` e `Accelerated: yes`. Se il lag dei menu persiste nonostante questo fix, la causa è la GPU AMD integrata non esposta a WSL (limite strutturale, non risolvibile via configurazione) — valuta le [modalità di avvio alternative](#modalità-di-avvio-alternative-in-caso-di-problemi-grafici).
+
+---
+
+## Configurazione avanzata: far convivere più modalità
+
+Se usi (o pensi di usare) più di una modalità di avvio — WSLg standard, [VNC](./alternative-launch-vnc.md), [MobaXterm](./alternative-launch-xserver-mobaxterm.md) — questa sezione ti serve solo se vuoi un `.designinit` condiviso fra tutte e dei launcher `.bat` dedicati per passare dall'una all'altra con un doppio click.
+
+### `.designinit` condiviso fra tutte le modalità
+
+Il `.designinit` vive nella **root del mount `DESIGNS`** (disco Windows), quindi **sopravvive alla
+ricreazione del container** ed è **condiviso da tutte le modalità** (WSLg, VNC, MobaXterm), perché
+tutte puntano alla stessa cartella `DESIGNS`. Questo blocco va **aggiunto in coda** al `.designinit`
+già creato al Passo 7 (non lo sostituisce: quello resta necessario per la configurazione del PDK).
+
+```bash
+# --- Accelerazione GL in WSLg (innocua/ininfluente in MobaXterm e VNC) ---
+export GALLIUM_DRIVER=d3d12
+export MESA_LOADER_DRIVER_OVERRIDE=d3d12
+export MESA_D3D12_DEFAULT_ADAPTER_NAME=NVIDIA
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/wsl/lib
+
+# --- Wrapper cursore per-app (utili con X-server nativo su 4K, vedi guida MobaXterm) ---
+mkdir -p ~/bin
+cat > ~/bin/xschem << 'WRAP'
+#!/bin/bash
+REAL=$(PATH=$(echo "$PATH" | tr ':' '\n' | grep -v "$HOME/bin" | paste -sd:) command -v xschem)
+XCURSOR_THEME=Adwaita XCURSOR_SIZE=40 exec "$REAL" "$@"
+WRAP
+cat > ~/bin/klayout << 'WRAP'
+#!/bin/bash
+REAL=$(PATH=$(echo "$PATH" | tr ':' '\n' | grep -v "$HOME/bin" | paste -sd:) command -v klayout)
+XCURSOR_THEME=Adwaita XCURSOR_SIZE=12 exec "$REAL" "$@"
+WRAP
+chmod +x ~/bin/xschem ~/bin/klayout
+export PATH="$HOME/bin:$PATH"
+
+# --- (Opzionale) neutralizza un plugin KLayout bacato in /headless (effimero, va ripetuto se serve) ---
+rm -rf /headless/.klayout/salt/NetlistImportPlugin 2>/dev/null
+```
+
+> ⚠️ **Non lasciare un `export XCURSOR_SIZE=...` globale** nel `.designinit` (fuori dai wrapper qui
+> sopra): imporrebbe un valore unico sia a xschem (Tk) che a KLayout (Qt), che hanno esigenze
+> opposte. Verifica con `grep -n -i xcursor /foss/designs/.designinit` → `XCURSOR_*` deve comparire
+> **solo** dentro i wrapper.
+
+### Launcher `.bat` separati
+
+Accanto a `start_x.bat`/`start_vnc.bat`, per aprire ciascun ambiente con un doppio click. Adatta
+percorsi, `DOCKER_TAG`, `DESIGNS`, IP host.
+
+**`start_moba.bat`** (X nativo — lavoro quotidiano):
+```bat
+@echo off
+cd /d "%~dp0"
+set CONTAINER_NAME=iic-osic-tools_moba
+set DOCKER_TAG=2026.06
+set DESIGNS=C:\percorso\ai_tuoi_designs
+set DISP=192.168.65.254:0.0
+call start_x.bat
+```
+
+**`start_wslg.bat`** (X via WSLg — GPU / magic -d XR):
+```bat
+@echo off
+cd /d "%~dp0"
+set CONTAINER_NAME=iic-osic-tools_wslg
+set DOCKER_TAG=2026.06
+set DESIGNS=C:\percorso\ai_tuoi_designs
+call start_x.bat
+```
+
+**`start_vnc.bat`** (wrapper con nome/risoluzione dedicati):
+```bat
+@echo off
+cd /d "%~dp0"
+set CONTAINER_NAME=iic-osic-tools_vnc
+set DOCKER_TAG=2026.06
+set DESIGNS=C:\percorso\ai_tuoi_designs
+set VNC_RESOLUTION=2560x1440
+call start_vnc.bat
+```
+
+> I tre container hanno nomi distinti → **coesistono** e condividono lo stesso `DESIGNS` (stessi
+> progetti, stesso `.designinit`): una volta creati, riavvii ciascuno con ▶ Play da Docker Desktop,
+> senza più bisogno di terminale.
 
 ---
 

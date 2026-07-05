@@ -37,6 +37,8 @@ Il tuo laptop (Windows / macOS / Linux)
 | 🍎 macOS (Intel o Apple Silicon) | [macos.md](./macos.md) |
 | 🐧 Linux (Ubuntu / Fedora) | [linux.md](./linux.md) |
 
+> 💻 **Su Windows, problemi grafici (schermo 4K/HiDPI, GPU AMD)?** La guida Windows include, oltre alla modalità standard, due [modalità di avvio alternative](./windows.md#modalità-di-avvio-alternative-in-caso-di-problemi-grafici): [VNC](./alternative-launch-vnc.md) e [X-server via MobaXterm](./alternative-launch-xserver-mobaxterm.md).
+
 > ⚠️ **Requisiti minimi consigliati:** 8 GB RAM (16 GB consigliati), 30 GB di spazio libero su disco, processore a 64 bit.
 
 ---
