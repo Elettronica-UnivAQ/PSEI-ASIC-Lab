@@ -102,6 +102,14 @@ chmod +x ~/bin/xschem ~/bin/klayout
 export PATH="$HOME/bin:$PATH"
 ```
 
+> 💡 **Promemoria rapido senza wrapper:** se non vuoi creare gli script sopra, puoi semplicemente
+> anteporre la variabile al comando ogni volta che avvii i tool:
+> ```bash
+> XCURSOR_SIZE=12 klayout &
+> XCURSOR_SIZE=40 xschem &
+> ```
+> Meno comodo (va ripetuto ad ogni avvio), ma zero configurazione.
+
 > **Perché i wrapper "auto-risolventi":** in IIC-OSIC-TOOLS i binari non sono in `/usr/bin`
 > (es. `xschem` → `/foss/tools/bin/xschem`, `klayout` → `/foss/tools/klayout/klayout`). Lo script
 > ricalcola il PATH escludendo `~/bin` e usa `command -v` per trovare il binario reale → immune ai
